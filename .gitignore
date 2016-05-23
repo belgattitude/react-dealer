@@ -1,0 +1,7 @@
+.eslintcache
+.idea
+.npm-debug.log
+node_modules
+.DS_STORE
+dist/*
+build/*
