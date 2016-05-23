@@ -16,13 +16,21 @@ Install NPM dependencies
 $ npm install 
 ```
 
-Run
+Run development mode (then connect to http://localhost:3001)
 
 ```console
-$ npm run 
+$ npm run dev
 ```
 
-Build
+Lint (and fixes)
+
+```console
+$ npm run lint
+$ npm run lint:fix
+```
+
+
+Create a production build (see ./build folder)
 
 ```console
 $ npm run build

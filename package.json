@@ -1,19 +1,19 @@
 {
-  "name": "stagg2",
+  "name": "react-dealer",
   "private": true,
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "WEBPACK_ENV=dev ./node_modules/.bin/webpack-dev-server --config webpack.config.js",
+    "dev": "WEBPACK_ENV=dev ./node_modules/.bin/webpack && ./node_modules/.bin/webpack-dev-server --config webpack.config.js",
     "build": "WEBPACK_ENV=production ./node_modules/.bin/webpack",
-    "lint": "eslint . --ext .js --ext .jsx --ignore-path .gitignore --cache",
-    "lint:fix": "eslint . --fix --ext .js --ext .jsx --ignore-path .gitignore --cache",
+    "lint": "./node_modules/.bin/eslint . --ext .js --ext .jsx --ignore-path .gitignore --cache",
+    "lint:fix": "./node_modules/.bin/eslint . --fix --ext .js --ext .jsx --ignore-path .gitignore --cache",
     "test": "karma start",
     "test:ci": "watch 'npm run test' src/"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Vanvelthem Sébastien",
+  "license": "Creative Common",
   "devDependencies": {
     "babel-core": "^6.9.0",
     "babel-eslint": "^6.0.4",

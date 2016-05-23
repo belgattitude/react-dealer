@@ -19,34 +19,35 @@ var serverPort = 3001;
 // Global config
 var config = {
     context: sourcePath,
+    devtool: isProduction ? 'eval' : 'source-map',
     devServer: {
         host: 'localhost',
         port: serverPort,
         contentBase: './build',
-       // inline: true,
+        inline: true,
         hot: true,
         progress: true,
         stats: {colors: true}
     },
     entry: {
-        main: ['./js/main', 'webpack/hot/only-dev-server'],
+        main: ['./js/main', 'webpack/hot/only-dev-server']
         //editor: ['./src/editor', 'webpack/hot/only-dev-server'],
         //
     },
     output: {
         path: outputPath,
-        filename: '[name].js',
+        filename: '[name].js'
         //publicPath: '/assets/'
     },
 
     resolve: {
-        extensions: ['', '.js', '.jsx', '.css', '.sass']
+        extensions: ['', '.js', '.jsx', '.css', '.sass', '.html']
     },
     /* Only if context gives the global path (join instead of resolve)
     resolveLoader: {
         root: path.join(__dirname, 'node_modules')
     },*/
-    devtool: isProduction ? null : 'source-map',
+
     plugins: [
         failPlugin,
         new copyWebpackPlugin([
@@ -119,7 +120,6 @@ if (!isProduction) {
    // config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
 } else { // Other than production mode
-
 
     // plugins
     config.plugins.push(
