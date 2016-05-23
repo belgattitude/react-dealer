@@ -1,6 +1,6 @@
 .eslintcache
 .idea
-.npm-debug.log
+npm-debug.log
 node_modules
 .DS_STORE
 dist/*

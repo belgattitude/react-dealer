@@ -31,7 +31,7 @@ var config = {
     entry: {
         main: ['./js/main', 'webpack/hot/only-dev-server'],
         //editor: ['./src/editor', 'webpack/hot/only-dev-server'],
-        client: 'webpack-dev-server/client?http://localhost:' + serverPort
+        //
     },
     output: {
         path: outputPath,
@@ -109,8 +109,9 @@ var config = {
 
 if (!isProduction) {
 
+    config.entry.client = 'webpack-dev-server/client?http://localhost:' + serverPort;
     // entries
- //   config.entry['webpack-dev-server'] = 'webpack-dev-server/client?http://localhost:' + serverPort + '/';
+    // config.entry['webpack-dev-server'] = 'webpack-dev-server/client?http://localhost:' + serverPort + '/';
  //   config.entry['webpack-hot'] = 'webpack/hot/dev-server';
 
     //console.log('entry', config.entry);
