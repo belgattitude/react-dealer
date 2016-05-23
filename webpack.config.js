@@ -27,15 +27,7 @@ var config = {
         hot: true,
         progress: true,
         stats: {colors: true}
-    },/*
-    entry: {
-        'main': [
-            './js/main'
-        ],
-        'test/test' : [
-            './js/test.js'
-        ]
-    },*/
+    },
     entry: {
         main: ['./js/main', 'webpack/hot/only-dev-server'],
         //editor: ['./src/editor', 'webpack/hot/only-dev-server'],
@@ -121,7 +113,7 @@ if (!isProduction) {
  //   config.entry['webpack-dev-server'] = 'webpack-dev-server/client?http://localhost:' + serverPort + '/';
  //   config.entry['webpack-hot'] = 'webpack/hot/dev-server';
 
-    console.log('entry', config.entry);
+    //console.log('entry', config.entry);
     // plugins
    // config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
