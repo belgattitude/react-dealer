@@ -32,7 +32,7 @@ class DealerLocator extends React.Component {
     render() {
         const mapStyle = {
             width: 500,
-            height: 300,
+            height: 350,
             border: '1px solid black'
         };
 
