@@ -30,7 +30,8 @@ var config = {
         stats: {colors: true}
     },
     entry: {
-        main: ['./js/main', 'webpack/hot/only-dev-server']
+        main: ['./js/main', 'webpack/hot/only-dev-server'],
+        fetch: ['whatwg-fetch']
         //editor: ['./src/editor', 'webpack/hot/only-dev-server'],
         //
     },

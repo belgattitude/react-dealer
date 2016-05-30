@@ -2,18 +2,31 @@ import React from 'react';
 import '../../css/dealer/dealer_locator.css';
 
 class DealerMap extends React.Component {
-    state = { zoom: 10 };
+    state = {
+        zoom: 10
+    };
+    
+    static propTypes = {
+        initialCenter: React.PropTypes.objectOf(React.PropTypes.number).isRequired,
+        mapRefName: React.PropTypes.string,
+        googleMap: React.PropTypes.objectOf(google.maps.Map)
+    }
 
-    static propTypes() {
-        initialCenter: React.PropTypes.objectOf(React.PropTypes.number).isRequired
+    static defaultProps = {
+        mapRefName: 'mapCanvas'
+    }
+
+    constructor(props) {
+        super(props);
+        this.mapRefName = props.mapRefName;
     }
 
     render() {
         return <div className="Gmap">
-            <div className='UpdatedText'>
+            <div className="UpdatedText">
                 <p>Current Zoom: { this.state.zoom }</p>
             </div>
-            <div className='GMap-canvas' ref="mapCanvas">
+            <div className="GMap-canvas" ref={ this.props.mapRefName }>
             </div>
         </div>
     }
@@ -40,7 +53,8 @@ class DealerMap extends React.Component {
             zoom: this.state.zoom,
             center: this.mapCenter()
         }
-        return new google.maps.Map(this.refs.mapCanvas, mapOptions)
+
+        return new google.maps.Map(this.refs[this.props.mapRefName], mapOptions)
     }
 
     mapCenter() {
