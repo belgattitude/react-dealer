@@ -14,12 +14,22 @@ const EIFFEL_TOWER_POSITION = {
 };
 
 class DealerLocator extends React.Component {
+
+    language = 'en';
+    dealerService = null;
+    markers = [];
+    infoWindow = null;
+
     constructor(props) {
         super(props);
-        this.dealerService = new DealerService();
 
-        this.panToArcDeTriomphe = this.panToArcDeTriomphe.bind(this);
+        this.dealerService = new DealerService({
+            language: this.language
+        });
 
+        this.infoWindow = new google.maps.InfoWindow();
+
+        //this.panToArcDeTriomphe = this.panToArcDeTriomphe.bind(this);
 
     }
 
@@ -32,24 +42,106 @@ class DealerLocator extends React.Component {
         });
 
     }
+/*
+    getCurrentBounds() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var geolocation = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+                var circle = new google.maps.Circle({
+                    center: geolocation,
+                    radius: position.coords.accuracy
+                });
+                return circle.getBounds();
 
+            });
+        } else {
+            return false;
+        }
+
+    }
+*/
     initializeAutocomplete(input) {
-        this.autocomplete = new google.maps.places.Autocomplete(input);
+
+        var acOptions = {
+            types: ['geocode'],
+            language: this.language,
+            //componentRestrictions: {country: 'fr'}
+        };
+
+        this.autocomplete = new google.maps.places.Autocomplete(input, acOptions);
+        this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
         //this.autocomplete.bindTo('bounds', this.map);
         this.autocomplete.addListener('place_changed', () => {
+            // Get to the place
             var place = this.autocomplete.getPlace();
-            var dealers = this.dealerService.findDealers();
+            this.updateCentralPlace(place);
 
-            
+            // Get dealers and add markers
+            var loc = {
+                  lat: place.geometry.location.lat(),
+                  lng: place.geometry.location.lng(),
+                  distance: 100,
+                  brand: 'STAG'
 
-            console.log('dealers', dealers);
-            this.updatePlace(place);
+            };
+
+            var dealerPromise = this.dealerService.findDealers(loc);
+            dealerPromise.then(dealers => this.updateDealers(dealers))
+
         });
 
 
-        this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
     }
+
+    /**
+     *
+     * @param Array dealers
+     */
+    updateDealers(dealers) {
+
+        var bounds = new google.maps.LatLngBounds();
+        var map = this.map;
+        var infoWindow = this.infoWindow;
+        var markers = this.markers;
+        dealers.forEach(function(dealer) {
+            //console.log('dealer', dealer);
+
+            var latlng = new google.maps.LatLng(
+                parseFloat(dealer.latitude),
+                parseFloat(dealer.longitude));
+
+            bounds.extend(latlng);
+
+            var marker = new google.maps.Marker({
+                map: map,
+                position: latlng
+            });
+            var html = "<b>" + dealer.contact_name + "</b> <br />" + dealer.city;
+            google.maps.event.addListener(marker, 'click', function() {
+               infoWindow.setContent(html);
+               infoWindow.open(map, marker)
+            });
+            markers.push(marker);
+
+        })
+
+        //this.map.fitBounds(bounds);
+    }
+
+    clearLocations() {
+        this.infoWindow.close();
+        for (var i = 0; i < this.markers.length; i++) {
+            this.markers[i].setMap(null);
+        }
+        this.markers.length = 0;
+
+    }
+
 
     componentDidMount() {
 
@@ -61,12 +153,10 @@ class DealerLocator extends React.Component {
 
     }
 
-    updatePlace(place) {
-
-
+    updateCentralPlace(place) {
 
         if (!place.geometry) {
-            window.alert("Autocomplete's returned place contains no geometry");
+            window.alert('Autocomplete\'s returned place contains no geometry');
             return;
         }
 
@@ -118,11 +208,6 @@ class DealerLocator extends React.Component {
     }
 
 
-    panToArcDeTriomphe() {
-        console.log(this)
-        this.map.panTo(ARC_DE_TRIOMPHE_POSITION);
-    }
-
     render() {
         const mapStyle = {
             width: 500,
@@ -134,22 +219,7 @@ class DealerLocator extends React.Component {
 
         return (
             <div>
-                <button onClick={this.panToArcDeTriomphe}>Go to Arc De Triomphe</button>
-
                 <input id="dealer-locator-autocomplete" class="controls" type="text" placeholder="Enter a location" />
-                <div ref="map" style={mapStyle}>I should be a map!</div>
-            </div>
-        );
-
-        return (
-            <div>
-                <button onClick={this.panToArcDeTriomphe}>Go to Arc De Triomphe</button>
-
-                <input id="dealer-locator-autocomplete" class="controls" type="text" placeholder="Enter a location" />
-                <DealerMap initialCenter={center}
-                           mapRefName="dealer-google-map"
-                           googleMap={this.map}
-                />
                 <div ref="map" style={mapStyle}>I should be a map!</div>
             </div>
         );
@@ -161,8 +231,6 @@ class DealerLocator extends React.Component {
         google.maps.event.clearListeners(this.autocomplete, 'place_changed');
     }
 }
-
-
 
 
 export default DealerLocator;

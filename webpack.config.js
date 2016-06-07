@@ -30,7 +30,7 @@ var config = {
         stats: {colors: true}
     },
     entry: {
-        main: ['./js/main', 'webpack/hot/only-dev-server'],
+        main: ['./js/main'],
         fetch: ['whatwg-fetch']
         //editor: ['./src/editor', 'webpack/hot/only-dev-server'],
         //
@@ -51,10 +51,16 @@ var config = {
 
     plugins: [
         failPlugin,
+        // Import polyfills for Promises and whatwg fetch
+        new webpack.ProvidePlugin({
+            'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch',
+            'es6-promise': 'es6-promise'
+        }),
+
         new copyWebpackPlugin([
             {from: 'html', to: outputPath}
-        ]),
-        new webpack.HotModuleReplacementPlugin()
+        ])
+
     ],
     serverPort : serverPort,
     module: {
@@ -110,8 +116,11 @@ var config = {
 }
 
 if (!isProduction) {
-
+    // Development mode
     config.entry.client = 'webpack-dev-server/client?http://localhost:' + serverPort;
+    config.entry.main.push('webpack/hot/only-dev-server');
+    config.plugins.push(new webpack.HotModuleReplacementPlugin())
+
     // entries
     // config.entry['webpack-dev-server'] = 'webpack-dev-server/client?http://localhost:' + serverPort + '/';
  //   config.entry['webpack-hot'] = 'webpack/hot/dev-server';
@@ -120,9 +129,10 @@ if (!isProduction) {
     // plugins
    // config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
-} else { // Other than production mode
+} else {
+    // Production mode
 
-    // plugins
+    // Add uglify plugin
     config.plugins.push(
         new webpack.optimize.UglifyJsPlugin({
             compress: {
