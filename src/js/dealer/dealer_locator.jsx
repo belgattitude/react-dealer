@@ -3,10 +3,6 @@ import DealerMap from './dealer_map.jsx';
 import DealerService from './dealer_service';
 import '../../css/dealer/dealer_locator.css';
 
-const ARC_DE_TRIOMPHE_POSITION = {
-    lat: 48.873947,
-    lng: 2.295038
-};
 
 const EIFFEL_TOWER_POSITION = {
     lat: 48.858608,
@@ -14,6 +10,16 @@ const EIFFEL_TOWER_POSITION = {
 };
 
 class DealerLocator extends React.Component {
+
+    static propTypes = {
+        initialCenter: React.PropTypes.objectOf(React.PropTypes.number).isRequired,
+        mapRefName: React.PropTypes.string,
+        googleMap: React.PropTypes.objectOf(google.maps.Map)
+    }
+
+    static defaultProps = {
+        mapRefName: 'mapCanvas'
+    }
 
     language = 'en';
     dealerService = null;
@@ -28,19 +34,14 @@ class DealerLocator extends React.Component {
         });
 
         this.infoWindow = new google.maps.InfoWindow();
-
-        //this.panToArcDeTriomphe = this.panToArcDeTriomphe.bind(this);
-
     }
 
 
     initializeMap() {
-
         this.map = new google.maps.Map(this.refs.map, {
             center: EIFFEL_TOWER_POSITION,
             zoom: 16
         });
-
     }
 /*
     getCurrentBounds() {
@@ -84,9 +85,8 @@ class DealerLocator extends React.Component {
             var loc = {
                   lat: place.geometry.location.lat(),
                   lng: place.geometry.location.lng(),
-                  distance: 100,
+                  distance: 25,
                   brand: 'STAG'
-
             };
 
             var dealerPromise = this.dealerService.findDealers(loc);
@@ -94,20 +94,21 @@ class DealerLocator extends React.Component {
 
         });
 
-
-
     }
 
     /**
-     *
+     * Update dealer list
      * @param Array dealers
      */
     updateDealers(dealers) {
+
+        this.clearLocations();
 
         var bounds = new google.maps.LatLngBounds();
         var map = this.map;
         var infoWindow = this.infoWindow;
         var markers = this.markers;
+
         dealers.forEach(function(dealer) {
             //console.log('dealer', dealer);
 
@@ -133,13 +134,15 @@ class DealerLocator extends React.Component {
         //this.map.fitBounds(bounds);
     }
 
+    /**
+     * Clear previous markers from the map
+     */
     clearLocations() {
         this.infoWindow.close();
         for (var i = 0; i < this.markers.length; i++) {
             this.markers[i].setMap(null);
         }
         this.markers.length = 0;
-
     }
 
 
@@ -159,6 +162,7 @@ class DealerLocator extends React.Component {
             window.alert('Autocomplete\'s returned place contains no geometry');
             return;
         }
+
 
         // If the place has a geometry, then present it on a map.
         if (place.geometry.viewport) {
@@ -210,8 +214,8 @@ class DealerLocator extends React.Component {
 
     render() {
         const mapStyle = {
-            width: 500,
-            height: 350,
+            width: '100%',
+            height: '100%',
             border: '1px solid black'
         };
 
@@ -231,6 +235,5 @@ class DealerLocator extends React.Component {
         google.maps.event.clearListeners(this.autocomplete, 'place_changed');
     }
 }
-
 
 export default DealerLocator;

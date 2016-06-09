@@ -19,7 +19,7 @@ var serverPort = 3001;
 // Global config
 var config = {
     context: sourcePath,
-    devtool: isProduction ? 'eval' : 'source-map',
+    devtool: isProduction ? 'source-map' : 'eval',
     devServer: {
         host: 'localhost',
         port: serverPort,
@@ -30,17 +30,21 @@ var config = {
         stats: {colors: true}
     },
     entry: {
-        main: ['./js/main'],
-        fetch: ['whatwg-fetch']
-        //editor: ['./src/editor', 'webpack/hot/only-dev-server'],
-        //
+        main_dealer_app: ['./js/main_dealer_app'],
+        fetch: ['whatwg-fetch'],
+        //react: ['react', 'react-dom']
     },
     output: {
         path: outputPath,
         filename: '[name].js'
         //publicPath: '/assets/'
     },
-
+    /*
+    externals: {
+        // Use external version of React
+        "react": "React",
+        "react-dom": "ReactDOM"
+    },*/
     resolve: {
         extensions: ['', '.js', '.jsx', '.css', '.sass', '.html']
     },
@@ -50,6 +54,12 @@ var config = {
     },*/
 
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development')
+            }
+        }),
+
         failPlugin,
         // Import polyfills for Promises and whatwg fetch
         new webpack.ProvidePlugin({
@@ -118,7 +128,7 @@ var config = {
 if (!isProduction) {
     // Development mode
     config.entry.client = 'webpack-dev-server/client?http://localhost:' + serverPort;
-    config.entry.main.push('webpack/hot/only-dev-server');
+    config.entry.main_dealer_app.push('webpack/hot/only-dev-server');
     config.plugins.push(new webpack.HotModuleReplacementPlugin())
 
     // entries
@@ -131,8 +141,10 @@ if (!isProduction) {
 
 } else {
     // Production mode
+    // new webpack.optimize.CommonsChunkPlugin('react', '[name].[chunkhash].js'),
 
     // Add uglify plugin
+
     config.plugins.push(
         new webpack.optimize.UglifyJsPlugin({
             compress: {

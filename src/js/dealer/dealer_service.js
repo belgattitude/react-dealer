@@ -7,11 +7,8 @@ class DealerService {
     };
 
 
-
-
     constructor(options) {
         this.options = options;
-
     }
 
     /**
