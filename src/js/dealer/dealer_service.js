@@ -1,14 +1,16 @@
 import 'whatwg-fetch';
+import {Promise} from 'es6-promise';
 
 class DealerService {
 
     options = {
-        language: 'en'
+        language: 'en',
+        
     };
-
-
+    
     constructor(options) {
         this.options = options;
+
     }
 
     /**
@@ -17,7 +19,7 @@ class DealerService {
      */
     findDealers(place) {
 
-        var api_endpoint_url = 'http://localhost/emdmusic_server/public/api/v1/dealer';
+        var api_endpoint_url = this.options.url;
         var params = {
             lat: place.lat,
             lng: place.lng,

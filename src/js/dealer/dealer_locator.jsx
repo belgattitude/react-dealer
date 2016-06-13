@@ -1,7 +1,7 @@
 import React from 'react';
-import DealerMap from './dealer_map.jsx';
+import ReactDom from 'react-dom';
 import DealerService from './dealer_service';
-import '../../css/dealer/dealer_locator.css';
+import '../../css/dealer/dealer_locator.scss';
 
 
 const EIFFEL_TOWER_POSITION = {
@@ -14,7 +14,8 @@ class DealerLocator extends React.Component {
     static propTypes = {
         initialCenter: React.PropTypes.objectOf(React.PropTypes.number).isRequired,
         mapRefName: React.PropTypes.string,
-        googleMap: React.PropTypes.objectOf(google.maps.Map)
+        googleMap: React.PropTypes.objectOf(google.maps.Map),
+        apiUrl: React.PropTypes.string
     }
 
     static defaultProps = {
@@ -30,7 +31,8 @@ class DealerLocator extends React.Component {
         super(props);
 
         this.dealerService = new DealerService({
-            language: this.language
+            language: this.language,
+            url: props.apiUrl
         });
 
         this.infoWindow = new google.maps.InfoWindow();

@@ -1,6 +1,8 @@
 import React from 'react';
-import '../../css/dealer/dealer_locator.css';
-
+//import '../../css/dealer/dealer_locator';
+//require('../css/dealer/dealer_locator.scss');
+//import 'style.css';
+/*
 class DealerMap extends React.Component {
     state = {
         zoom: 10
@@ -88,3 +90,4 @@ class DealerMap extends React.Component {
 }
 
 export default DealerMap;
+    */  
