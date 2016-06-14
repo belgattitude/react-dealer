@@ -1,7 +1,14 @@
 <!DOCTYLE html>
-<html>
+<html lang="en">
 <head>
-    <title>Stagg dealer loc embed</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stagg dealer locator</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <!--
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.js"></script>
@@ -10,54 +17,89 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.min.js"></script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByH0c5bxYDZ48BLQ401BBsm4DppG6QNkQ&libraries=places"></script>
+
     <script src="./dealer_locator.js"></script>
+    <link rel="stylesheet" href="./dealer_locator.css">
 
     <!--[if lt IE 9]>
     <script>
-        (function(){
-            var ef = function(){};
-            window.console = window.console || {log:ef,warn:ef,error:ef,dir:ef};
+        (function () {
+            var ef = function () {
+            };
+            window.console = window.console || {log: ef, warn: ef, error: ef, dir: ef};
         }());
     </script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv-printshiv.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-sham.js"></script>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <style>
+        body {
+            margin-top: 15px;
+        }
+    </style>
 
 </head>
 <body>
 
 
-<div id="mymap"></div>
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading"><h3 class="panel-title">Dealer locator</h3></div>
+                <div class="panel-body">
+                    <div id="mymap" style="height: 400px">
+                        There's should be a map
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading"><h3 class="panel-title">Panel</h3></div>
+                <div class="panel-body"> Example content in an alternative panel used to demonstrate responsive
+                    behaviour.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div> <!-- /container -->
 
 <script type="text/javascript">
-
-    (function() {
-        // your page initialization code here
-        // the DOM will be available here
+    (function (dealer_locator) {
         if (typeof dealer_locator === 'undefined') {
-            throw new Error('Missing dealer locator javascript application (dealer_locator.js).')
+            throw new Error('Missing dealer locator javascript application (include dealer_locator.js).')
         }
         // initialCenter
-        var initialCenter =  {
+        var initialCenter = {
             lat: 48.858608,
             lng: 2.294471
         };
 
         var dealerLoc = React.createElement(dealer_locator.default, {
             initialCenter: initialCenter,
-            //apiUrl: 'http://localhost/emdmusic_server/public/api/v1/dealer'
-            apiUrl: 'http://apps.emdmusic.com/api/v1/dealer'
+            //source: 'http://localhost/emdmusic_server/public/api/v1/dealer'
+            source: 'http://apps.emdmusic.com/api/v1/dealer'
         }, null);
-
         ReactDOM.render(
                 dealerLoc,
                 document.getElementById('mymap')
         );
-    })();
+    })(dealer_locator);
 </script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>

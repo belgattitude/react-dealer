@@ -1,6 +1,7 @@
 import 'whatwg-fetch';
 import {Promise} from 'es6-promise';
 
+
 class DealerService {
 
     options = {
@@ -19,7 +20,7 @@ class DealerService {
      */
     findDealers(place) {
 
-        var api_endpoint_url = this.options.url;
+        var source = this.options.source;
         var params = {
             lat: place.lat,
             lng: place.lng,
@@ -30,7 +31,7 @@ class DealerService {
         console.log('params', params);
 
         // Setting url with search params
-        var url = new URL(api_endpoint_url);
+        var url = new URL(source);
         var searchParams = new URLSearchParams();
         Object.keys(params).forEach((key) => {
                 searchParams.append(key, params[key])

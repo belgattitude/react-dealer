@@ -5,8 +5,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "WEBPACK_ENV=dev ./node_modules/.bin/webpack && ./node_modules/.bin/webpack-dev-server --config webpack.config.js",
-    "build": "WEBPACK_ENV=production ./node_modules/.bin/webpack",
+    "dev": "npm run dev:clean && WEBPACK_ENV=dev ./node_modules/.bin/webpack && ./node_modules/.bin/webpack-dev-server --config webpack.config.js",
+    "dev:clean": "rm -f ./build/*",
+    "build": "npm run build:clean && WEBPACK_ENV=production ./node_modules/.bin/webpack",
+    "build:clean": "rm -f ./dist/*",
     "lint": "./node_modules/.bin/eslint . --ext .js --ext .jsx --ignore-path .gitignore --cache",
     "lint:fix": "./node_modules/.bin/eslint . --fix --ext .js --ext .jsx --ignore-path .gitignore --cache",
     "test": "karma start",
@@ -16,10 +18,13 @@
   "author": "Vanvelthem Sébastien",
   "license": "Creative Common",
   "devDependencies": {
+    "autoprefixer": "^6.3.6",
     "autoprefixer-loader": "^3.2.0",
     "babel-core": "^6.9.1",
     "babel-eslint": "^6.0.4",
     "babel-loader": "^6.2.4",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-react-intl": "^2.1.3",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.5.0",
     "babel-preset-react-hmre": "^1.1.1",
@@ -36,8 +41,10 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "image-webpack-loader": "^1.8.0",
     "imports-loader": "^0.6.5",
+    "json-loader": "^0.5.4",
     "node-sass": "^3.7.0",
     "postcss-loader": "^0.9.1",
+    "precss": "^1.4.0",
     "react-hot-loader": "^1.3.0",
     "sass-loader": "^3.2.0",
     "source-map-loader": "^0.1.5",
@@ -54,6 +61,7 @@
     "es6-promise": "^3.2.1",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
+    "react-intl": "^2.1.2",
     "whatwg-fetch": "^1.0.0"
   }
 }

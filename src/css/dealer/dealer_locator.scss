@@ -1,29 +1,95 @@
-
-$color: red;
+$color: white;
 
 @mixin my-border($color) {
-    border: 1px solid $color;
+  border: 1px solid $color;
 }
 
 body {
-    background: $color;
-    @include my-border(green);
+  background: $color;
+  @include my-border(white);
 }
 
-/*
-#dealer-locator-autocomplete {
+.item {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+@mixin hover-state {
+  &:hover, &:active, &:focus {
+    @content;
+  }
+}
+
+.dealer_locator_widget {
+  border: 1px solid black;
+}
+
+.dealer_locator_widget_controls {
+
+  .dealer_locator_control_autocomplete {
+    @include hover-state {
+      border-color: #4d90fe;
+      // width: 500px;
+      // backgound-color: #FF0000;
+    }
     background-color: #fff;
     font-family: Roboto;
     font-size: 15px;
     font-weight: 300;
     margin-left: 12px;
     margin-top: 10px;
-    padding: 0 11px 0 13px;
+    padding: 0 11px 0 5px;
     text-overflow: ellipsis;
     width: 300px;
+  }
+
 }
 
-#dealer-locator-autocomplete:focus {
-    border-color: #4d90fe;
-}*/
+.dealer_locator_list {
+
+  height: 500px;
+  overflow-y: scroll;
+
+  ul {
+    list-style-type: none;
+    width: 100%;
+
+    padding-left: 0px;
+
+  }
+
+
+
+  li {
+    &:hover {
+      background: #eee;
+      cursor: pointer;
+    };
+
+    padding: 10px;
+    overflow: auto;
+    vertical-align: top;
+    h3 {
+      margin-top: 0px;
+      padding-top: 0px;
+      margin-bottom: 5px;
+      font: bold 20px/1.5 Roboto, Helvetica, Verdana, sans-serif;
+    }
+
+    img {
+      float: left;
+      margin: 0 15px 0 0;
+    }
+
+    address {
+      font: 200 12px/1.5 Roboto, Georgia, Times New Roman, serif;
+    }
+
+    .distance {
+      float: right
+    }
+  }
+
+}
+
 

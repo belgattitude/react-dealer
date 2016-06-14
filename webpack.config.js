@@ -2,10 +2,20 @@ var path = require('path'),
     failPlugin = require('webpack-fail-plugin'),
     copyWebpackPlugin = require('copy-webpack-plugin'),
     webpack = require('webpack'),
-    autoprefixer = require('autoprefixer'),
     ExtractTextPlugin = require('extract-text-webpack-plugin')
+    pkg = require('./package.json'),
+    precss = require('precss'),
+    autoprefixer = require('autoprefixer')
     ;
-//var loaders = require('./webpack.loaders');
+
+var banner = `
+	${pkg.name} - ${pkg.description}
+	Author: ${pkg.author}
+	Version: v${pkg.version}
+	Url: ${pkg.homepage}
+	License(s): ${pkg.license}
+`;
+
 
 // Edit those vars
 var env = process.env.WEBPACK_ENV;
@@ -44,7 +54,7 @@ var config = {
 
         library: '[name]',
         libraryTarget: 'umd',
-        umdNamedDefine: true
+        umdNamedDefine: false
         //publicPath: '/assets/'
     },
 
@@ -84,14 +94,18 @@ var config = {
 
         new copyWebpackPlugin([
             {from: 'html', to: outputPath}
-        ]),
-        new ExtractTextPlugin("[name].css", {allChunks: true})
+        ])
 
     ],
     serverPort : serverPort,
-    postcss: [autoprefixer],
+    postcss: function () {
+        return {
+            defaults: [precss, autoprefixer],
+            cleaner:  [autoprefixer({ browsers: [['last 2 versions', 'ie 6-8', 'Firefox > 20']] })]
+        };
+    },
     sassLoader: {
-       // data: '@import "' + path.resolve(__dirname, 'theme/_config.scss') + '";'
+        data: '@import "' + path.resolve(__dirname, 'src/theme/dealer_locator/default/_config.scss') + '";'
     },
 
     module: {
@@ -104,7 +118,13 @@ var config = {
                     cacheDirectory: true,
                     presets: isProduction
                         ? ['es2015', 'stage-0', 'react']
-                        : ['es2015', 'stage-0', 'react', 'react-hmre']
+                        : ['es2015', 'stage-0', 'react', 'react-hmre'],
+                    plugins: [
+                        'react-intl'/*, {
+                            "messagesDir": path.resolve(__dirname, '/src/i18n'),
+                            "enforceDescriptions": true
+                        }*/
+                    ]
                 }
             },
             {
@@ -116,35 +136,12 @@ var config = {
                 test: /\.html$/,
                 loader: 'html'
             },
-            /*
-            {
-                test: /\.css$/,
-                loader: 'style-loader!css-loader'
-            },*/
             {
                 test: /\.scss|\.css$/,
-
-                loader: isProduction && false
-                    ? "style!css!postcss!sass"
-                    : ExtractTextPlugin.extract("style-loader", "css-loader?sourceMap!postcss!sass-loader?sourceMap")
-
-//: ExtractTextPlugin.extract('style', 'css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss!sass')
-/*
-                    : ExtractTextPlugin.extract(
-                        "style-loader",
-                        "css-loader" + '?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
-                        + "!postcss"
-                        + "!sass-loader" + "?sourceMap"
-                    )
-  */
-            },
-            /*
-            {
-                test: /\.scss$/,
                 loader: isProduction
-                    ? "style!css!autoprefixer!sass"
-                    : ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader!sass-loader")
-            },*/
+                    ? ExtractTextPlugin.extract("style-loader", "css-loader?sourceMap!postcss-loader!sass-loader?sourceMap")
+                    : "style!css!postcss-loader!sass"
+            },
             {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
                 loader: 'file'
@@ -172,6 +169,11 @@ var config = {
             {
                 test: /\.png/,
                 loader: 'url-loader?limit=10000&mimetype=image/png'
+            },
+            {
+                test: /\.json$/,
+                exclude: /node_modules/,
+                loader: 'json'
             }
         ]
     }
@@ -185,6 +187,7 @@ if (!isProduction) {
     config.entry.main_dealer_app.push('webpack/hot/only-dev-server');
     config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
+    //config.plugins.push(new ExtractTextPlugin("[name].css", {allChunks: true}));
     // entries
     // config.entry['webpack-dev-server'] = 'webpack-dev-server/client?http://localhost:' + serverPort + '/';
  //   config.entry['webpack-hot'] = 'webpack/hot/dev-server';
@@ -196,14 +199,15 @@ if (!isProduction) {
 } else {
     // Production mode
     //new webpack.optimize.CommonsChunkPlugin('init.js'),
-
+    //config.plugins.push(new webpack.optimize.CommonsChunkPlugin('common.js'));
     //new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"react", /* filename= */"react.bundle.js")
-    //new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"dealer_locator", /* filename= */"dealer_locator.bundle.js")
+    //config.plugins.push(new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"dealer_locator", /* filename= */"dealer_locator.js"));
+    config.plugins.push(new ExtractTextPlugin("[name].css", {allChunks: true}));
 
     config.plugins.push(new webpack.optimize.OccurrenceOrderPlugin())
     // Add uglify plugin
 
-
+/*
     config.plugins.push(
         new webpack.optimize.UglifyJsPlugin({
             compress: {
@@ -211,7 +215,8 @@ if (!isProduction) {
             }
         })
     );
-
+*/
+    config.plugins.push(new webpack.BannerPlugin( banner ));
 
 }
 
