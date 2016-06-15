@@ -16,19 +16,23 @@ class DealerService {
 
     /**
      *
-     * @param object place
+     * @param place
+     * @param distance
+     * @param limit
+     * @param brand
+     * @returns {Promise<T>|*|Promise|Promise<U>|Promise.<T>}
      */
-    findDealers(place) {
+    findDealers(place, distance, limit, brand) {
 
         var source = this.options.source;
         var params = {
             lat: place.lat,
             lng: place.lng,
-            distance: place.distance,
-            brand: place.brand,
-            language: this.options.language
+            distance: distance,
+            brand: brand,
+            limit: limit,
+            language: this.options.language,
         };
-        console.log('params', params);
 
         // Setting url with search params
         var url = new URL(source);

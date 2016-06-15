@@ -10,7 +10,13 @@ const EIFFEL_TOWER_POSITION = {
 
 var dealerLoc = React.createElement(DealerLocator, {
     initialCenter: EIFFEL_TOWER_POSITION,
-    source: 'http://localhost/emdmusic_server/public/api/v1/dealer'
+    source: 'http://localhost/emdmusic_server/public/api/v1/dealer',
+    brandFilter: 'STAG',
+    searchDistance: 200,
+    searchLimit: 100,
+    nbContactZoomBounds: 5,
+    zoomBoundsMaxDistance: 5
+
 }, null);
 ReactDOM.render(
     dealerLoc,

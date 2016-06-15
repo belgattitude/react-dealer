@@ -54,7 +54,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading"><h3 class="panel-title">Dealer locator</h3></div>
                 <div class="panel-body">
-                    <div id="mymap" style="height: 400px">
+                    <div id="mymap">
                         There's should be a map
                     </div>
                 </div>
@@ -62,9 +62,9 @@
         </div>
         <div class="col-md-4">
             <div class="panel panel-primary">
-                <div class="panel-heading"><h3 class="panel-title">Panel</h3></div>
-                <div class="panel-body"> Example content in an alternative panel used to demonstrate responsive
-                    behaviour.
+                <div class="panel-heading"><h3 class="panel-title">Info</h3></div>
+                <div class="panel-body">
+                    Showed dealers might not have the Stagg product you love, contact them to pre-order or find alternatives.
                 </div>
             </div>
         </div>
@@ -78,7 +78,7 @@
         if (typeof dealer_locator === 'undefined') {
             throw new Error('Missing dealer locator javascript application (include dealer_locator.js).')
         }
-        // initialCenter
+        // initialCenter in Paris :)
         var initialCenter = {
             lat: 48.858608,
             lng: 2.294471
@@ -86,8 +86,13 @@
 
         var dealerLoc = React.createElement(dealer_locator.default, {
             initialCenter: initialCenter,
-            //source: 'http://localhost/emdmusic_server/public/api/v1/dealer'
-            source: 'http://apps.emdmusic.com/api/v1/dealer'
+            source: 'http://localhost/emdmusic_server/public/api/v1/dealer',
+            //source: 'http://apps.emdmusic.com/api/v1/dealer'
+            searchDistance: 50,
+            searchLimit: 100,
+            brandFilter: 'STAG',
+            nbContactZoomBounds: 5
+
         }, null);
         ReactDOM.render(
                 dealerLoc,
