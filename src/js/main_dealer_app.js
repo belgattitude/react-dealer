@@ -16,7 +16,6 @@ var dealerLoc = React.createElement(DealerLocator, {
     searchLimit: 100,
     nbContactZoomBounds: 5,
     zoomBoundsMaxDistance: 5
-
 }, null);
 ReactDOM.render(
     dealerLoc,
