@@ -61,13 +61,13 @@ var config = {
     externals: {
         // Use external version of React
         //"react": "React",
-        "react": {
+        'react': {
             root: 'React',
             commonjs2: 'react',
             commonjs: 'react',
             amd: 'react'
         },
-        "react-dom": "ReactDOM",
+        'react-dom': 'ReactDOM'
         //"whatwg-fetch": "whatwg-fetch"
     },
     resolve: {
@@ -116,20 +116,21 @@ var config = {
                 loader: 'babel',
                 query: {
                     cacheDirectory: true,
-                    presets: isProduction
-                        ? ['es2015', 'stage-0', 'react']
-                        : ['es2015', 'stage-0', 'react', 'react-hmre'],
                     plugins: [
+                        'transform-decorators-legacy',
                         'react-intl'/*, {
-                            "messagesDir": path.resolve(__dirname, '/src/i18n'),
-                            "enforceDescriptions": true
-                        }*/
-                    ]
+                         "messagesDir": path.resolve(__dirname, '/src/i18n'),
+                         "enforceDescriptions": true
+                         }*/
+                    ],
+                    presets: isProduction
+                        ? ['es2015', 'stage-1', 'react']
+                        : ['es2015', 'stage-1', 'react', 'react-hmre']
                 }
             },
             {
                 test: /\.tsx?$/,
-                loader: "ts-loader",
+                loader: 'ts-loader',
                 exclude: /node_modules/
             },
             {
@@ -139,8 +140,8 @@ var config = {
             {
                 test: /\.scss|\.css$/,
                 loader: isProduction
-                    ? ExtractTextPlugin.extract("style-loader", "css-loader?sourceMap!postcss-loader!sass-loader?sourceMap")
-                    : "style!css!postcss-loader!sass"
+                    ? ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap!postcss-loader!sass-loader?sourceMap')
+                    : 'style!css!postcss-loader!sass'
             },
             {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
@@ -202,12 +203,12 @@ if (!isProduction) {
     //config.plugins.push(new webpack.optimize.CommonsChunkPlugin('common.js'));
     //new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"react", /* filename= */"react.bundle.js")
     //config.plugins.push(new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"dealer_locator", /* filename= */"dealer_locator.js"));
-    config.plugins.push(new ExtractTextPlugin("[name].css", {allChunks: true}));
+    config.plugins.push(new ExtractTextPlugin('[name].css', {allChunks: true}));
 
     config.plugins.push(new webpack.optimize.OccurrenceOrderPlugin())
     // Add uglify plugin
 
-/*
+
     config.plugins.push(
         new webpack.optimize.UglifyJsPlugin({
             compress: {
@@ -215,7 +216,7 @@ if (!isProduction) {
             }
         })
     );
-*/
+
     config.plugins.push(new webpack.BannerPlugin( banner ));
 
 }

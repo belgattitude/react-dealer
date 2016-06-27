@@ -10,6 +10,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
           integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.6/paper/bootstrap.min.css">
+    -->
+
+    <!--
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.js"></script>
     -->
@@ -65,6 +69,33 @@
                 <div class="panel-heading"><h3 class="panel-title">Info</h3></div>
                 <div class="panel-body">
                     Showed dealers might not have the Stagg product you love, contact them to pre-order or find alternatives.
+                    <p></p>
+                    @todo frontend
+                    <ul>
+                        <li>Message indicating online dealers</li>
+                        <li>Better autozoom area (many ideas to try)</li>
+                        <li>Observing click in html result list, opening map balloon</li>
+                        <li>Adding more infos (website, opening hours)</li>
+                        <li>Styling with Jaywalk, share scss files.</li>
+                        <li>Distributors (not in cahier des charges)</li>
+                        <li>Miles and kilometers - check locale.</li>
+                        <li>Languages if really needed (?)</li>
+                        <li>Bugfixing and polish.</li>
+                    </ul>
+                    @todo backend
+                    <ul>
+                        <li>Huge cleanup of addresses</li>
+                        <li>Setup document for back-office guys</li>
+                        <li>Method to mark dealers by importance</li>
+                        <li>Method for displaying Distributors (not in cahier des charges)</li>
+                        <li>Ensure no suppliers or concurrent in the list</li>
+                        <li>Setup minimums</li>
+                        <li>A lot more...</li>
+                    </ul>
+                    @todo admin
+                    <ul>
+                        <li>EMD specific Google map API (with credit card validation to allow more requests/day)</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -86,13 +117,17 @@
 
         var dealerLoc = React.createElement(dealer_locator.default, {
             initialCenter: initialCenter,
-            source: 'http://localhost/emdmusic_server/public/api/v1/dealer',
-            //source: 'http://apps.emdmusic.com/api/v1/dealer'
-            searchDistance: 50,
-            searchLimit: 100,
+            //source: 'http://localhost/emdmusic_server/public/api/v1/dealer',
+            source: 'http://apps.emdmusic.com/api/v1/dealer',
             brandFilter: 'STAG',
-            nbContactZoomBounds: 5
-
+            mapStyle: {
+                width: '100%',
+                height: '50%'
+            },
+            searchDistance: 200,
+            searchLimit: 100,
+            nbContactZoomBounds: 5,
+            zoomBoundsMaxDistance: 5
         }, null);
         ReactDOM.render(
                 dealerLoc,

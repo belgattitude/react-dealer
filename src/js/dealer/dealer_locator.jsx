@@ -1,43 +1,54 @@
 import React from 'react';
-import ReactDom from 'react-dom';
+import {observable} from 'mobx';
 import DealerService from './dealer_service';
+import DealerList from './dealer_list';
 import '../../css/dealer/dealer_locator.scss';
-
 
 class DealerLocator extends React.Component {
 
     static propTypes = {
-        initialCenter: React.PropTypes.objectOf(React.PropTypes.number).isRequired,
-        mapRefName: React.PropTypes.string,
+        // Required
+        initialCenter: React.PropTypes.shape({
+            lat: React.PropTypes.number.isRequired,
+            lng: React.PropTypes.number.isRequired
+        }),
+        source: React.PropTypes.string.isRequired,
+        // Map style
+        mapStyle: React.PropTypes.shape({
+            width: React.PropTypes.string,
+            height: React.PropTypes.string
+        }),
+        // Optional
         googleMap: React.PropTypes.objectOf(google.maps.Map),
-        source: React.PropTypes.string,
+        mapRefName: React.PropTypes.string,
         nbContactZoomBounds: React.PropTypes.number,
         searchDistance: React.PropTypes.number,
         searchLimit: React.PropTypes.number,
         brandFilter: React.PropTypes.string
-
     }
 
     static defaultProps = {
+        googleMap: null,
         mapRefName: 'mapCanvas',
         nbContactZoomBounds: 0,
         searchDistance: 25,
-        searchLimit: 100
+        searchLimit: 100,
+        mapStyle: {
+            width: '100%',
+            height: '50%'
+        }
     }
+
 
     language = 'en';
     dealerService = null;
     markers = [];
     infoWindow = null;
-    center;
+    center = null;
 
     constructor(props) {
         super(props);
-        this.state = {
-            dealers: []
-        };
 
-        this.center = this.props.initialCenter;
         this.dealerService = new DealerService({
             language: this.language,
             source: props.source
@@ -46,51 +57,43 @@ class DealerLocator extends React.Component {
         this.infoWindow = new google.maps.InfoWindow();
     }
 
+
     componentDidMount() {
 
-        /**
-        var pac_input =
-            document.getElementById('dealer_locator_control_autocomplete'));
-        */
+        this.initializeMap();
+
+        // Add autocomplete input and controls to the Map
         var pac_input = /** @type {!HTMLInputElement} */
             this.refs.pac_input;
-
         var controls = this.refs.dealer_locator_widget_controls;
-        //dealer_locator_control_autocomplete
-        this.initializeMap();
         this.initializeAutocomplete(pac_input);
-        // Adding input controls to the map
         this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(controls);
 
-        var loc = {
-            lat: this.getCenter().lat,
-            lng: this.getCenter().lng
-
-        };
-        var distance = this.props.searchDistance;
-        var brand = this.props.brandFilter;
-        var limit = this.props.searchLimit;
-
-        // Set new center
-        this.center = {lat: this.getCenter().lat, lng: this.getCenter().lng};
-
-
-        // Search
-        var dealerPromise = this.dealerService.findDealers(loc, distance, limit, brand);
-        dealerPromise.then(dealers => this.updateDealers(dealers))
-
-
-    }
-
-    initializeMap() {
-        this.map = new google.maps.Map(this.refs.map, {
-            center: this.getCenter(),
-            zoom: 16,
-            mapTypeControlOptions: {
-                style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-                position: google.maps.ControlPosition.TOP_RIGHT
+        // Set center location
+        let center = this.getCenter();
+        this.searchDealers({
+            place: {
+                lat: center.lat,
+                lng: center.lng
             }
         });
+    }
+
+
+    initializeMap() {
+        if (this.props.googleMap !== null) {
+            this.map = this.props.googleMap;
+        } else {
+
+            this.map = new google.maps.Map(this.refs.map, {
+                center: this.getCenter(),
+                zoom: 16,
+                mapTypeControlOptions: {
+                    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                    position: google.maps.ControlPosition.TOP_RIGHT
+                }
+            })
+        }
     }
 
 
@@ -99,10 +102,9 @@ class DealerLocator extends React.Component {
      * @param {!HTMLInputElement} pac_input
      */
     initializeAutocomplete(pac_input) {
-
-        var acOptions = {
+        let acOptions = {
             types: ['geocode'],
-            language: this.language,
+            language: this.language
             //componentRestrictions: {country: 'fr'}
         };
 
@@ -112,53 +114,62 @@ class DealerLocator extends React.Component {
         // Add listener for changed place
         this.autocomplete.addListener('place_changed', () => {
             // Get to the place
-            var place = this.autocomplete.getPlace();
-            this.updateCentralPlace(place);
+            let autocompletePlace = this.autocomplete.getPlace();
 
-            // Get dealers and add markers
-            var lat = place.geometry.location.lat();
-            var lng = place.geometry.location.lng();
-            var loc = {
-                lat: lat,
-                lng: lng,
-                distance: this.props.searchDistance,
-                brand: this.props.brandFilter
+            let place = {
+                lat: autocompletePlace.geometry.location.lat(),
+                lng: autocompletePlace.geometry.location.lng()
             };
-            this.center = { lat: lat, lng: lng};
-            //console.log('this.Center', this.center);
-            var distance = this.props.searchDistance;
-            var brand = this.props.brandFilter;
-            var limit = this.props.searchLimit;
-            var dealerPromise = this.dealerService.findDealers(loc, distance, limit, brand);
-            dealerPromise.then(dealers => this.updateDealers(dealers))
+            this.setCenter(place);
+            this.updateCentralPlace(autocompletePlace);
+            this.searchDealers({place: place});
+
         });
 
     }
 
     /**
-     * Update dealer list
+     * Trigger dealer search around a place
+     * @param {Object} params
+     */
+    searchDealers(params) {
+
+        let place = params.place;
+        let distance = this.props.searchDistance,
+            brand = this.props.brandFilter,
+            limit = this.props.searchLimit;
+
+        this.dealerService.searchDealers(place, distance, limit, brand).then(
+            (dealers) => {
+                this.updateMapMarkers(dealers.data);
+            }
+        );
+
+    }
+
+
+    /**
+     * Update map markers
      * @param Array dealers
      */
-    updateDealers(dealers) {
-        this.setState({
-            dealers: dealers
-        });
+    updateMapMarkers(dealers) {
 
         this.clearLocations();
-        //var bounds = new google.maps.LatLngBounds();
-        var map = this.map;
-        var infoWindow = this.infoWindow;
-        var markers = this.markers;
 
-        let zoomBounds = new google.maps.LatLngBounds(this.center);
+        let center = this.getCenter();
+        let zoomBounds = new google.maps.LatLngBounds(new google.maps.LatLng(
+            center.lat,
+            center.lng
+        ));
+
         let nbContactZoomBounds = this.props.nbContactZoomBounds;
         console.log('nbContactZoomBounds', nbContactZoomBounds);
 
-        dealers.forEach(function (dealer, i) {
-
-            var latlng = new google.maps.LatLng(
+        dealers.forEach((dealer, i) =>  {
+            let latlng = new google.maps.LatLng(
                 parseFloat(dealer.latitude),
-                parseFloat(dealer.longitude));
+                parseFloat(dealer.longitude)
+            );
 
             if (nbContactZoomBounds == 0 || i < nbContactZoomBounds) {
                 console.log('adding zoom bounds to ', i, dealer.distance_from_place);
@@ -166,16 +177,19 @@ class DealerLocator extends React.Component {
             }
 
             var marker = new google.maps.Marker({
-                map: map,
+                map: this.map,
                 position: latlng
             });
+            /*
             var html = "<b>" + dealer.contact_name + "</b> <br />" + dealer.city;
-            google.maps.event.addListener(marker, 'click', function () {
-                infoWindow.setContent(html);
-                infoWindow.open(map, marker)
+            google.maps.event.addListener(marker, 'click', () => {
+                this.infoWindow.setContent(html);
+                this.infoWindow.open(this.map, marker)
+            });*/
+            google.maps.event.addListener(marker, 'click', () => {
+                this.openMarkerInfoWindow(marker, dealer);
             });
-            markers.push(marker);
-
+            this.markers[dealer.contact_id] = marker;
         })
 
         if (dealers.length > 0) {
@@ -186,14 +200,23 @@ class DealerLocator extends React.Component {
         }
     }
 
+    openMarkerInfoWindow(marker, dealer) {
+        var html = '<b>' + dealer.contact_name + '</b> <br />' + dealer.city;
+        //google.maps.event.addListener(marker, 'click', () => {
+        this.infoWindow.setContent(html);
+        this.infoWindow.open(this.map, marker)
+        //});
+
+    }
+
     /**
      * Clear previous markers from the map
      */
     clearLocations() {
         this.infoWindow.close();
-        for (var i = 0; i < this.markers.length; i++) {
-            this.markers[i].setMap(null);
-        }
+        this.markers.forEach(marker => {
+            marker.setMap(null);
+        })
         this.markers.length = 0;
     }
 
@@ -209,16 +232,14 @@ class DealerLocator extends React.Component {
             return;
         }
 
-
         // If the place has a geometry, then present it on a map.
         if (place.geometry.viewport) {
             this.map.fitBounds(place.geometry.viewport);
 
         } else {
             this.map.setCenter(place.geometry.location);
-         //   this.map.setZoom(17);  // Why 17? Because it looks good.
+            //   this.map.setZoom(17);  // Why 17? Because it looks good.
         }
-
 
         //var infowindow = new google.maps.InfoWindow();
         var marker = new google.maps.Marker({
@@ -237,66 +258,53 @@ class DealerLocator extends React.Component {
 
         marker.setPosition(place.geometry.location);
         marker.setVisible(true);
-/*
-        var address = '';
-        if (place.address_components) {
-            address = [
-                (place.address_components[0] && place.address_components[0].short_name || ''),
-                (place.address_components[1] && place.address_components[1].short_name || ''),
-                (place.address_components[2] && place.address_components[2].short_name || '')
-            ].join(' ');
-        }
+        /*
+         var address = '';
+         if (place.address_components) {
+         address = [
+         (place.address_components[0] && place.address_components[0].short_name || ''),
+         (place.address_components[1] && place.address_components[1].short_name || ''),
+         (place.address_components[2] && place.address_components[2].short_name || '')
+         ].join(' ');
+         }
 
-        infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-        infowindow.open(this.map, marker);*/
+         infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+         infowindow.open(this.map, marker);*/
+    }
+
+    setCenter(center) {
+        this.center = center;
     }
 
     getCenter() {
-        var initialCenter = this.props.initialCenter;
-        console.log('initialCenter', initialCenter);
-        return initialCenter;
+        if (this.center === null) {
+            this.center = this.props.initialCenter;
+        }
+        return this.center;
     }
 
     render() {
-        const mapStyle = {
-            width: '100%',
-            height: '50%'
-        };
-
-        var center = this.getCenter();
-
+        let dealerService = this.dealerService;
         return (
             <div className="dealer_locator_widget">
                 <div className="dealer_locator_widget_controls" ref="dealer_locator_widget_controls">
-                    <input id="dealer_locator_control_autocomplete" ref="pac_input" className="controls dealer_locator_control_autocomplete" type="text" placeholder="Enter a location"/>
+                    <input id="dealer_locator_control_autocomplete" ref="pac_input"
+                           className="controls dealer_locator_control_autocomplete" type="text"
+                           placeholder="Enter a location"/>
                 </div>
-                <div ref="map" style={mapStyle}>I should be a map!</div>
-                <div className="dealer_locator_list">
-                    <ul>
-                        {this.state.dealers.map(function(dealer) {
-                            return (
-
-                                <li key={dealer.contact_id}>
-                                    <div className="distance">
-                                        <p>{dealer.distance_from_place}</p>
-                                        <p>{dealer.total}</p>
-                                    </div>
-                                    <img src="http://lorempixum.com/100/100/nature/1" />
-                                    <h3>{dealer.contact_name}</h3>
-                                    <address>
-                                        {dealer.street}<br />
-                                        {dealer.city}, {dealer.state_reference} {dealer.zipcode}<br />
-                                        <abbr title="Phone">Phone:</abbr> {dealer.phone}<br />
-                                        <a href="mailto:{dealer.email}">{dealer.email}</a>
-                                    </address>
-                                </li>
-                            );
-                        })}
-                    </ul>
-                </div>
+                <div ref="map" style={this.props.mapStyle}>I should be a map!</div>
+                <DealerList dealerService={dealerService}
+                            onDealerClick={ (dealer) => { this.handleDealerListClick(dealer) } }>
+                </DealerList>
             </div>
         );
+    }
 
+    handleDealerListClick(dealer) {
+        let contact_id = dealer.contact_id;
+        if (this.markers[contact_id]) {
+            this.openMarkerInfoWindow(this.markers[contact_id], dealer);
+        }
     }
 
     // clean up event listeners when component unmounts
