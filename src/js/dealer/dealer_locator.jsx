@@ -95,8 +95,8 @@ class DealerLocator extends React.Component {
                     position: google.maps.ControlPosition.TOP_RIGHT
                 },
                 styles: [{
-                    "stylers": [
-                        {"saturation": -50}
+                    'stylers': [
+                        {'saturation': -50}
                     ]
                 }]
             })
