@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import DealerLocator from './dealer/dealer_locator.jsx';
-//import DealerMap from './dealer/dealer_map';
+import DealerLocator from './dealer/dealer_locator';
 
 const EIFFEL_TOWER_POSITION = {
     lat: 48.858608,
     lng: 2.294471
 };
+
+
 
 var dealerLoc = React.createElement(DealerLocator, {
     initialCenter: EIFFEL_TOWER_POSITION,

@@ -91,10 +91,10 @@ var config = {
         // Import polyfills for Promises and whatwg fetch
         new webpack.ProvidePlugin({
             //'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch',
-            'Promise': 'imports?this=>global!exports?global.Promise!es6-promise',
-            //'es6-promise': 'es6-promise',
+            //'Promise': 'imports?this=>global!exports?global.Promise!es6-promise',
+            'es6-promise': 'es6-promise',
             'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch',
-            //'URLSearchParams': 'imports?this=>global!exports?global.URLSearchParams!url-search-params'
+
         }),
 
         new copyWebpackPlugin([

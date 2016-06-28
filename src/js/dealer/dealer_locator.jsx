@@ -49,7 +49,7 @@ class DealerLocator extends React.Component {
 
     constructor(props) {
         super(props);
-
+        
         this.dealerService = new DealerService({
             language: this.language,
             source: props.source

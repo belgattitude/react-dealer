@@ -9,7 +9,7 @@ export class PlaceSearchParams {
     lng: number;
 }
 
-export class DealerService {
+export default class DealerService {
 
     @observable dealers = [];
     @observable isLoading = false;
