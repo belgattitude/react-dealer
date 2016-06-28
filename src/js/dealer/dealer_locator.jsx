@@ -3,6 +3,7 @@ import {observable} from 'mobx';
 import DealerService from './dealer_service';
 import DealerList from './dealer_list';
 import '../../css/dealer/dealer_locator.scss';
+import 'font-awesome/css/font-awesome.css';
 
 class DealerLocator extends React.Component {
 
@@ -88,10 +89,16 @@ class DealerLocator extends React.Component {
             this.map = new google.maps.Map(this.refs.map, {
                 center: this.getCenter(),
                 zoom: 16,
+                scrollwheel: false,
                 mapTypeControlOptions: {
                     style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
                     position: google.maps.ControlPosition.TOP_RIGHT
-                }
+                },
+                styles: [{
+                    "stylers": [
+                        {"saturation": -50}
+                    ]
+                }]
             })
         }
     }
@@ -165,7 +172,10 @@ class DealerLocator extends React.Component {
         let nbContactZoomBounds = this.props.nbContactZoomBounds;
         console.log('nbContactZoomBounds', nbContactZoomBounds);
 
-        dealers.forEach((dealer, i) =>  {
+        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+
+        dealers.forEach((dealer, i) => {
             let latlng = new google.maps.LatLng(
                 parseFloat(dealer.latitude),
                 parseFloat(dealer.longitude)
@@ -176,16 +186,31 @@ class DealerLocator extends React.Component {
                 zoomBounds.extend(latlng);
             }
 
+            /*
+            var marker = new google.maps.MarkerWithLabel({
+                position: latlng,
+                draggable: false,
+                raiseOnDrag: false,
+                icon: ' ',
+                map: this.map,
+                labelContent: '<i class="fa fa-send fa-3x" style="color:rgba(153,102,102,0.8);"></i>',
+                labelAnchor: new google.maps.Point(22, 50)
+            });*/
+
             var marker = new google.maps.Marker({
                 map: this.map,
-                position: latlng
+                //draggable: true,
+                //raiseOnDrag: true,
+                position: latlng,
+                label: labels[i % labels.length],
+                labelContent: 'cool'
             });
             /*
-            var html = "<b>" + dealer.contact_name + "</b> <br />" + dealer.city;
-            google.maps.event.addListener(marker, 'click', () => {
-                this.infoWindow.setContent(html);
-                this.infoWindow.open(this.map, marker)
-            });*/
+             var html = "<b>" + dealer.contact_name + "</b> <br />" + dealer.city;
+             google.maps.event.addListener(marker, 'click', () => {
+             this.infoWindow.setContent(html);
+             this.infoWindow.open(this.map, marker)
+             });*/
             google.maps.event.addListener(marker, 'click', () => {
                 this.openMarkerInfoWindow(marker, dealer);
             });

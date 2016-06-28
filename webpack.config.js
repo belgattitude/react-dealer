@@ -6,6 +6,7 @@ var path = require('path'),
     pkg = require('./package.json'),
     precss = require('precss'),
     autoprefixer = require('autoprefixer')
+//    URLSearchParams = require('url-search-params')
     ;
 
 var banner = `
@@ -40,10 +41,11 @@ var config = {
         stats: {colors: true}
     },
     entry: {
-        main_dealer_app: ['./js/main_dealer_app'],
-        dealer_locator: ['./js/dealer/dealer_locator'],
-        fetch: ['whatwg-fetch'],
-        react: ['react', 'react-dom']
+        'main_dealer_app': ['./js/main_dealer_app'],
+        'dealer_locator': ['./js/dealer/dealer_locator'],
+        'fetch': ['whatwg-fetch'],
+        'babel-polyfill': ['babel-polyfill'],
+        'react': ['react', 'react-dom']
     },
     output: {
         path: outputPath,
@@ -88,8 +90,11 @@ var config = {
 
         // Import polyfills for Promises and whatwg fetch
         new webpack.ProvidePlugin({
+            //'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch',
+            'Promise': 'imports?this=>global!exports?global.Promise!es6-promise',
+            //'es6-promise': 'es6-promise',
             'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch',
-            'es6-promise': 'es6-promise'
+            //'URLSearchParams': 'imports?this=>global!exports?global.URLSearchParams!url-search-params'
         }),
 
         new copyWebpackPlugin([
@@ -109,6 +114,10 @@ var config = {
     },
 
     module: {
+        preLoaders: [
+            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+            { test: /\.js$/, loader: "source-map-loader" }
+        ],
         loaders: [
             {
                 test: /\.jsx?$/,
@@ -144,20 +153,20 @@ var config = {
                     : 'style!css!postcss-loader!sass'
             },
             {
-                test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-                loader: 'file'
-            },
-            {
-                test: /\.(woff|woff2)$/,
-                loader: 'url?prefix=font/&limit=5000'
-            },
-            {
+                test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+                loader: "url?limit=10000&mimetype=application/font-woff"
+            }, {
+                test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+                loader: "url?limit=10000&mimetype=application/font-woff"
+            }, {
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-                loader: 'url?limit=10000&mimetype=application/octet-stream'
-            },
-            {
+                loader: "url?limit=10000&mimetype=application/octet-stream"
+            }, {
+                test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+                loader: "file"
+            }, {
                 test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                loader: 'url?limit=10000&mimetype=image/svg+xml'
+                loader: "url?limit=10000&mimetype=image/svg+xml"
             },
             {
                 test: /\.gif/,

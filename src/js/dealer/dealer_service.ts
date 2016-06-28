@@ -1,14 +1,22 @@
+import "babel-polyfill";
 import 'whatwg-fetch';
-import { Promise } from 'es6-promise';
+import { Promise } from 'core-js';
 import { observable } from 'mobx';
+import { IJsonResult } from './../core/soluble-flexstore';
 
-class DealerService {
+export class PlaceSearchParams {
+    lat: number;
+    lng: number;
+}
+
+export class DealerService {
 
     @observable dealers = [];
     @observable isLoading = false;
 
     options = {
-        language: 'en'
+        language: 'en',
+        source: null
     };
     
     constructor(options) {
@@ -17,20 +25,20 @@ class DealerService {
         this.isLoading = false;
     }
     
+
     /**
-     * Search dealers
      *
      * @param place
      * @param distance
      * @param limit
      * @param brand
-     * @returns {Promise<T>|*|Promise|Promise<U>|Promise.<T>}
+     * @returns {Promise<TResult|T>|Promise<T>|Promise<U>}
      */
-    searchDealers(place, distance, limit, brand) {
+    searchDealers(place: PlaceSearchParams, distance: number, limit: number, brand: string): Promise<IJsonResult> {
         let promise = this.searchAsyncDealers(place, distance, limit, brand);
         this.isLoading = true;
-        promise.then(dealers =>  {
-            this.dealers = dealers.data;
+        promise.then((response: IJsonResult) =>  {
+            this.dealers = response.data;
             this.isLoading = false;
         });
         return promise;
@@ -44,7 +52,7 @@ class DealerService {
      * @param brand
      * @returns {Promise<T>|*|Promise|Promise<U>|Promise.<T>}
      */
-    searchAsyncDealers(place, distance, limit, brand) {
+    searchAsyncDealers(place: PlaceSearchParams, distance: number, limit: number, brand: string): Promise<IJsonResult> {
         var source = this.options.source;
         var params = {
             lat: place.lat,
@@ -57,12 +65,18 @@ class DealerService {
 
         // Setting url with search params
         var url = new URL(source);
-        var searchParams = new URLSearchParams();
+
+        //var searchParams = new URLSearchParams();
+        var parts = [];
         Object.keys(params).forEach((key) => {
-                searchParams.append(key, params[key])
+                if (params.hasOwnProperty(key)) {
+                    parts.push(encodeURIComponent(key) + '=' + encodeURIComponent(params[key]));
+                }
             }
         );
-        url.search = searchParams.toString();
+
+        //url.search = searchParams.toString();
+        url.search = parts.join('&');
         var api_url = url.toString();
 
         var checkStatus = function(response) {
@@ -70,7 +84,7 @@ class DealerService {
                 return response
             } else {
                 var error = new Error(response.statusText)
-                error.response = response
+                //error = response
                 throw error
             }
         }
@@ -83,13 +97,13 @@ class DealerService {
             });
         }
 
-        var fetchParams = {
+        let headers = new Headers();
+        headers.append('Accept', 'application/json');
+        let fetchParams = {
             // mode: 'no-cors',
             // credentials: 'same-origin',
             method: 'get',
-            headers: {
-                'Accept': 'application/json'
-            }
+            headers: headers
         };
 
         return fetch(api_url, fetchParams)
@@ -107,5 +121,4 @@ class DealerService {
     }
 }
 
-export default DealerService;
 
