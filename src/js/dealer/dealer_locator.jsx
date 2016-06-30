@@ -1,6 +1,7 @@
 import React from 'react';
-import {observable} from 'mobx';
+import { observable } from 'mobx';
 import DealerService from './dealer_service';
+import DealerMapMarker from './dealer_map_marker';
 import DealerList from './dealer_list';
 import '../../css/dealer/dealer_locator.scss';
 import 'font-awesome/css/font-awesome.css';
@@ -43,17 +44,22 @@ class DealerLocator extends React.Component {
 
     language = 'en';
     dealerService = null;
+    dealerMapMarker = null;
     markers = [];
+    homeMarker = null;
     infoWindow = null;
     center = null;
 
     constructor(props) {
         super(props);
-        
+
+
         this.dealerService = new DealerService({
             language: this.language,
             source: props.source
         });
+
+        this.dealerMapMarker = new DealerMapMarker();
 
         this.infoWindow = new google.maps.InfoWindow();
     }
@@ -120,18 +126,69 @@ class DealerLocator extends React.Component {
 
         // Add listener for changed place
         this.autocomplete.addListener('place_changed', () => {
-            // Get to the place
-            let autocompletePlace = this.autocomplete.getPlace();
-
-            let place = {
-                lat: autocompletePlace.geometry.location.lat(),
-                lng: autocompletePlace.geometry.location.lng()
-            };
-            this.setCenter(place);
-            this.updateCentralPlace(autocompletePlace);
-            this.searchDealers({place: place});
-
+            this.onAutocompletePlaceChanged(this.autocomplete);
         });
+
+    }
+
+    onAutocompletePlaceChanged(autocomplete) {
+
+        // Step 1: Get the place and test if ok
+        let autocompletePlace = autocomplete.getPlace();
+        if (!autocompletePlace.geometry) {
+            window.alert('Autocomplete\'s returned place contains no geometry');
+            return;
+        }
+
+        // Step 2: Create a marker and center map around
+        if (autocompletePlace.geometry.viewport) {
+            // Some places may have a viewport, let's use it if any
+            // to center the map
+            this.map.fitBounds(autocompletePlace.geometry.viewport);
+        } else {
+            // Otherwise it's a regular place, let's center the map
+            this.map.setCenter(autocompletePlace.geometry.location);
+            //   this.map.setZoom(17);  // Why 17? Because it looks good.
+        }
+
+        var homeIcon = {
+            path: 'M 125,5 155,90 245,90 175,145 200,230 125,180 50,230 75,145 5,90 95,90 z',
+            fillColor: 'yellow',
+            fillOpacity: 0.8,
+            scale: 1,
+            strokeColor: 'gold',
+            strokeWeight: 14
+        };
+
+
+        if (this.homeMarker === null) {
+
+            this.homeMarker = new google.maps.Marker({
+                map: this.map,
+                anchorPoint: new google.maps.Point(0, -29),
+                icon: {
+                    //url: autocompletePlace.icon,
+                    path: 'M0-48c-9.8 0-17.7 7.8-17.7 17.4 0 15.5 17.7 30.6 17.7 30.6s17.7-15.4 17.7-30.6c0-9.6-7.9-17.4-17.7-17.4z',
+                    fillColor: 'yellow',
+                    fillOpacity: 0.8,
+                    scale: 0.5,
+                    strokeColor: 'gold',
+                    strokeWeight: 6
+                }
+            });
+
+
+        }
+        this.homeMarker.setPosition(autocompletePlace.geometry.location);
+        this.homeMarker.setVisible(true);
+
+        let place = {
+            lat: autocompletePlace.geometry.location.lat(),
+            lng: autocompletePlace.geometry.location.lng()
+        };
+        this.setCenter(place);
+
+        this.searchDealers({place: place});
 
     }
 
@@ -153,8 +210,33 @@ class DealerLocator extends React.Component {
         );
 
     }
+/*
+    getDealerMarkerProps(i, dealer) {
+        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        var length = labels.length;
 
+        var icon = {
+            path: 'M0-48c-9.8 0-17.7 7.8-17.7 17.4 0 15.5 17.7 30.6 17.7 30.6s17.7-15.4 17.7-30.6c0-9.6-7.9-17.4-17.7-17.4z',
+            fillColor: '#1998F7',
+            fillOpacity: 0.6,
+            scale: 0.7,
+            strokeColor: '#1998F7',
+            strokeWeight: 4
+        };
 
+        var props = {
+            icon: icon
+        };
+        if (i < length) {
+            props.label = labels[i % labels.length];
+        } else {
+            props.label = '*';
+        }
+
+        return props;
+    }
+
+*/
     /**
      * Update map markers
      * @param Array dealers
@@ -172,9 +254,6 @@ class DealerLocator extends React.Component {
         let nbContactZoomBounds = this.props.nbContactZoomBounds;
         console.log('nbContactZoomBounds', nbContactZoomBounds);
 
-        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-
         dealers.forEach((dealer, i) => {
             let latlng = new google.maps.LatLng(
                 parseFloat(dealer.latitude),
@@ -186,31 +265,31 @@ class DealerLocator extends React.Component {
                 zoomBounds.extend(latlng);
             }
 
-            /*
-            var marker = new google.maps.MarkerWithLabel({
-                position: latlng,
-                draggable: false,
-                raiseOnDrag: false,
-                icon: ' ',
-                map: this.map,
-                labelContent: '<i class="fa fa-send fa-3x" style="color:rgba(153,102,102,0.8);"></i>',
-                labelAnchor: new google.maps.Point(22, 50)
-            });*/
+            var markerProps = this.dealerMapMarker.getDealerMarkerProps(i, dealer);
+
+            var icon = markerProps.icon;
+            icon.labelOrigin = new google.maps.Point(0, -24);
+            icon.anchor = new google.maps.Point(9,35);
+
 
             var marker = new google.maps.Marker({
                 map: this.map,
                 //draggable: true,
                 //raiseOnDrag: true,
                 position: latlng,
-                label: labels[i % labels.length],
-                labelContent: 'cool'
+
+                label: {
+                    text: markerProps.label,
+                    color: 'black',
+                    fontSize: '15px',
+                    fontFamily: 'Roboto'
+                    /*fontWeight: 'bold'*/
+                },
+                //labelContent: '<i class="fa fa-send fa-3x" style="color:rgba(153,102,102,0.8);"></i>',
+                //labelAnchor: new google.maps.Point(22, 50),
+                icon: icon
+
             });
-            /*
-             var html = "<b>" + dealer.contact_name + "</b> <br />" + dealer.city;
-             google.maps.event.addListener(marker, 'click', () => {
-             this.infoWindow.setContent(html);
-             this.infoWindow.open(this.map, marker)
-             });*/
             google.maps.event.addListener(marker, 'click', () => {
                 this.openMarkerInfoWindow(marker, dealer);
             });
@@ -246,57 +325,6 @@ class DealerLocator extends React.Component {
     }
 
 
-    /**
-     * Query dealers around central place
-     * @param {Object} place
-     */
-    updateCentralPlace(place) {
-
-        if (!place.geometry) {
-            window.alert('Autocomplete\'s returned place contains no geometry');
-            return;
-        }
-
-        // If the place has a geometry, then present it on a map.
-        if (place.geometry.viewport) {
-            this.map.fitBounds(place.geometry.viewport);
-
-        } else {
-            this.map.setCenter(place.geometry.location);
-            //   this.map.setZoom(17);  // Why 17? Because it looks good.
-        }
-
-        //var infowindow = new google.maps.InfoWindow();
-        var marker = new google.maps.Marker({
-            map: this.map,
-            anchorPoint: new google.maps.Point(0, -29)
-            //anchorPoint: EIFFEL_TOWER_POSITION
-        });
-
-        marker.setIcon(/** @type {google.maps.Icon} */({
-            url: place.icon,
-            size: new google.maps.Size(71, 71),
-            origin: new google.maps.Point(0, 0),
-            anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(35, 35)
-        }));
-
-        marker.setPosition(place.geometry.location);
-        marker.setVisible(true);
-        /*
-         var address = '';
-         if (place.address_components) {
-         address = [
-         (place.address_components[0] && place.address_components[0].short_name || ''),
-         (place.address_components[1] && place.address_components[1].short_name || ''),
-         (place.address_components[2] && place.address_components[2].short_name || '')
-         ].join(' ');
-         }
-
-         infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-         infowindow.open(this.map, marker);*/
-    }
-
     setCenter(center) {
         this.center = center;
     }
@@ -310,12 +338,19 @@ class DealerLocator extends React.Component {
 
     render() {
         let dealerService = this.dealerService;
+        let placeHolder = "Enter your location";
         return (
             <div className="dealer_locator_widget">
                 <div className="dealer_locator_widget_controls" ref="dealer_locator_widget_controls">
                     <input id="dealer_locator_control_autocomplete" ref="pac_input"
                            className="controls dealer_locator_control_autocomplete" type="text"
-                           placeholder="Enter a location"/>
+                           placeholder={ placeHolder }/>
+                    <button type="button" className="ac-input-icon ac-input-icon-pin">
+                        <svg viewBox="0 0 14 20" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M7 0C3.13 0 0 3.13 0 7c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5C5.62 9.5 4.5 8.38 4.5 7S5.62 4.5 7 4.5 9.5 5.62 9.5 7 8.38 9.5 7 9.5z"/>
+                        </svg>
+                    </button>
                 </div>
                 <div ref="map" style={this.props.mapStyle}>I should be a map!</div>
                 <DealerList dealerService={dealerService}

@@ -93,7 +93,7 @@ var config = {
             //'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch',
             //'Promise': 'imports?this=>global!exports?global.Promise!es6-promise',
             'es6-promise': 'es6-promise',
-            'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch',
+            'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
 
         }),
 
@@ -106,7 +106,7 @@ var config = {
     postcss: function () {
         return {
             defaults: [precss, autoprefixer],
-            cleaner:  [autoprefixer({ browsers: [['last 2 versions', 'ie 6-8', 'Firefox > 20']] })]
+            cleaner:  [autoprefixer({ browsers: [['last 3 versions', 'ie 6-8', 'Firefox > 20']] })]
         };
     },
     sassLoader: {
@@ -116,7 +116,7 @@ var config = {
     module: {
         preLoaders: [
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-            { test: /\.js$/, loader: "source-map-loader" }
+            { test: /\.js$/, loader: 'source-map-loader' }
         ],
         loaders: [
             {
@@ -154,19 +154,19 @@ var config = {
             },
             {
                 test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=application/font-woff"
+                loader: 'url?limit=10000&mimetype=application/font-woff'
             }, {
                 test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=application/font-woff"
+                loader: 'url?limit=10000&mimetype=application/font-woff'
             }, {
                 test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=application/octet-stream"
+                loader: 'url?limit=10000&mimetype=application/octet-stream'
             }, {
                 test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "file"
+                loader: 'file'
             }, {
                 test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=image/svg+xml"
+                loader: 'url?limit=10000&mimetype=image/svg+xml'
             },
             {
                 test: /\.gif/,

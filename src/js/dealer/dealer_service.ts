@@ -3,6 +3,7 @@ import 'whatwg-fetch';
 import { Promise } from 'core-js';
 import { observable } from 'mobx';
 import { IJsonResult } from './../core/soluble-flexstore';
+import * as _ from 'lodash';
 
 export class PlaceSearchParams {
     lat: number;

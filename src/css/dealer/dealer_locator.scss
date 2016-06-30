@@ -29,21 +29,61 @@ body {
 
 .dealer_locator_widget_controls {
 
+  margin-top: 5px;
+  margin-left: 5px;
+  padding: 5px;
+  border-radius: 3px;
+  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.40);
+  background-color: white;
+  width: 50%;
+
   .dealer_locator_control_autocomplete {
     @include hover-state {
-      border-color: #4d90fe;
+      border-color: #6699cc;
       // width: 500px;
       // backgound-color: #FF0000;
     }
-    background-color: #fff;
     font-family: Roboto;
-    font-size: 15px;
-    font-weight: 300;
-    margin-left: 12px;
-    margin-top: 10px;
-    padding: 0 11px 0 5px;
-    text-overflow: ellipsis;
-    width: 300px;
+    font-size: 13px;
+
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    box-sizing: border-box;
+    height: 40px;
+    line-height: 40px;
+    outline: medium none;
+    padding-left: 10px;
+
+    width: 100%;
+
+
+  }
+
+  .ac-input-icon {
+    background: transparent none repeat scroll 0 0;
+    border: 0 none;
+    bottom: 0;
+    outline: medium none;
+    position: absolute;
+    right: 16px;
+    top: 0;
+  }
+  .ac-input-icon.ac-input-icon-pin {
+    cursor: initial;
+  }
+  .ac-input-icon svg {
+    fill: #cfcfcf;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .ac-cursor {
+    background: #efefef none repeat scroll 0 0;
+  }
+  .ac-cursor .ac-suggestion-icon svg {
+    fill: #aaaaaa;
+    transform: scale(1) translateY(2px);
   }
 
 }
