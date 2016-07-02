@@ -56,9 +56,8 @@ body {
 
     width: 100%;
 
-
   }
-
+/* search icon in autocomplete input*/
   .ac-input-icon {
     background: transparent none repeat scroll 0 0;
     border: 0 none;
@@ -67,26 +66,31 @@ body {
     position: absolute;
     right: 16px;
     top: 0;
+    .ac-input-icon-pin {
+      cursor: initial;
+    }
+    svg {
+      fill: #cfcfcf;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
   }
-  .ac-input-icon.ac-input-icon-pin {
-    cursor: initial;
-  }
-  .ac-input-icon svg {
-    fill: #cfcfcf;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-  }
+
   .ac-cursor {
     background: #efefef none repeat scroll 0 0;
-  }
-  .ac-cursor .ac-suggestion-icon svg {
-    fill: #aaaaaa;
-    transform: scale(1) translateY(2px);
+    .ac-suggestion-icon {
+      svg {
+        fill: #aaaaaa;
+        transform: scale(1) translateY(2px);
+      }
+    }
   }
 
 }
+
+/* dealer locator list */
 
 .dealer_locator_list {
 

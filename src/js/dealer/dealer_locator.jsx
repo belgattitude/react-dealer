@@ -338,7 +338,7 @@ class DealerLocator extends React.Component {
 
     render() {
         let dealerService = this.dealerService;
-        let placeHolder = "Enter your location";
+        let placeHolder = 'Enter your location';
         return (
             <div className="dealer_locator_widget">
                 <div className="dealer_locator_widget_controls" ref="dealer_locator_widget_controls">
