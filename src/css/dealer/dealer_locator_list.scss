@@ -4,18 +4,6 @@ $color: white;
   border: 1px solid $color;
 }
 
-/*
-body {
-  background: $color;
-  @include my-border(white);
-}
-*/
-/*
-.item {
-  display: flex;
-  flex-flow: row wrap;
-}
-*/
 
 @mixin hover-state {
   &:hover, &:active, &:focus {
