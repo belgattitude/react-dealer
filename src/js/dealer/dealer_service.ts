@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 export class PlaceSearchParams {
     lat: number;
     lng: number;
+    country: string;
 }
 
 export default class DealerService {
@@ -33,7 +34,7 @@ export default class DealerService {
      * @param distance
      * @param limit
      * @param brand
-     * @returns {Promise<TResult|T>|Promise<T>|Promise<U>}
+     * @returns {Promise<IJsonResult>}
      */
     searchDealers(place: PlaceSearchParams, distance: number, limit: number, brand: string): Promise<IJsonResult> {
         let promise = this.searchAsyncDealers(place, distance, limit, brand);
@@ -51,13 +52,14 @@ export default class DealerService {
      * @param distance
      * @param limit
      * @param brand
-     * @returns {Promise<T>|*|Promise|Promise<U>|Promise.<T>}
+     * @returns {Promise<TResult>}
      */
     searchAsyncDealers(place: PlaceSearchParams, distance: number, limit: number, brand: string): Promise<IJsonResult> {
         var source = this.options.source;
         var params = {
             lat: place.lat,
             lng: place.lng,
+            country: place.country,
             distance: distance,
             brand: brand,
             limit: limit,

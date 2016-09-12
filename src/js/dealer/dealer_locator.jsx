@@ -20,6 +20,7 @@ class DealerLocator extends React.Component {
             width: React.PropTypes.string,
             height: React.PropTypes.string
         }),
+        mapTypeControl: React.PropTypes.bool,
         // Optional
         googleMap: React.PropTypes.objectOf(google.maps.Map),
         mapRefName: React.PropTypes.string,
@@ -35,6 +36,7 @@ class DealerLocator extends React.Component {
         nbContactZoomBounds: 0,
         searchDistance: 25,
         searchLimit: 100,
+        mapTypeControl: false,
         mapStyle: {
             width: '100%',
             height: '50%'
@@ -74,7 +76,7 @@ class DealerLocator extends React.Component {
             this.refs.pac_input;
         var controls = this.refs.dealer_locator_widget_controls;
         this.initializeAutocomplete(pac_input);
-        this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(controls);
+        this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(controls);
 
         // Set center location
         let center = this.getCenter();
@@ -82,7 +84,8 @@ class DealerLocator extends React.Component {
             place: {
                 lat: center.lat,
                 lng: center.lng
-            }
+            },
+            country: null
         });
     }
 
@@ -96,9 +99,10 @@ class DealerLocator extends React.Component {
                 center: this.getCenter(),
                 zoom: 16,
                 scrollwheel: false,
+                mapTypeControl: this.props.mapTypeControl,
                 mapTypeControlOptions: {
-                    style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-                    position: google.maps.ControlPosition.TOP_RIGHT
+                    style: google.maps.MapTypeControlStyle.VERTICAL_BAR,
+                    position: google.maps.ControlPosition.BOTTOM_RIGHT
                 },
                 styles: [{
                     'stylers': [
@@ -182,13 +186,23 @@ class DealerLocator extends React.Component {
         this.homeMarker.setPosition(autocompletePlace.geometry.location);
         this.homeMarker.setVisible(true);
 
+
+        // Get the country (optional)
+        let country = '';
+        for (var i = 0; i < autocompletePlace.address_components.length; i++) {
+            let addressType = autocompletePlace.address_components[i].types[0];
+            if (addressType == "country") {
+                country = autocompletePlace.address_components[i].short_name;;
+            }
+        }
+
         let place = {
             lat: autocompletePlace.geometry.location.lat(),
             lng: autocompletePlace.geometry.location.lng()
         };
         this.setCenter(place);
 
-        this.searchDealers({place: place});
+        this.searchDealers({place: place, country: country});
 
     }
 
@@ -199,9 +213,12 @@ class DealerLocator extends React.Component {
     searchDealers(params) {
 
         let place = params.place;
+        let country = params.country;
         let distance = this.props.searchDistance,
             brand = this.props.brandFilter,
             limit = this.props.searchLimit;
+
+        place.country = country;
 
         this.dealerService.searchDealers(place, distance, limit, brand).then(
             (dealers) => {
