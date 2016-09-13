@@ -2,6 +2,7 @@ import React from 'react';
 import DealerService from './dealer_service';
 import DealerMapMarker from './dealer_map_marker';
 import DealerList from './dealer_list';
+import 'whatwg-fetch';
 import '../../css/dealer/dealer_locator.scss';
 import 'font-awesome/css/font-awesome.css';
 
@@ -73,30 +74,6 @@ class DealerLocator extends React.Component {
 
     }
 
-    requestCurrentPosition() {
-        if (navigator.geolocation)
-        {
-            navigator.geolocation.getCurrentPosition((position) => {
-                console.log('My position = ', position);
-                //let center = this.getCenter();
-                this.searchDealers({
-                    place: {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    },
-                    country: null
-                });
-            }, (positionError) => {
-                this.setDefaultPosition();
-            }, {
-                enableHighAccuracy: true,
-                timeout: 5000,
-                maximumAge: 0
-            });
-        } else {
-            this.setDefaultPosition();
-        }
-    }
 
     /**
      * Set map to default position
@@ -240,8 +217,6 @@ class DealerLocator extends React.Component {
             lat: autocompletePlace.geometry.location.lat(),
             lng: autocompletePlace.geometry.location.lng()
         };
-        this.setCenter(place);
-
         this.searchDealers({place: place, country: country});
 
     }
@@ -259,6 +234,11 @@ class DealerLocator extends React.Component {
             limit = this.props.searchLimit;
 
         place.country = country;
+
+        this.setCenter({
+            lat: place.lat,
+            lng: place.lng
+        });
 
         this.dealerService.searchDealers(place, distance, limit, brand).then(
             (dealers) => {
@@ -405,6 +385,75 @@ class DealerLocator extends React.Component {
     componentDidUnMount() {
         google.maps.event.clearListeners(this.autocomplete, 'place_changed');
     }
+
+
+    /**
+     * Request current navigator position
+     *
+     */
+    requestCurrentPosition() {
+        //
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                //console.log('My position = ', position);
+                //let center = this.getCenter();
+                this.searchDealers({
+                    place: {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    },
+                    country: null
+                });
+            }, (positionError) => {
+                //console.log('positionError', positionError);
+                // Firefox seems to doesn't work
+                // Let's try with the freegeoip
+                //
+
+                this.setDefaultPosition();
+            }, {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            });
+        } else {
+            console.log('Setting default position, not supported');
+            this.setDefaultPosition();
+        }
+    }
+
+    /*
+     requestPositionFromIp() {
+     let headers = new Headers();
+     headers.append('Accept', 'application/json');
+     fetch("https://freegeoip.net/json/", {method: 'get', headers: headers})
+     .then((response) => {
+     if (response.status >= 200 && response.status < 300) {
+     return response
+     } else {
+     var error = new Error(response.statusText)
+     //error = response
+     throw error
+     }
+     })
+     .then((response) => {
+     return response.json();
+     })
+     .then((json) => {
+     let place = {
+     lat: json.latitude,
+     lng: json.longitude,
+     country: json.country_code
+     }
+     console.log('freedata', json);
+     })
+     .catch(function (ex) {
+     console.log('Cannot get ', ex)
+     });
+
+     }
+     */
+
 }
 
 export default DealerLocator;
