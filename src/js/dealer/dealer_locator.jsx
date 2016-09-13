@@ -1,10 +1,10 @@
 import React from 'react';
-import { observable } from 'mobx';
 import DealerService from './dealer_service';
 import DealerMapMarker from './dealer_map_marker';
 import DealerList from './dealer_list';
 import '../../css/dealer/dealer_locator.scss';
 import 'font-awesome/css/font-awesome.css';
+
 
 class DealerLocator extends React.Component {
 
@@ -27,7 +27,8 @@ class DealerLocator extends React.Component {
         nbContactZoomBounds: React.PropTypes.number,
         searchDistance: React.PropTypes.number,
         searchLimit: React.PropTypes.number,
-        brandFilter: React.PropTypes.string
+        brandFilter: React.PropTypes.string,
+        mapControlPosition: React.PropTypes.number
     }
 
     static defaultProps = {
@@ -40,7 +41,8 @@ class DealerLocator extends React.Component {
         mapStyle: {
             width: '100%',
             height: '50%'
-        }
+        },
+        mapControlPosition: google.maps.ControlPosition.TOP_RIGHT
     }
 
 
@@ -64,11 +66,38 @@ class DealerLocator extends React.Component {
         this.dealerMapMarker = new DealerMapMarker();
 
         this.infoWindow = new google.maps.InfoWindow();
+
+    }
+
+    requestCurrentPosition() {
+        if (navigator.geolocation)
+        {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    console.log('My position = ', position);
+                    //let center = this.getCenter();
+                    this.searchDealers({
+                        place: {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        },
+                        country: null
+                    });
+                });
+            }
+        } else {
+            this.setDefaultPosition();
+        }
+    }
+
+    setDefaultPosition() {
+
     }
 
 
     componentDidMount() {
 
+        this.requestCurrentPosition();
         this.initializeMap();
 
         // Add autocomplete input and controls to the Map
@@ -76,7 +105,8 @@ class DealerLocator extends React.Component {
             this.refs.pac_input;
         var controls = this.refs.dealer_locator_widget_controls;
         this.initializeAutocomplete(pac_input);
-        this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(controls);
+
+        this.map.controls[this.props.mapControlPosition].push(controls);
 
         // Set center location
         let center = this.getCenter();
@@ -191,8 +221,8 @@ class DealerLocator extends React.Component {
         let country = '';
         for (var i = 0; i < autocompletePlace.address_components.length; i++) {
             let addressType = autocompletePlace.address_components[i].types[0];
-            if (addressType == "country") {
-                country = autocompletePlace.address_components[i].short_name;;
+            if (addressType == 'country') {
+                country = autocompletePlace.address_components[i].short_name;
             }
         }
 
@@ -227,33 +257,7 @@ class DealerLocator extends React.Component {
         );
 
     }
-/*
-    getDealerMarkerProps(i, dealer) {
-        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        var length = labels.length;
 
-        var icon = {
-            path: 'M0-48c-9.8 0-17.7 7.8-17.7 17.4 0 15.5 17.7 30.6 17.7 30.6s17.7-15.4 17.7-30.6c0-9.6-7.9-17.4-17.7-17.4z',
-            fillColor: '#1998F7',
-            fillOpacity: 0.6,
-            scale: 0.7,
-            strokeColor: '#1998F7',
-            strokeWeight: 4
-        };
-
-        var props = {
-            icon: icon
-        };
-        if (i < length) {
-            props.label = labels[i % labels.length];
-        } else {
-            props.label = '*';
-        }
-
-        return props;
-    }
-
-*/
     /**
      * Update map markers
      * @param Array dealers
@@ -269,7 +273,7 @@ class DealerLocator extends React.Component {
         ));
 
         let nbContactZoomBounds = this.props.nbContactZoomBounds;
-        console.log('nbContactZoomBounds', nbContactZoomBounds);
+        //console.log('nbContactZoomBounds', nbContactZoomBounds);
 
         dealers.forEach((dealer, i) => {
             let latlng = new google.maps.LatLng(
@@ -278,7 +282,7 @@ class DealerLocator extends React.Component {
             );
 
             if (nbContactZoomBounds == 0 || i < nbContactZoomBounds) {
-                console.log('adding zoom bounds to ', i, dealer.distance_from_place);
+                //console.log('adding zoom bounds to ', i, dealer.distance_from_place);
                 zoomBounds.extend(latlng);
             }
 
@@ -314,7 +318,7 @@ class DealerLocator extends React.Component {
         })
 
         if (dealers.length > 0) {
-            console.log('Fitbounds');
+            //console.log('Fitbounds');
             this.map.fitBounds(zoomBounds);
         } else {
             // todo set the zoom somewhere else
@@ -370,9 +374,12 @@ class DealerLocator extends React.Component {
                     </button>
                 </div>
                 <div ref="map" style={this.props.mapStyle}>I should be a map!</div>
+
+
                 <DealerList dealerService={dealerService}
                             onDealerClick={ (dealer) => { this.handleDealerListClick(dealer) } }>
                 </DealerList>
+
             </div>
         );
     }

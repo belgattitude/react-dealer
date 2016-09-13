@@ -55,6 +55,7 @@ export default class DealerService {
      * @returns {Promise<TResult>}
      */
     searchAsyncDealers(place: PlaceSearchParams, distance: number, limit: number, brand: string): Promise<IJsonResult> {
+        //document.getElementById('dealer_spinner').style.display = 'block';
         var source = this.options.source;
         var params = {
             lat: place.lat,
@@ -119,6 +120,7 @@ export default class DealerService {
                 this.dealers = dealers.data
             })*/
             .catch(function (ex) {
+                this.isLoading = false;
                 console.log('parsing failed', ex)
             });
     }
