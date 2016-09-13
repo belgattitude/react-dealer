@@ -28,7 +28,8 @@ class DealerLocator extends React.Component {
         searchDistance: React.PropTypes.number,
         searchLimit: React.PropTypes.number,
         brandFilter: React.PropTypes.string,
-        mapControlPosition: React.PropTypes.number
+        mapControlPosition: React.PropTypes.number,
+        mapStylers: React.PropTypes.array
     }
 
     static defaultProps = {
@@ -42,7 +43,10 @@ class DealerLocator extends React.Component {
             width: '100%',
             height: '50%'
         },
-        mapControlPosition: google.maps.ControlPosition.TOP_RIGHT
+        mapControlPosition: google.maps.ControlPosition.TOP_RIGHT,
+        mapStylers: [
+            {'saturation': -30}
+        ]
     }
 
 
@@ -72,32 +76,47 @@ class DealerLocator extends React.Component {
     requestCurrentPosition() {
         if (navigator.geolocation)
         {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    console.log('My position = ', position);
-                    //let center = this.getCenter();
-                    this.searchDealers({
-                        place: {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                        },
-                        country: null
-                    });
+            navigator.geolocation.getCurrentPosition((position) => {
+                console.log('My position = ', position);
+                //let center = this.getCenter();
+                this.searchDealers({
+                    place: {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    },
+                    country: null
                 });
-            }
+            }, (positionError) => {
+                this.setDefaultPosition();
+            }, {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            });
         } else {
             this.setDefaultPosition();
         }
     }
 
+    /**
+     * Set map to default position
+     *
+     */
     setDefaultPosition() {
-
+        // Set center location
+        let center = this.getCenter();
+        this.searchDealers({
+            place: {
+                lat: center.lat,
+                lng: center.lng
+            },
+            country: null
+        });
     }
 
 
     componentDidMount() {
 
-        this.requestCurrentPosition();
         this.initializeMap();
 
         // Add autocomplete input and controls to the Map
@@ -108,15 +127,8 @@ class DealerLocator extends React.Component {
 
         this.map.controls[this.props.mapControlPosition].push(controls);
 
-        // Set center location
-        let center = this.getCenter();
-        this.searchDealers({
-            place: {
-                lat: center.lat,
-                lng: center.lng
-            },
-            country: null
-        });
+        this.requestCurrentPosition();
+
     }
 
 
@@ -135,9 +147,7 @@ class DealerLocator extends React.Component {
                     position: google.maps.ControlPosition.BOTTOM_RIGHT
                 },
                 styles: [{
-                    'stylers': [
-                        {'saturation': -50}
-                    ]
+                    'stylers': this.props.mapStylers
                 }]
             })
         }

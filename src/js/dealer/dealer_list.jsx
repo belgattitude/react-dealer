@@ -78,7 +78,7 @@ class DealerList extends React.Component {
                                             miles</span>
                                         </div>
 
-                                        <p className="dealer_address" translate="no" typeof="schema:PostalAddress">
+                                        <p className="dealer_address" typeof="schema:PostalAddress">
                                             <span className="dealer_name"
                                                   property="schema:name">{dealer.contact_name}</span>
                                             <br />

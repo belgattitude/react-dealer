@@ -23,6 +23,9 @@ var dealerLoc = React.createElement(DealerLocator, {
     mapTypeControl: false,
     mapControlPosition: google.maps.ControlPosition.TOP_RIGHT,
     //mapControlPosition: google.maps.ControlPosition.TOP_LEFT,
+    mapStylers: [
+        {'saturation': -50}
+    ],
     searchDistance: 200,
     searchLimit: 100,
     nbContactZoomBounds: 5,
