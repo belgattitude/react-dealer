@@ -118,14 +118,21 @@
         };
 
         var dealerLoc = React.createElement(dealer_locator.default, {
+
             initialCenter: initialCenter,
+
             //source: 'http://localhost/emdmusic_server/public/api/v1/dealer',
             source: 'http://apps.emdmusic.com/api/emd/v1/dealer',
             brandFilter: 'STAG',
+
+            // Supported locales are 'fr_FR', 'en_GB', 'en_US', 'de_DE', 'nl_NL'
+            locale: 'fr_FR',
+
             mapStyle: {
                 width: '100%',
                 height: '50%'
             },
+
             mapControlPosition: google.maps.ControlPosition.TOP_RIGHT,
             mapStylers: [
                         {'saturation': -30}

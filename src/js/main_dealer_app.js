@@ -11,6 +11,7 @@ const EIFFEL_TOWER_POSITION = {
 var dealerLoc = React.createElement(DealerLocator, {
     initialCenter: EIFFEL_TOWER_POSITION,
     //source: 'http://localhost/emdmusic_server/public/api/emd/v1/dealer',
+    locale: 'fr_FR',
     source: 'http://apps.emdmusic.com/api/emd/v1/dealer',
     brandFilter: 'STAG',
     mapStyle: {

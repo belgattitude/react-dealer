@@ -1,11 +1,11 @@
 import React from 'react';
 import DealerService from './dealer_service';
 import DealerMapMarker from './dealer_map_marker';
+import DealerLocale from './dealer_locale';
 import DealerList from './dealer_list';
 import 'whatwg-fetch';
 import '../../css/dealer/dealer_locator.scss';
 import 'font-awesome/css/font-awesome.css';
-
 
 class DealerLocator extends React.Component {
 
@@ -16,6 +16,7 @@ class DealerLocator extends React.Component {
             lng: React.PropTypes.number.isRequired
         }),
         source: React.PropTypes.string.isRequired,
+        locale: React.PropTypes.string,
         // Map style
         mapStyle: React.PropTypes.shape({
             width: React.PropTypes.string,
@@ -35,6 +36,7 @@ class DealerLocator extends React.Component {
 
     static defaultProps = {
         googleMap: null,
+        locale: 'en_US',
         mapRefName: 'mapCanvas',
         nbContactZoomBounds: 0,
         searchDistance: 25,
@@ -51,9 +53,10 @@ class DealerLocator extends React.Component {
     }
 
 
-    language = 'en';
+
     dealerService = null;
     dealerMapMarker = null;
+    dealerLocale = null;
     markers = [];
     homeMarker = null;
     infoWindow = null;
@@ -63,8 +66,11 @@ class DealerLocator extends React.Component {
         super(props);
 
 
+
+        this.dealerLocale = new DealerLocale(this.props.locale);
+
         this.dealerService = new DealerService({
-            language: this.language,
+            language: this.dealerLocale.getLanguage(),
             source: props.source
         });
 
@@ -73,6 +79,8 @@ class DealerLocator extends React.Component {
         this.infoWindow = new google.maps.InfoWindow();
 
     }
+
+
 
 
     /**
