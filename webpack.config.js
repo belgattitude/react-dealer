@@ -6,6 +6,7 @@ var path = require('path'),
     pkg = require('./package.json'),
     precss = require('precss'),
     autoprefixer = require('autoprefixer')
+    DashboardPlugin = require('webpack-dashboard/plugin')
 //    URLSearchParams = require('url-search-params')
     ;
 
@@ -99,7 +100,9 @@ var config = {
 
         new copyWebpackPlugin([
             {from: 'html', to: outputPath}
-        ])
+        ]),
+
+        //new DashboardPlugin({port: serverPort})
 
     ],
     serverPort : serverPort,

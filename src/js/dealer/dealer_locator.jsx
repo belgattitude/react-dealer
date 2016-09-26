@@ -65,8 +65,6 @@ class DealerLocator extends React.Component {
     constructor(props) {
         super(props);
 
-
-
         this.dealerLocale = new DealerLocale(this.props.locale);
 
         this.dealerService = new DealerService({
@@ -371,11 +369,12 @@ class DealerLocator extends React.Component {
                         </svg>
                     </button>
                 </div>
-                <div ref="map" style={this.props.mapStyle}>I should be a map!</div>
+                <div ref="map" style={ this.props.mapStyle }>I should be a map!</div>
 
 
-                <DealerList dealerService={dealerService}
-                            onDealerClick={ (dealer) => { this.handleDealerListClick(dealer) } }>
+                <DealerList dealerService={ dealerService }
+                            onDealerClick={ (dealer) => { this.handleDealerListClick(dealer) } }
+                            dealerLocale={ this.dealerLocale }>
                 </DealerList>
 
             </div>

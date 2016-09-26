@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import DealerMapMarker from './dealer_map_marker';
+import DealerLocale from './dealer_locale';
 import '../../css/dealer/dealer_locator_spinner.scss';
 import '../../css/dealer/dealer_locator_list.scss';
 
@@ -10,6 +11,7 @@ class DealerList extends React.Component {
 
 
     static propTypes = {
+        dealerLocale: React.PropTypes.instanceOf(DealerLocale),
         dealerService: React.PropTypes.shape({
             /**
              * MobX Observable Array
@@ -23,7 +25,8 @@ class DealerList extends React.Component {
     dealerMapMarker;
 
     static defaultProps = {
-        onDealerClick: null
+        onDealerClick: null,
+        dealerLocale: new DealerLocale()
     }
 
     constructor(props) {
@@ -74,8 +77,10 @@ class DealerList extends React.Component {
                                         </div>
 
                                         <div className="dealer_distance">
-                                            Distance: <span>{ Math.round(dealer.distance_from_place * 10) / 10 }
-                                            miles</span>
+                                            Distance: &nbsp;
+                                            <span>
+                                            { this.props.dealerLocale.formatDistance(dealer.distance_from_place) }
+                                            </span>
                                         </div>
 
                                         <p className="dealer_address" typeof="schema:PostalAddress">
