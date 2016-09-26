@@ -170,7 +170,7 @@ class DealerLocator extends React.Component {
         // Step 1: Get the place and test if ok
         let autocompletePlace = autocomplete.getPlace();
         if (!autocompletePlace.geometry) {
-            console.log("No geometry, user didn't select an item from the autosuggested places");
+            console.log('No geometry, user didn\'t select an item from the autosuggested places');
             this.setState({isInputAddressValid:  false});
             //window.alert('Autocomplete\'s returned place contains no geometry');
             return;
@@ -374,7 +374,7 @@ class DealerLocator extends React.Component {
             <div className="dealer_locator_widget">
                 <div className="dealer_locator_widget_controls" ref="dealer_locator_widget_controls">
                     <input id="dealer_locator_control_autocomplete" ref="pac_input"
-                           className={"controls dealer_locator_control_autocomplete " + inputAddressErrorClass} type="text"
+                           className={'controls dealer_locator_control_autocomplete ' + inputAddressErrorClass} type="text"
                            placeholder={ placeHolder } />
                     <button type="button" className="ac-input-icon ac-input-icon-pin">
                         <svg viewBox="0 0 14 20" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
