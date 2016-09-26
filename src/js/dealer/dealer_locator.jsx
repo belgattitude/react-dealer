@@ -331,7 +331,17 @@ class DealerLocator extends React.Component {
     }
 
     openMarkerInfoWindow(marker, dealer) {
-        var html = '<b>' + dealer.contact_name + '</b> <br />' + dealer.city;
+        var html = `
+            <b>
+                ${ dealer.contact_name }
+            </b>
+            <br />
+            ${dealer.street}, ${dealer.city}
+            <br />
+            <a href="mailto:${ dealer.email }">${dealer.email}</a>
+            <br />
+            <a target="_blank" href="http://${ dealer.homepage }">${dealer.homepage}</a>
+        `;
         //google.maps.event.addListener(marker, 'click', () => {
         this.infoWindow.setContent(html);
         this.infoWindow.open(this.map, marker)
