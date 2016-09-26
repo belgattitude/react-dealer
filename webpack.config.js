@@ -102,6 +102,7 @@ var config = {
             {from: 'html', to: outputPath}
         ]),
 
+        // not working with react hmr
         //new DashboardPlugin({port: serverPort})
 
     ],

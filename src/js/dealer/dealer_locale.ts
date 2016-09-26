@@ -70,6 +70,39 @@ export default class DealerLocale {
 
     }
 
+
+
+    /**
+     *
+     * @param text
+     */
+    public translate(text: string) : string {
+
+        // Few harcoded translations
+        let translations = {
+            en: {
+                enter_location: 'Enter your location',
+            },
+            fr: {
+                enter_location: 'Indiquez votre adresse',
+            },
+            nl:{
+                enter_location: 'Enter your location',
+            },
+            de:{
+                enter_location: 'Enter your location',
+            }
+        };
+
+
+        let translated = text;
+        if (translations[this.language][text]) {
+            translated = translations[this.language][text];
+        }
+        return translated;
+
+    }
+
     /**
      *
      * @returns {string}

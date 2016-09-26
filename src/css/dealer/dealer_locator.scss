@@ -46,7 +46,6 @@ body {
     }
     font-family: Roboto;
     font-size: 13px;
-
     border: 1px solid #cccccc;
     border-radius: 3px;
     box-sizing: border-box;
@@ -54,11 +53,15 @@ body {
     line-height: 40px;
     outline: medium none;
     padding-left: 10px;
-
     width: 100%;
-
   }
-/* search icon in autocomplete input*/
+
+  .error {
+    background-color: rgba(255, 0, 0, 0.30);
+  }
+
+
+  /* search icon in autocomplete input*/
   .ac-input-icon {
     background: transparent none repeat scroll 0 0;
     border: 0 none;

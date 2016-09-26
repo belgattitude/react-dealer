@@ -62,6 +62,7 @@ class DealerLocator extends React.Component {
     infoWindow = null;
     center = null;
 
+
     constructor(props) {
         super(props);
 
@@ -75,9 +76,12 @@ class DealerLocator extends React.Component {
         this.dealerMapMarker = new DealerMapMarker();
 
         this.infoWindow = new google.maps.InfoWindow();
+        this.state = {
+            isInputAddressValid: true
+        };
+
 
     }
-
 
 
 
@@ -143,7 +147,9 @@ class DealerLocator extends React.Component {
      */
     initializeAutocomplete(pac_input) {
         let acOptions = {
-            types: ['geocode'],
+            // Set types to geocode to prevent results with
+            // business addresses as well
+            //types: ['geocode'],
             language: this.language
             //componentRestrictions: {country: 'fr'}
         };
@@ -153,6 +159,7 @@ class DealerLocator extends React.Component {
 
         // Add listener for changed place
         this.autocomplete.addListener('place_changed', () => {
+            this.setState({isInputAddressValid: true})
             this.onAutocompletePlaceChanged(this.autocomplete);
         });
 
@@ -163,7 +170,9 @@ class DealerLocator extends React.Component {
         // Step 1: Get the place and test if ok
         let autocompletePlace = autocomplete.getPlace();
         if (!autocompletePlace.geometry) {
-            window.alert('Autocomplete\'s returned place contains no geometry');
+            console.log("No geometry, user didn't select an item from the autosuggested places");
+            this.setState({isInputAddressValid:  false});
+            //window.alert('Autocomplete\'s returned place contains no geometry');
             return;
         }
 
@@ -353,15 +362,20 @@ class DealerLocator extends React.Component {
         return this.center;
     }
 
+
     render() {
+
+
         let dealerService = this.dealerService;
-        let placeHolder = 'Enter your location';
+        let placeHolder = this.dealerLocale.translate('enter_location');
+        let inputAddressErrorClass = this.state.isInputAddressValid ? '' : 'error';
+
         return (
             <div className="dealer_locator_widget">
                 <div className="dealer_locator_widget_controls" ref="dealer_locator_widget_controls">
                     <input id="dealer_locator_control_autocomplete" ref="pac_input"
-                           className="controls dealer_locator_control_autocomplete" type="text"
-                           placeholder={ placeHolder }/>
+                           className={"controls dealer_locator_control_autocomplete " + inputAddressErrorClass} type="text"
+                           placeholder={ placeHolder } />
                     <button type="button" className="ac-input-icon ac-input-icon-pin">
                         <svg viewBox="0 0 14 20" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
                             <path

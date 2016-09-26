@@ -4,21 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Stagg dealer locator</title>
+    <title>Stagg dealer locator component embed example</title>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!--
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/paper/bootstrap.min.css">
-    -->
-
-    <!--
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.js"></script>
-    -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.min.js"></script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByH0c5bxYDZ48BLQ401BBsm4DppG6QNkQ&libraries=places"></script>
 
@@ -41,12 +30,6 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <style>
-        /*
-        body {
-            margin-top: 15px;
-        }*/
-    </style>
 
 </head>
 <body>
@@ -55,56 +38,6 @@
     There's should be a map
 </div>
 
-<div class="container">
-
-    <div class="row">
-        <div class="col-md-8">
-            <div class="panel panel-primary">
-                <div class="panel-heading"><h3 class="panel-title">Dealer locator</h3></div>
-                <div class="panel-body">
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="panel panel-primary">
-                <div class="panel-heading"><h3 class="panel-title">Info</h3></div>
-                <div class="panel-body">
-                    Showed dealers might not have the Stagg product you love, contact them to pre-order or find alternatives.
-                    <p></p>
-                    @todo frontend
-                    <ul>
-                        <li>Message indicating online dealers</li>
-                        <li>Better autozoom area (many ideas to try)</li>
-                        <li><strike>Observing click in html result list, opening map balloon</strike></li>
-                        <li>Setting cool icons markers</li>
-                        <li>Adding more infos (website, opening hours)</li>
-                        <li>Styling with Jaywalk, share scss files.</li>
-                        <li>Distributors (not in cahier des charges)</li>
-                        <li>Miles and kilometers - check locale.</li>
-                        <li>Languages if really needed (?)</li>
-                        <li>Bugfixing and polish.</li>
-                    </ul>
-                    @todo backend
-                    <ul>
-                        <li>Huge cleanup of addresses</li>
-                        <li><strike>Setup document for back-office guys</strike></li>
-                        <li>Method to mark dealers by importance</li>
-                        <li>Method for displaying Distributors (not in cahier des charges)</li>
-                        <li>Ensure no suppliers or concurrent in the list</li>
-                        <li>Setup minimums</li>
-                        <li>A lot more...</li>
-                    </ul>
-                    @todo admin
-                    <ul>
-                        <li>EMD specific Google map API (with credit card validation to allow more requests/day)</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-</div> <!-- /container -->
 
 <script type="text/javascript">
     (function (dealer_locator) {
@@ -119,26 +52,51 @@
 
         var dealerLoc = React.createElement(dealer_locator.default, {
 
+            // Initial center, will be discarded if user allows to retrieve
+            // its position
             initialCenter: initialCenter,
 
             //source: 'http://localhost/emdmusic_server/public/api/v1/dealer',
             source: 'http://apps.emdmusic.com/api/emd/v1/dealer',
+
+            // Brand filter allows for future support for EMD brands
             brandFilter: 'STAG',
 
             // Supported locales are 'fr_FR', 'en_GB', 'en_US', 'de_DE', 'nl_NL'
+            // if not supported will default to 'en_GB'
             locale: 'fr_FR',
 
+            /**
+             * Set autocomplete control position
+             */
+            mapControlPosition: google.maps.ControlPosition.TOP_RIGHT,
+
+            /**
+             * Add some styling to the map.
+             */
             mapStyle: {
                 width: '100%',
                 height: '50%'
             },
 
-            mapControlPosition: google.maps.ControlPosition.TOP_RIGHT,
+            /**
+             * Some more advanced styles
+             */
             mapStylers: [
-                        {'saturation': -30}
-                    ],
-            searchDistance: 200,
-            searchLimit: 100,
+                {'saturation': -30}
+            ],
+
+            /**
+             * Those params change the behaviour of dealer search
+             */
+            searchDistance: 200, // In miles around location.
+            searchLimit: 100, // Max number of results
+
+            // Automagic zooming on the map trying to
+            // zoom around the first 'nbContactZoomBounds' dealers
+            // instead of showing all dealers... zoomBoundsMaxDistance
+            // is expressed in miles and can also affect how we automatically
+            // zoom on the map
             nbContactZoomBounds: 5,
             zoomBoundsMaxDistance: 5
         }, null);
@@ -149,7 +107,5 @@
     })(dealer_locator);
 </script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

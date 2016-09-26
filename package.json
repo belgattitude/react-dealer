@@ -5,15 +5,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npm run dev:clean && WEBPACK_ENV=dev webpack-dashboard -- ./node_modules/.bin/webpack-dev-server --config webpack.config.js",
-    "devold": "npm run dev:clean && WEBPACK_ENV=dev ./node_modules/.bin/webpack && ./node_modules/.bin/webpack-dev-server --config webpack.config.js",
+    "dev": "npm run dev:clean && WEBPACK_ENV=dev ./node_modules/.bin/webpack && ./node_modules/.bin/webpack-dev-server --config webpack.config.js",
     "dev:clean": "rm -f ./build/*",
     "build": "npm run build:clean && WEBPACK_ENV=production ./node_modules/.bin/webpack",
     "build:clean": "rm -f ./dist/*",
     "lint": "./node_modules/.bin/eslint . --ext .js --ext .jsx --ignore-path .gitignore --cache",
     "lint:fix": "./node_modules/.bin/eslint . --fix --ext .js --ext .jsx --ignore-path .gitignore --cache",
     "test": "karma start",
-    "test:ci": "watch 'npm run test' src/"
+    "test:ci": "watch 'npm run test' src/",
+    "devtestdashboard": "npm run dev:clean && WEBPACK_ENV=dev webpack-dashboard -- ./node_modules/.bin/webpack-dev-server --config webpack.config.js"
   },
   "author": "Vanvelthem Sébastien",
   "license": "Creative Common",
