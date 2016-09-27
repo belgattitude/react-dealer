@@ -10,7 +10,6 @@ export default class DealerMapMarker {
     getDealerMarkerProps(i: number, dealer: Object) : Object {
         var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         var length = labels.length;
-
         // See the http://map-icons.com/ website
         // check for the marker called MAP_PIN
 
