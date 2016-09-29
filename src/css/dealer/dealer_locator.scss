@@ -101,7 +101,16 @@ Dealer locator map markers
 */
 .dealer_marker_popup {
 
-  /*min-height: 100px;*/
+  box-sizing: border-box;
+  &:before {
+    box-sizing: border-box;
+  }
+
+  &:after {
+    box-sizing: border-box;
+  }
+
+  min-height: 100px;
 
   .dealer_marker_popup_name {
     font-weight: bold;
@@ -115,7 +124,6 @@ Dealer locator map markers
   .dealer_marker_popup_phone {
 
   }
-
 
   .dealer_marker_popup_email {
 

@@ -16,7 +16,7 @@ var dealerLoc = React.createElement(DealerLocator, {
     brandFilter: 'STAG',
     mapStyle: {
         width: '100%',
-        height: '50%'
+        height: '500px'
     },
     /**
      * Disable/enable display of map controls

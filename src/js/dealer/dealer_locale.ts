@@ -27,10 +27,13 @@ export default class DealerLocale {
 
         if (!locale) {
             locale = DealerLocale.defaultLocale;
-        } else if (!DealerLocale.isSupported(locale)) {
-            let dl = DealerLocale.defaultLocale;
-            locale = dl;
-            console.log('Locale: ' + locale + ' not supported, falling back to default:' + dl);
+        } else {
+            locale.replace('-', '_');
+            if (!DealerLocale.isSupported(locale)) {
+                let dl = DealerLocale.defaultLocale;
+                locale = dl;
+                console.log('Locale: ' + locale + ' not supported, falling back to default:' + dl);
+            }
         }
         this.locale = locale;
         this.language = locale.substr(0, 2);

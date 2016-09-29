@@ -7,6 +7,12 @@ export default class DealerMapMarker {
 
     }
 
+    /**
+     *
+     * @param i
+     * @param dealer
+     * @returns {{icon: {path: string, fillColor: string, fillOpacity: number, scale: number, strokeColor: string, strokeWeight: number}, label: string}}
+     */
     getDealerMarkerProps(i: number, dealer: Object) : Object {
         var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         var length = labels.length;
