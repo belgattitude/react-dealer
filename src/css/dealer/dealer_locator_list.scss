@@ -32,52 +32,77 @@
       background: #eee;
       cursor: pointer;
     };
-    padding: 10px;
+    padding: 0;
     overflow: auto;
     vertical-align: top;
     border-bottom: 1px solid grey;
-    .dealer_map_marker {
-      width: 40px;
-      height: 40px;
-      background: url("data:image/svg+xml;utf8,<svg viewBox='0 -10 60 60' height='48' width='48' xmlns='http://www.w3.org/2000/svg' baseProfile='basic'><path d='M24 0c-9.8 0-17.7 7.8-17.7 17.4 0 15.5 17.7 30.6 17.7 30.6s17.7-15.4 17.7-30.6c0-9.6-7.9-17.4-17.7-17.4z' stroke='%231998F7' stroke-width='4' fill='%231998F7' fill-opacity='0.6' scale='0.7' /></svg>");
-      background-size: cover;
-      display: inline-block;
-      padding-top: 16px;
-      padding-left: 16px;
-      padding-right: 0px;
-      padding-bottom: 2px;
-      font-weight: normal;
-      font-size: 22px;
-      font-family: "Roboto, HelveticaNeue Tahoma";
+    div.dealer_container {
+      padding: 10px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
 
-      a {
-        color: black;
-        &:link {
-          text-decoration: none;
-        }
-        &:visited {
+      .dealer_map_marker {
+        width: 24px;
+        height: 40px;
+        background: url("data:image/svg+xml;utf8,<svg viewBox='3 -5 70 70' height='48' width='48' xmlns='http://www.w3.org/2000/svg' baseProfile='basic'><path d='M24 0c-9.8 0-17.7 7.8-17.7 17.4 0 15.5 17.7 30.6 17.7 30.6s17.7-15.4 17.7-30.6c0-9.6-7.9-17.4-17.7-17.4z' stroke='%231998F7' stroke-width='4' fill='%231998F7' fill-opacity='0.6' scale='0.7' /></svg>");
+        background-size: cover;
+        display: inline-block;
+        margin: 4px 0;
+        padding: 0;
+        text-align: center;
+        span {
+          display: block;
+          position: relative;
+          padding: 0;
+          margin: 0;
+          margin-top: 6px;
+          font-size: 14px;
+          font-family: Arial, "Times New Roman";
+          font-weight: normal;
+          letter-spacing: normal;
           color: black;
         }
-
       }
-    };
 
 
-
-    .dealer_address {
-      .dealer_name {
-        font-size: 2em;
-        font-weight: bold;
+      .dealer_address {
+        margin: 0 0 0 10px;
+        padding: 0;
+        flex: 2;
+        .dealer_name {
+          font-size: 1.8em;
+          font-weight: bold;
+        }
       }
-    }
 
-    .dealer_contact {
-      span {
-        font-weight: bold;
+      .dealer_contact {
+        flex: 1;
+        align-self: flex-end;
+        span {
+          font-weight: bold;
+        }
       }
-    }
-    .dealer_distance {
-      float: right
+      .dealer_distance {
+        align-self: flex-start;
+      }
+      .label-distributor {
+        background: #3498db;
+        background-image: linear-gradient(to bottom, #3498db, #2980b9);
+        border-radius: 11px;
+        font-family: Arial;
+        color: #ffffff;
+        font-size: 13px;
+        padding: 5px 10px 5px 10px;
+        text-decoration: none;
+        margin-left: 20px;
+      }
+
+      .label-distributor:hover {
+        text-decoration: none;
+      }
+
     }
   }
 }

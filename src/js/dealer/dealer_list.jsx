@@ -72,56 +72,61 @@ class DealerList extends React.Component {
                                 return (
                                     <li key={ dealer.contact_id } onClick={boundClick}>
 
-                                        <div className="dealer_map_marker">
-                                            <a href="#">{ markerProps.label }</a>
-                                        </div>
+                                        <div className="dealer_container">
 
-                                        <div className="dealer_distance">
-                                            Distance: &nbsp;
-                                            <span>
-                                            { this.props.dealerLocale.formatDistance(dealer.distance_from_place) }
-                                            </span>
-                                        </div>
-
-                                        <p className="dealer_address" typeof="schema:PostalAddress">
-                                            <span className="dealer_name"
-                                                  property="schema:name">{dealer.contact_name}</span>
-                                            <br />
-                                            { dealer.is_country_distributor == 1 ?
-                                                <button type="button" className="btn btn-primary btn-xs">
-                                                    Official distributor in { dealer.country_name }
-                                                </button>
-                                                :
-                                                ''
-                                            }
-
-                                            <span className="dealer_street" property="schema:streetAddress">
-                                                { dealer.street }
-                                                { dealer.street_number ? ',' + dealer.street_number : '' }
-                                            </span><br />
-                                            <abbr className="dealer_state" title={ dealer.state_name }
-                                                  property="schema:addressRegion">{dealer.state_reference}</abbr>
-                                            <span className="dealer_zipcode"
-                                                  property="schema:postalCode">{dealer.zipcode}</span>&nbsp;
-                                            <span className="dealer_city"
-                                                  property="schema:addressLocality">{dealer.city}</span><br />
-                                            <abbr className="dealer_country"
-                                                  property="schema:addressCountry">{dealer.country_name}</abbr>
-                                        </p>
-
-
-                                        <div className="dealer_contact">
-                                            <div className="dealer_homepage">
-                                                Homepage: <span><a target="_blank"
-                                                                   href={ 'http://' + dealer.homepage }> {dealer.homepage}</a></span>
+                                            <div className="dealer_map_marker">
+                                                <span>{ markerProps.label }</span>
                                             </div>
 
-                                            <div className="dealer_email">
-                                                Email: <span><a href={ 'mailto://' + dealer.email }>{ dealer.email }</a></span>
+
+                                            <p className="dealer_address" typeof="schema:PostalAddress">
+                                                <span className="dealer_name"
+                                                      property="schema:name">{dealer.contact_name}</span>
+
+                                                { dealer.is_country_distributor == 1 ?
+                                                    <a className="label-distributor">
+                                                        Official distributor in { dealer.country_name }
+                                                    </a>
+                                                    :
+                                                    ''
+                                                }
+                                                <div>
+                                                <span className="dealer_street" property="schema:streetAddress">
+                                                    { dealer.street }
+                                                    { dealer.street_number ? ',' + dealer.street_number : '' }
+                                                </span><br />
+                                                <abbr className="dealer_state" title={ dealer.state_name }
+                                                      property="schema:addressRegion">{dealer.state_reference}</abbr>
+                                                <span className="dealer_zipcode"
+                                                      property="schema:postalCode">{dealer.zipcode}</span>&nbsp;
+                                                <span className="dealer_city"
+                                                      property="schema:addressLocality">{dealer.city}</span><br />
+                                                <abbr className="dealer_country"
+                                                      property="schema:addressCountry">{dealer.country_name}</abbr>
+                                                </div>
+                                            </p>
+
+
+                                            <div className="dealer_contact">
+                                                <div className="dealer_homepage">
+                                                    Homepage: <span><a target="_blank"
+                                                                       href={ 'http://' + dealer.homepage }> {dealer.homepage}</a></span>
+                                                </div>
+
+                                                <div className="dealer_email">
+                                                    Email: <span><a href={ 'mailto://' + dealer.email }>{ dealer.email }</a></span>
+                                                </div>
+                                                <div className="dealer_phone">
+                                                    Phone: <span>{ dealer.phone }</span>
+                                                </div>
                                             </div>
-                                            <div className="dealer_phone">
-                                                Phone: <span>{ dealer.phone }</span>
+                                            <div className="dealer_distance">
+                                                Distance: &nbsp;
+                                                <span>
+                                                { this.props.dealerLocale.formatDistance(dealer.distance_from_place) }
+                                                </span>
                                             </div>
+
                                         </div>
                                     </li>
 
