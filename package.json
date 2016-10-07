@@ -71,7 +71,7 @@
   "dependencies": {
     "es6-promise": "^4.0.5",
     "font-awesome": "^4.6.3",
-    "lodash": "^4.16.3",
+    "lodash": "^4.16.4",
     "mobx": "^2.6.0",
     "mobx-react": "^3.5.8",
     "react": "^15.3.2",
