@@ -40,8 +40,17 @@
       padding: 10px;
       display: flex;
       flex-direction: row;
-      flex-wrap: nowrap;
+      flex-wrap: wrap;
       justify-content: flex-start;
+
+      .dealer_stats {
+
+        width: 100%;
+        background-color: #E6E6E6;
+        text-align: right;
+
+      }
+
 
       .dealer_map_marker {
         width: 24px;
@@ -52,6 +61,7 @@
         margin: 4px 0;
         padding: 0;
         text-align: center;
+
         span {
           display: block;
           position: relative;
@@ -87,7 +97,9 @@
 
       .dealer_distance {
         align-self: flex-start;
+
       }
+
 
       .label-distributor {
         background: #3498db;

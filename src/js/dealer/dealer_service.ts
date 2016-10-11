@@ -42,6 +42,9 @@ export default class DealerService {
         promise.then((response: IJsonResult) =>  {
             this.dealers = response.data;
             this.isLoading = false;
+        }).catch((ex: Error) => {
+            console.log("ERROR: " + ex.toString());
+            this.isLoading = false;
         });
         return promise;
     }
@@ -87,7 +90,7 @@ export default class DealerService {
             if (response.status >= 200 && response.status < 300) {
                 return response
             } else {
-                var error = new Error(response.statusText)
+                let error = new Error(response.statusText)
                 //error = response
                 throw error
             }
@@ -113,15 +116,11 @@ export default class DealerService {
         return fetch(api_url, fetchParams)
             .then(checkStatus)
             .then(parseJson)
-            /*
-            .then(dealers => {
+            .catch((ex: Error) => {
                 this.isLoading = false;
-                console.log('SETTING DEALERS', dealers.data);
-                this.dealers = dealers.data
-            })*/
-            .catch(function (ex) {
-                this.isLoading = false;
-                console.log('parsing failed', ex)
+                console.log('ex', ex.toString());
+                throw new Error("Response cannot be parsed (" + ex.toString() + ")");
+                //console.log('parsing failed', ex)
             });
     }
 }

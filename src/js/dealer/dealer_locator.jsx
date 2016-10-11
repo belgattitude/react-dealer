@@ -17,6 +17,8 @@ class DealerLocator extends React.Component {
         }),
         source: React.PropTypes.string.isRequired,
         locale: React.PropTypes.string,
+        display_dealer_stats: React.PropTypes.bool,
+
         // Map style
         mapStyle: React.PropTypes.shape({
             width: React.PropTypes.string,
@@ -46,6 +48,7 @@ class DealerLocator extends React.Component {
             width: '100%',
             height: '50%'
         },
+        display_dealer_stats: false,
         mapControlPosition: google.maps.ControlPosition.TOP_RIGHT,
         mapStylers: [
             {'saturation': -30}
@@ -405,6 +408,7 @@ class DealerLocator extends React.Component {
 
                 <DealerList dealerService={ dealerService }
                             onDealerClick={ (dealer) => { this.handleDealerListClick(dealer) } }
+                            display_dealer_stats={ this.props.display_dealer_stats }
                             dealerLocale={ this.dealerLocale }>
                 </DealerList>
 

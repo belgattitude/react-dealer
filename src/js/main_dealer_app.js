@@ -10,14 +10,21 @@ const EIFFEL_TOWER_POSITION = {
 
 var dealerLoc = React.createElement(DealerLocator, {
     initialCenter: EIFFEL_TOWER_POSITION,
-    //source: 'http://localhost/emdmusic_server/public/api/emd/v1/dealer',
+
     locale: 'fr_FR',
-    source: 'http://apps.emdmusic.com/api/emd/v1/dealer',
+    source: 'http://localhost/emdmusic_server/public/api/emd/v1/dealer',
+    //source: 'http://apps.emdmusic.com/api/emd/v1/dealer',
     brandFilter: 'STAG',
     mapStyle: {
         width: '100%',
         height: '50%'
     },
+
+    /**
+     * In dealer list whether to display
+     * customer stats. Only dev mode for now
+     */
+    display_dealer_stats: true,
     /**
      * Disable/enable display of map controls
      */

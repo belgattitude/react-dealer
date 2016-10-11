@@ -19,6 +19,7 @@ class DealerList extends React.Component {
             dealers: React.PropTypes.object.isRequired,
             isLoading: React.PropTypes.bool
         }),
+        display_dealer_stats: React.PropTypes.bool,
         onDealerClick: React.PropTypes.func
     }
 
@@ -26,7 +27,8 @@ class DealerList extends React.Component {
 
     static defaultProps = {
         onDealerClick: null,
-        dealerLocale: new DealerLocale()
+        dealerLocale: new DealerLocale(),
+        display_dealer_stats: false
     }
 
     constructor(props) {
@@ -45,6 +47,8 @@ class DealerList extends React.Component {
     render() {
 
         let dealers = this.props.dealerService.dealers;
+
+
 
         return (
             <div className="dealer_locator_list">
@@ -120,12 +124,21 @@ class DealerList extends React.Component {
                                                     Phone: <span>{ dealer.phone }</span>
                                                 </div>
                                             </div>
-                                            <div className="dealer_distance">
-                                                Distance: &nbsp;
-                                                <span>
-                                                { this.props.dealerLocale.formatDistance(dealer.distance_from_place) }
-                                                </span>
+                                            <div className="dealer_right">
+                                                <div className="dealer_distance">
+                                                    Distance: &nbsp;
+                                                    <span>
+                                                    { this.props.dealerLocale.formatDistance(dealer.distance_from_place) }
+                                                    </span>
+                                                </div>
                                             </div>
+                                            { this.props.display_dealer_stats ?
+                                                <div className="dealer_stats">
+                                                    Products: <span>{ dealer.total_products } ({dealer.total_quantities}pc)</span>
+                                                    /
+                                                    Categs: <span>{ dealer.categs}</span>
+                                                </div> : ''
+                                            }
 
                                         </div>
                                     </li>
