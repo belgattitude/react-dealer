@@ -73,6 +73,13 @@ class DealerList extends React.Component {
                                 //console.log('svg_path', svg_path);
                                 //svg_path = "M7 0C3.13 0 0 3.13 0 7c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5C5.62 9.5 4.5 8.38 4.5 7S5.62 4.5 7 4.5 9.5 5.62 9.5 7 8.38 9.5 7 9.5z";
 
+                                let homepage = dealer.homepage;
+                                let prefixed_homepage = homepage;
+                                if (!/^https?:\/\//i.test(homepage)) {
+                                    prefixed_homepage = 'http://' + homepage;
+                                }
+
+
                                 return (
                                     <li key={ dealer.contact_id } onClick={boundClick}>
 
@@ -114,7 +121,7 @@ class DealerList extends React.Component {
                                             <div className="dealer_contact">
                                                 <div className="dealer_homepage">
                                                     Homepage: <span><a target="_blank"
-                                                                       href={ 'http://' + dealer.homepage }> {dealer.homepage}</a></span>
+                                                                       href={ prefixed_homepage }> {homepage}</a></span>
                                                 </div>
 
                                                 <div className="dealer_email">

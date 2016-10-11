@@ -334,6 +334,13 @@ class DealerLocator extends React.Component {
     }
 
     openMarkerInfoWindow(marker, dealer) {
+
+        let homepage = dealer.homepage;
+        let prefixed_homepage = homepage;
+        if (!/^https?:\/\//i.test(homepage)) {
+            prefixed_homepage = 'http://' + homepage;
+        }
+
         var html = `
             <div class="dealer_marker_popup">
                 <div class="dealer_marker_popup_name">
@@ -348,7 +355,7 @@ class DealerLocator extends React.Component {
                     <a href="mailto:${ dealer.email }">${dealer.email}</a>
                 </div>
                 <div class="dealer_marker_popup_homepage">
-                    <a target="_blank" href="http://${ dealer.homepage }">${dealer.homepage}</a>
+                    <a target="_blank" href="${prefixed_homepage}">${homepage}</a>
                 </div>
             </div>    
         `;
