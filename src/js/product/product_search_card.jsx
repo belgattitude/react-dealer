@@ -40,29 +40,40 @@ class ProductSearchCard extends React.Component {
             flippedClass = ' flipped';
         }
 
-        let htmlDesc = this.formatDescription(product.description);
 
         return (
             <div className="product-card-wrap" onClick={(evt) => this.flipCard() }>
                 <div className="product-card-container">
-                    <div className={'flipper' + flippedClass}>
-                        <div className="front">
+                    <div className={'product-card-flipper' + flippedClass}>
+                        <div className="product-card-front">
                             <div className="product-card-image">
                                 <img src={ img } />
+                                <button type="button" className="btn btn-primary">New</button>
                             </div>
-                            <div className="product-card-title">
+
+                            <div className="product-card-content">
                                 <span className="product_reference">
-                                    {product.reference}
+                                    { product.reference }
                                 </span>
                                 <span className="product_brand">
-                                    {product.brand_title}
+                                    { product.brand_title }
                                 </span>
                                 <div className="product_title">
-                                    {product.title}
+                                    { product.title }
                                 </div>
                             </div>
+                            <div className="product-card-footer">
+                                <ul>
+                                    <li><i className="fa fa-clock-o"></i> 05/10/2015</li>
+                                    <li><a href="#"><i className="fa fa-comments-o"></i>12</a></li>
+                                    <li><a href="#"><i className="fa fa-facebook"> </i>21</a></li>
+                                    <li><a href="#"><i className="fa fa-twitter"> </i>5</a></li>
+                                </ul>
+                            </div>
+
+
                         </div>
-                        <div className="back">
+                        <div className="product-card-back">
 
                             <div>
                                 {product.category_breadcrumb}
@@ -81,12 +92,9 @@ class ProductSearchCard extends React.Component {
 
                             <div className="product_description">
 
-                                {product.description.split("\n").map(function(item) {
+                                {product.description.split("\n").map(function(item, id) {
                                     return (
-                                    <span>
-                                    {item}
-                                    <br/>
-                                    </span>
+                                        <li>{item}</li>
                                     )
                                 })}
 
@@ -98,11 +106,7 @@ class ProductSearchCard extends React.Component {
         );
     }
 
-    formatDescription(description) {
-        var desc = description.replace(/\n/g, "<br/>");
-        return desc;
 
-    }
 }
 
 export default ProductSearchCard;

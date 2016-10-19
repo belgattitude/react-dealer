@@ -1,14 +1,12 @@
 import "babel-polyfill";
 import 'whatwg-fetch';
 import { Promise } from 'core-js';
-import { observable } from 'mobx';
-import { IJsonResult } from './../core/soluble-flexstore';
-
+import { IJsonResult } from './../core/soluble_flexstore';
 
 export default class ProductSearchService {
 
-    @observable results = [];
-    @observable isLoading = false;
+    results = [];
+    isLoading = false;
 
     options = {
         language: 'en',

@@ -111,7 +111,7 @@ var config = {
     postcss: function () {
         return {
             defaults: [precss, autoprefixer],
-            cleaner:  [autoprefixer({ browsers: [['last 3 versions', 'ie 6-8', 'Firefox > 20']] })]
+            cleaner:  [autoprefixer({ browsers: [['last 3 versions', 'ie 9-10', 'Firefox > 44']] })]
         };
     },
     sassLoader: {

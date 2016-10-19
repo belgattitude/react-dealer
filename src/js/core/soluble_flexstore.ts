@@ -11,7 +11,7 @@ export class JsonResult {
 
     }
 
-    get data() {
+    get data() : Array<Object> {
         return this.result.data;
     }
 }

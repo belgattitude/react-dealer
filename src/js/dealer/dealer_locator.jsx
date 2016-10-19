@@ -5,7 +5,7 @@ import DealerLocale from './dealer_locale';
 import DealerList from './dealer_list';
 import 'whatwg-fetch';
 import '../../css/dealer/dealer_locator.scss';
-import 'font-awesome/css/font-awesome.css';
+//import 'font-awesome/css/font-awesome.css';
 
 class DealerLocator extends React.Component {
 
@@ -245,6 +245,10 @@ class DealerLocator extends React.Component {
      */
     searchDealers(params) {
 
+        // When a new search is called, let's clear all
+        // previous markers
+        this.clearLocations();
+
         let place = params.place;
         let country = params.country;
         let distance = this.props.searchDistance,
@@ -396,7 +400,7 @@ class DealerLocator extends React.Component {
         let dealerService = this.dealerService;
         let placeHolder = this.dealerLocale.translate('enter_location');
         let inputAddressErrorClass = this.state.isInputAddressValid ? '' : 'error';
-
+        
         return (
             <div className="dealer_locator_widget">
                 <div className="dealer_locator_widget_controls" ref="dealer_locator_widget_controls">
