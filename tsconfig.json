@@ -3,7 +3,7 @@
     "target": "es5",
     //"jsx": "react",
     "noImplicitAny": false,
-    "removeComments": false,
+    "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
     "module": "commonjs",
@@ -12,6 +12,9 @@
     "emitDecoratorMetadata": true,
     "outDir": "./build/"
   },
+  "awesomeTypescriptLoaderOptions": {
+    /* ... */
+  } ,
   "exclude": [
     "build",
     "node_modules",

@@ -43,6 +43,7 @@ var config = {
     },
     entry: {
         'main_dealer_app': ['./js/main_dealer_app'],
+        'product_search_app': ['./js/product_search_app'],
         'dealer_locator': ['./js/dealer/dealer_locator'],
         'fetch': ['whatwg-fetch'],
         'babel-polyfill': ['babel-polyfill'],
@@ -143,7 +144,7 @@ var config = {
             },
             {
                 test: /\.tsx?$/,
-                loader: 'ts-loader',
+                loader: 'awesome-typescript-loader',
                 exclude: /node_modules/
             },
             {

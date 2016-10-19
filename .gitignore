@@ -1,6 +1,7 @@
 .eslintcache
 .idea
 npm-debug.log
+yarn.lock
 node_modules
 .DS_STORE
 dist/*
