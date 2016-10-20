@@ -7,6 +7,11 @@ var path = require('path'),
     precss = require('precss'),
     autoprefixer = require('autoprefixer')
     DashboardPlugin = require('webpack-dashboard/plugin')
+
+    // ForkCheckerPlugin - speed up with awesome-typescript-loader
+    // https://github.com/s-panferov/awesome-typescript-loader
+    ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin
+
 //    URLSearchParams = require('url-search-params')
     ;
 
@@ -89,6 +94,8 @@ var config = {
             }
         }),
         failPlugin,
+
+        new ForkCheckerPlugin(),
 
         // Import polyfills for Promises and whatwg fetch
         new webpack.ProvidePlugin({

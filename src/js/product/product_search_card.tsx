@@ -1,7 +1,26 @@
-import React from 'react';
+import * as React from 'react';
 import '../../css/product/product.scss';
 
-class ProductSearchCard extends React.Component {
+interface ProductModel {
+    product_id: string,
+    reference: string,
+    brand_title: string,
+    title: string,
+    category_breadcrumb: string;
+    description: string,
+    picture_media_id?: string
+}
+
+export interface ProductSearchCardProps {
+    data: ProductModel;
+}
+
+export interface ProductSearchCardState {
+    flipped?: boolean;
+}
+
+
+class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductSearchCardState> {
 
     constructor(props) {
         super(props);
