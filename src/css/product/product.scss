@@ -1,7 +1,5 @@
-@import url(http://fonts.googleapis.com/css?family=Imprima);
-@import url(http://fonts.googleapis.com/css?family=Open+Sans);
-@import url(http://fonts.googleapis.com/css?family=Noto+Sans);
-@import url(http://fonts.googleapis.com/css?family=Roboto);
+@import "_base.scss";
+
 /*
 * {
   box-sizing: border-box;
@@ -14,7 +12,7 @@
 }
 */
 .product-list-container {
-  font-family: Roboto, 'Open Sans';
+  font-family: $primary-font;
   display: flex;
   /*background-color: rgba(60,60,60, 0.1);*/
   /*
@@ -140,8 +138,12 @@
       .product-card-content {
 
         padding: 5px 5px 5px 5px;
-        background: rgba(0,0,0,0.1);
 
+        /*background-color: #373a3c !important;*/
+        background: rgba(55,58,60,0.9);
+        background-image: radial-gradient(circle, rgba(255, 255, 255, 0.15), transparent);
+        background-repeat: no-repeat;
+        color: white;
 
         /*transform: rotate(-2deg);*/
       }
@@ -164,23 +166,21 @@
         }
       }
 
-      .product_reference {
-        font-weight: 400;
-        line-height: 1.1;
-        font-size: 1.2em;
-        /*font-family: Roboto;*/
-        color: rgb(33,150,243);
+      .product-reference {
+        @include product-reference();
+        font-size: 1.1em;
+
       }
-      .product_brand {
-        font-size: 0.9em;;
-        color: rgb(255,152,0);
+      .product-brand {
+        @include product-brand();
+        font-size: 1em;;
+        float: right;
       }
-      .product_title {
+      .product-title {
         font-size: 1em;
-        /*font-family: 'Noto Sans';*/
       }
 
-      .product_description {
+      .product-description {
         width: 100%;
           height: 100px;
           margin: 0;
@@ -189,7 +189,7 @@
 
           overflow: scroll;
           overflow-x: scroll ;
-          overflow-wrap: hyphenate;
+          overflow-wrap: normal;
 
       }
 

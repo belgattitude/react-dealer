@@ -5,8 +5,8 @@ import { IJsonResult } from './../core/soluble_flexstore';
 
 export default class ProductSearchService {
 
-    results = [];
-    isLoading = false;
+    results: Array<Object> = [];
+    isLoading: boolean = false;
 
     options = {
         language: 'en',

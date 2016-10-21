@@ -1,6 +1,7 @@
 import * as React from 'react';
 import '../../css/product/product.scss';
 
+
 interface ProductModel {
     product_id: string,
     reference: string,
@@ -37,8 +38,8 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
     render() {
         let product = this.props.data;
         let resolution = '';
-        //resolution = '800x800';
-        resolution = '250x750';
+        resolution = '800x800';
+        //resolution = '250x750';
         //30x30,40x40,65x90,170x200,250x750,800x800,1024x768,1280x1024,1200x1200,3000x3000
 
         //resolution = '170x200';
@@ -59,7 +60,6 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
             flippedClass = ' flipped';
         }
 
-
         return (
             <div className="product-card-wrap" onClick={(evt) => this.flipCard() }>
                 <div className="product-card-container">
@@ -71,13 +71,13 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                             </div>
 
                             <div className="product-card-content">
-                                <span className="product_reference">
+                                <span className="product-reference">
                                     { product.reference }
                                 </span>
-                                <span className="product_brand">
+                                <span className="product-brand">
                                     { product.brand_title }
                                 </span>
-                                <div className="product_title">
+                                <div className="product-title">
                                     { product.title }
                                 </div>
                             </div>
@@ -98,18 +98,18 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                 {product.category_breadcrumb}
                             </div>
                             <div className="product-card-title">
-                                <span className="product_reference">
+                                <span className="product-reference">
                                     {product.reference}
                                 </span>
-                                <span className="product_brand">
+                                <span className="product-brand">
                                     {product.brand_title}
                                 </span>
-                                <div className="product_title">
+                                <div className="product-title">
                                     {product.title}
                                 </div>
                             </div>
 
-                            <div className="product_description">
+                            <div className="product-description">
 
                                 {product.description.split("\n").map(function(item, id) {
                                     return (
@@ -124,7 +124,6 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
             </div>
         );
     }
-
 
 }
 
