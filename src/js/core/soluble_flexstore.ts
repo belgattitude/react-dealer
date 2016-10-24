@@ -1,7 +1,7 @@
 
 
 export interface IJsonResult {
-    data: Array<Object>
+    data: Array<any>
 }
 
 

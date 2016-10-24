@@ -1,33 +1,36 @@
 import * as React from 'react';
+import * as MediaHelper from '../openstore/product_media_helper';
+import * as Models from './product_search_model';
 import '../../css/product/product.scss';
 
 
-interface ProductModel {
-    product_id: string,
-    reference: string,
-    brand_title: string,
-    title: string,
-    category_breadcrumb: string;
-    description: string,
-    picture_media_id?: string
-}
 
 export interface ProductSearchCardProps {
-    data: ProductModel;
+    data: Models.ProductSearchModel;
 }
 
 export interface ProductSearchCardState {
     flipped?: boolean;
 }
 
-
 class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductSearchCardState> {
+
+    protected pictureHelper : MediaHelper.ProductPicture;
 
     constructor(props) {
         super(props);
         this.state = {
             flipped: false
         };
+
+        //30x30,40x40,65x90,170x200,250x750,800x800,1024x768,1280x1024,1200x1200,3000x3000
+        let url_spec = 'http://api.emdmusic.com/media/preview/picture'; // no slash at the end
+        let options = {
+            resolution: '800x800',
+            quality: 85,
+            format: 'jpg'
+        };
+        this.pictureHelper = new MediaHelper.ProductPicture(url_spec, options);
     }
 
     flipCard() {
@@ -36,23 +39,12 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
     }
 
     render() {
-        let product = this.props.data;
-        let resolution = '';
-        resolution = '800x800';
-        //resolution = '250x750';
-        //30x30,40x40,65x90,170x200,250x750,800x800,1024x768,1280x1024,1200x1200,3000x3000
 
-        //resolution = '170x200';
-        let imgPattern = 'http://api.emdmusic.com/media/preview/picture/' + resolution + '-85';
-        /**
-         * picture_media_id: "7480",
-         picture_media_filemtime: "1338815764",
-         */
+        let product = this.props.data;
         let media_id = product.picture_media_id;
         let img = '';
-        if (media_id != null) {
-            let imgPfx = media_id.substring(media_id.length - 2);
-            img = imgPattern + '/' + imgPfx + '/' + media_id + '.jpg';
+        if (media_id != '') {
+            img = this.pictureHelper.getMediaUrl(media_id);
         }
 
         let flippedClass = '';

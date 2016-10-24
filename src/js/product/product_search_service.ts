@@ -1,11 +1,13 @@
 import "babel-polyfill";
 import 'whatwg-fetch';
 import { Promise } from 'core-js';
+import * as Models from './product_search_model';
 import { IJsonResult } from './../core/soluble_flexstore';
+
 
 export default class ProductSearchService {
 
-    results: Array<Object> = [];
+    results: Array<Models.ProductSearchModel> = [];
     isLoading: boolean = false;
 
     options = {

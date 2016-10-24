@@ -1,16 +1,18 @@
 import * as React from 'react';
 import '../../css/product/product.scss';
 import ProductSearchService from  './product_search_service';
+import * as Models from './product_search_model';
 import ProductSearchCard from './product_search_card';
 import {debounce} from 'lodash';
 
 
 export interface ProductSearchProps {
-    source: string;
+    source: string,
+    searchInputTarget?: string
 }
 
 export interface ProductSearchState {
-    products: any,
+    products: Array<Models.ProductSearchModel>,
     query?: string
 }
 
@@ -32,18 +34,14 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
         this.productSearchService = new ProductSearchService({
             source: props.source
         });
-
         this.state = {
             products: [],
             query: null
         };
-
-        this.debouncedSearch = debounce((str) => {
+        this.debouncedSearch = debounce((str: string) => {
             this.searchProducts(str);
         }, 300);
-
         this.searchProducts();
-
     }
 
     searchProducts(query?: string) {
@@ -54,15 +52,39 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
             }
         );
     }
-    componentWillMount() {
+    componentDidMount() {
+
+        if (this.props.searchInputTarget) {
+            let target = document.getElementById(this.props.searchInputTarget);
+            target.focus();
+
+
+            let searchInput = this.refs['searchInput'] as HTMLInputElement;
+            target.addEventListener('keyup', (evt: any) => {
+                searchInput.value = evt.target.value;
+
+                /*
+                var event = new Event('change');
+                searchInput.dispatchEvent(event);
+                */
+
+                this.debouncedSearch(evt.target.value)
+            });
+
+
+
+        }
     }
 
+
     render() {
-        //<input type="text" ref="input" onChange={(evt) => this.searchProducts(evt.target.value) }  />
+
+        let input = <input type="text" ref="searchInput" onChange={(evt: any) => this.debouncedSearch(evt.target.value) }/>;
+
         return (
             <div>
                 <div>
-                    <input type="text" ref="input" onChange={(evt: any) => this.debouncedSearch(evt.target.value) }/>
+                    { input }
                 </div>
                 <div className="product-list-container">
                     {this.state.products.map((product) => {
