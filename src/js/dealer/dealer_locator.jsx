@@ -4,7 +4,6 @@ import DealerMapMarker from './dealer_map_marker';
 import DealerLocale from './dealer_locale';
 import DealerList from './dealer_list';
 import 'whatwg-fetch';
-import { observer } from 'mobx-react';
 import '../../css/dealer/dealer_locator.scss';
 //import 'font-awesome/css/font-awesome.css';
 

@@ -71,13 +71,18 @@ var config = {
     externals: {
         // Use external version of React
         //"react": "React",
-        'react': {
+        react: {
             root: 'React',
             commonjs2: 'react',
             commonjs: 'react',
             amd: 'react'
         },
-        'react-dom': 'ReactDOM'
+        'react-dom': {
+            root: 'ReactDOM',
+            commonjs2: 'react-dom',
+            commonjs: 'react-dom',
+            amd: 'react-dom'
+        }
         //"whatwg-fetch": "whatwg-fetch"
     },
     resolve: {
