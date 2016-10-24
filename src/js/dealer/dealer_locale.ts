@@ -85,15 +85,19 @@ export default class DealerLocale {
         let translations = {
             en: {
                 enter_location: 'Enter your location',
+                no_result: 'No result. Please try another location.'
             },
             fr: {
                 enter_location: 'Indiquez votre adresse',
+                no_result: 'Aucun résultat, essayer une autre adresse'
             },
             nl:{
                 enter_location: 'Enter your location',
+                no_result: 'No result. Please try another location.'
             },
             de:{
                 enter_location: 'Enter your location',
+                no_result: 'No result. Please try another location.'
             }
         };
 

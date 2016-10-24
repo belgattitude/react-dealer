@@ -65,7 +65,9 @@ class DealerList extends React.Component {
                     </div>
                     :
                     <ul>
-                        {
+                        { dealers.length == 0 ?
+                            <div>{ this.props.dealerLocale.translate('no_result') }</div>
+                            :
                             dealers.map((dealer, i) => {
                                 let boundClick = this.fireDealerClick.bind(this, dealer);
                                 let markerProps = this.dealerMapMarker.getDealerMarkerProps(i, dealer);
@@ -78,7 +80,6 @@ class DealerList extends React.Component {
                                 if (!/^https?:\/\//i.test(homepage)) {
                                     prefixed_homepage = 'http://' + homepage;
                                 }
-
 
                                 return (
                                     <li key={ dealer.contact_id } onClick={boundClick}>
