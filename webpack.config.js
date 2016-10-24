@@ -44,6 +44,7 @@ var config = {
         inline: true,
         hot: true,
         progress: true,
+        outputPath: path.join(__dirname, 'build'),
         stats: {colors: true}
     },
     entry: {
