@@ -4,8 +4,10 @@ import DealerMapMarker from './dealer_map_marker';
 import DealerLocale from './dealer_locale';
 import DealerList from './dealer_list';
 import 'whatwg-fetch';
+import { observer } from 'mobx-react';
 import '../../css/dealer/dealer_locator.scss';
 //import 'font-awesome/css/font-awesome.css';
+
 
 class DealerLocator extends React.Component {
 
@@ -66,6 +68,7 @@ class DealerLocator extends React.Component {
     center = null;
 
 
+
     constructor(props) {
         super(props);
 
@@ -80,7 +83,8 @@ class DealerLocator extends React.Component {
 
         this.infoWindow = new google.maps.InfoWindow();
         this.state = {
-            isInputAddressValid: true
+            isInputAddressValid: true,
+            isLoading: false
         };
 
 
@@ -262,8 +266,10 @@ class DealerLocator extends React.Component {
             lng: place.lng
         });
 
+        this.setState({isLoading: true});
         this.dealerService.searchDealers(place, distance, limit, brand).then(
             (dealers) => {
+                this.setState({isLoading: false});
                 this.updateMapMarkers(dealers.data);
             }
         );
@@ -400,7 +406,18 @@ class DealerLocator extends React.Component {
         let dealerService = this.dealerService;
         let placeHolder = this.dealerLocale.translate('enter_location');
         let inputAddressErrorClass = this.state.isInputAddressValid ? '' : 'error';
-        
+
+
+        let isLoading = this.state.isLoading;
+        let placeIcon =
+                <svg viewBox="0 0 14 20" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
+                     <path d="M7 0C3.13 0 0 3.13 0 7c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5C5.62 9.5 4.5 8.38 4.5 7S5.62 4.5 7 4.5 9.5 5.62 9.5 7 8.38 9.5 7 9.5z"/>
+                </svg>;
+
+        let loadingIcon =
+                <svg width='20px' height='20px' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" className="uil-spin"><rect x="0" y="0" width="100" height="100" fill="none" className="bk"></rect><g transform="translate(50 50)"><g transform="rotate(0) translate(34 0)"><circle cx="0" cy="0" r="8" fill="#000"><animate attributeName="opacity" from="1" to="0.1" begin="0s" dur="2s" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0s" dur="2s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(45) translate(34 0)"><circle cx="0" cy="0" r="8" fill="#000"><animate attributeName="opacity" from="1" to="0.1" begin="0.25s" dur="2s" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0.25s" dur="2s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(90) translate(34 0)"><circle cx="0" cy="0" r="8" fill="#000"><animate attributeName="opacity" from="1" to="0.1" begin="0.5s" dur="2s" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0.5s" dur="2s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(135) translate(34 0)"><circle cx="0" cy="0" r="8" fill="#000"><animate attributeName="opacity" from="1" to="0.1" begin="0.75s" dur="2s" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="0.75s" dur="2s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(180) translate(34 0)"><circle cx="0" cy="0" r="8" fill="#000"><animate attributeName="opacity" from="1" to="0.1" begin="1s" dur="2s" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="1s" dur="2s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(225) translate(34 0)"><circle cx="0" cy="0" r="8" fill="#000"><animate attributeName="opacity" from="1" to="0.1" begin="1.25s" dur="2s" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="1.25s" dur="2s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(270) translate(34 0)"><circle cx="0" cy="0" r="8" fill="#000"><animate attributeName="opacity" from="1" to="0.1" begin="1.5s" dur="2s" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="1.5s" dur="2s" repeatCount="indefinite"></animateTransform></circle></g><g transform="rotate(315) translate(34 0)"><circle cx="0" cy="0" r="8" fill="#000"><animate attributeName="opacity" from="1" to="0.1" begin="1.75s" dur="2s" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="scale" from="1.5" to="1" begin="1.75s" dur="2s" repeatCount="indefinite"></animateTransform></circle></g></g></svg>
+
+
         return (
             <div className="dealer_locator_widget">
                 <div className="dealer_locator_widget_controls" ref="dealer_locator_widget_controls">
@@ -408,11 +425,9 @@ class DealerLocator extends React.Component {
                            className={'controls dealer_locator_control_autocomplete ' + inputAddressErrorClass} type="text"
                            placeholder={ placeHolder } />
                     <button type="button" className="ac-input-icon ac-input-icon-pin">
-                        <svg viewBox="0 0 14 20" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M7 0C3.13 0 0 3.13 0 7c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5C5.62 9.5 4.5 8.38 4.5 7S5.62 4.5 7 4.5 9.5 5.62 9.5 7 8.38 9.5 7 9.5z"/>
-                        </svg>
+                        { isLoading ? loadingIcon : placeIcon }
                     </button>
+
                 </div>
                 <div ref="map" style={ this.props.mapStyle }>I should be a map!</div>
 
