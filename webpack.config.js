@@ -71,6 +71,7 @@ var config = {
     externals: {
         // Use external version of React
         //"react": "React",
+
         react: {
             root: 'React',
             commonjs2: 'react',
@@ -82,7 +83,7 @@ var config = {
             commonjs2: 'react-dom',
             commonjs: 'react-dom',
             amd: 'react-dom'
-        }
+        },
         //"whatwg-fetch": "whatwg-fetch"
     },
     resolve: {
@@ -230,6 +231,11 @@ if (!isProduction) {
     //config.plugins.push(new webpack.optimize.CommonsChunkPlugin('common.js'));
     //new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"react", /* filename= */"react.bundle.js")
     //config.plugins.push(new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"dealer_locator", /* filename= */"dealer_locator.js"));
+
+    config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
+        name: ['product_search_app']
+    }));
+
     config.plugins.push(new ExtractTextPlugin('[name].css', {allChunks: true}));
 
     config.plugins.push(new webpack.optimize.OccurrenceOrderPlugin())

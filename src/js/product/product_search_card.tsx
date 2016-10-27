@@ -23,10 +23,11 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
             flipped: false
         };
 
-        //30x30,40x40,65x90,170x200,250x750,800x800,1024x768,1280x1024,1200x1200,3000x3000
-        let url_spec = 'http://api.emdmusic.com/media/preview/picture'; // no slash at the end
+        //30x30,40x40,65x90,170x200,250x750,400x500,800x800,1024x768,1280x1024,1200x1200,3000x3000
+        //let url_spec = 'http://api.emdmusic.com/media/preview/picture'; // no slash at the end
+        let url_spec = 'http://localhost/workspace/openstore/public/media/preview/picture'; // no slash at the end
         let options = {
-            resolution: '800x800',
+            resolution: '400x500',
             quality: 85,
             format: 'jpg'
         };
