@@ -5,7 +5,8 @@ var path = require('path'),
     ExtractTextPlugin = require('extract-text-webpack-plugin')
     pkg = require('./package.json'),
     precss = require('precss'),
-    autoprefixer = require('autoprefixer'),
+    autoprefixer = require('autoprefixer')
+    DashboardPlugin = require('webpack-dashboard/plugin')
 
     // ForkCheckerPlugin - speed up with awesome-typescript-loader
     // https://github.com/s-panferov/awesome-typescript-loader
