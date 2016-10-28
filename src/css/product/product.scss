@@ -1,5 +1,6 @@
 @import "_base.scss";
 
+
 /*
 * {
   box-sizing: border-box;
@@ -26,10 +27,12 @@
 
   .product-card-wrap {
     /*border: 1px solid rgba(0,0,0, 0.4);*/
+    display: flex;
     margin: 5px 5px 5px 5px;
     flex-grow: 1;
     background-color: white;
-    width: 23%;
+    width: 31%;
+
     box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.4);
     border-radius: 0px;
 
@@ -38,28 +41,35 @@
     }
 
     .product-card-container {
+
       display: flex;
-      flex-wrap: wrap;
-      flex-flow: column;
-      align-content: center;
+      flex-grow: 1;
 
       /**
        * flipping card
        */
       .product-card-flipper {
+        flex-grow: 1;
         transition: 0.7s;
         transform-style: preserve-3d;
         position: relative;
+        display: flex;
+
       }
 
       .product-card-front, .product-card-back {
         backface-visibility: hidden;
         position: relative;
+        flex-grow: 1;
+
         top: 0;
+        bottom: 0;
         left: 0;
       }
 
       .product-card-front {
+        /*align-content: center;*/
+        position: relative;
         z-index: 2;
       }
 
@@ -69,6 +79,8 @@
         background: white;
         z-index: 3;
         height: 100%;
+        width: 100%;
+
       }
 
 
@@ -83,7 +95,6 @@
         align-items: center; /* align vertical */
         background-color: transparent;
         overflow: hidden;
-
 
         &:after {
           content: '';
@@ -103,6 +114,24 @@
 
         }
 
+        .product-new-badge {
+          @include product-badge();
+        }
+
+        .top-left-zone {
+          top: 2px;
+          left: 2px;
+          z-index: 5;
+          position: absolute;
+          width: 30%;
+          height: auto;
+          opacity: 0.8;
+          box-shadow: none;
+          &:hover {
+            opacity: 1;
+          }
+        }
+
         img {
           margin-top: 5px;
           position: relative;
@@ -110,28 +139,15 @@
           max-width: 80%;
           max-height: 95%;
           vertical-align: middle;
-          transition: all .2s ease-in-out;
+          transition: all .4s ease-in-out;
           transform: scale(1);
-
           &:hover, &:focus {
             transform: scale(1.8) rotate(-7deg);
-
+            z-index: 10;
+            cursor: pointer;
           }
         }
 
-        button {
-          top: 8px;
-          left: 2px;
-          transform: rotate(-20deg);
-          opacity: 0.8;
-          position: absolute;
-          float: right;
-          z-index: 5;
-          box-shadow: none;
-          &:hover {
-            opacity: 1;
-          }
-        }
 
       }
 
@@ -145,12 +161,16 @@
         background-repeat: no-repeat;
         color: white;
 
+        height: 80px;
+        overflow: hidden;
+        text-wrap: normal;
         /*transform: rotate(-2deg);*/
       }
 
       .product-card-footer {
         background-color: #3e4551;
         color: #fff;
+        position: relative;
         height: auto;
         text-align: center;
         padding: 10px;
@@ -181,14 +201,12 @@
       }
 
       .product-description {
-        width: 100%;
-          height: 100px;
+          width: 100%;
+          height: 80px;
           margin: 0;
           padding: 0;
           position: relative;
-
-          overflow: scroll;
-          overflow-x: scroll ;
+          overflow-y: scroll;
           overflow-wrap: normal;
 
       }

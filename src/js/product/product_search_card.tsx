@@ -1,12 +1,12 @@
 import * as React from 'react';
 import * as MediaHelper from '../openstore/product_media_helper';
+import ProductSearchCardBack from './product_search_card_back';
 import * as Models from './product_search_model';
 import '../../css/product/product.scss';
 
 
-
 export interface ProductSearchCardProps {
-    data: Models.ProductSearchModel;
+    product: Models.ProductSearchModel;
 }
 
 export interface ProductSearchCardState {
@@ -41,7 +41,7 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
 
     render() {
 
-        let product = this.props.data;
+        let product = this.props.product;
         let media_id = product.picture_media_id;
         let img = '';
         if (media_id != '') {
@@ -60,7 +60,11 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                         <div className="product-card-front">
                             <div className="product-card-image">
                                 <img src={ img } />
-                                <button type="button" className="btn btn-primary">New</button>
+                                <div className="top-left-zone">
+                                    <div className="product-new-badge">New</div>
+                                    <div className="product-popular-badge">Promo</div>
+                                </div>
+
                             </div>
 
                             <div className="product-card-content">
@@ -74,6 +78,7 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                     { product.title }
                                 </div>
                             </div>
+
                             <div className="product-card-footer">
                                 <ul>
                                     <li><i className="fa fa-clock-o"></i> 05/10/2015</li>
@@ -85,38 +90,18 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
 
 
                         </div>
-                        <div className="product-card-back">
+                        <ProductSearchCardBack product={product} />
 
-                            <div>
-                                {product.category_breadcrumb}
-                            </div>
-                            <div className="product-card-title">
-                                <span className="product-reference">
-                                    {product.reference}
-                                </span>
-                                <span className="product-brand">
-                                    {product.brand_title}
-                                </span>
-                                <div className="product-title">
-                                    {product.title}
-                                </div>
-                            </div>
 
-                            <div className="product-description">
 
-                                {product.description.split("\n").map(function(item, id) {
-                                    return (
-                                        <li>{item}</li>
-                                    )
-                                })}
-
-                            </div>
-                        </div>
                     </div>
+
                 </div>
+
             </div>
         );
     }
+
 
 }
 

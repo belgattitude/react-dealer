@@ -80,21 +80,38 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
     render() {
 
         let input = <input type="text" ref="searchInput" onChange={(evt: any) => this.debouncedSearch(evt.target.value) }/>;
+        let products = this.state.products;
+        let productsCount = products.length;
 
         return (
             <div>
                 <div>
                     { input }
                 </div>
-                <div className="product-list-container">
-                    {this.state.products.map((product) => {
-                        return <ProductSearchCard key={product.product_id} data={product} />
-                    })}
+                <div>
+                    { (productsCount > 0) &&
+                        <div className="product-list-container">
+                            {products.map((product) =>
+                                <ProductSearchCard key={product.product_id} product={product}/>
+                            )
+                            }
+                        </div>
+                    }
                 </div>
             </div>
         );
     }
 
 }
+/*
+
+ { (productsCount > 0) &&
+ { products.map((product) => {
+ return <ProductSearchCard key={product.product_id} product={product}/>
+ })
+ }
+ }
+
+ */
 
 export default ProductSearch;
