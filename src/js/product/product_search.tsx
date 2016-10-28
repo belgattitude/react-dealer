@@ -23,7 +23,6 @@ export interface ProductSearchParams {
     limit: number
 }
 
-
 class ProductSearch extends React.Component<ProductSearchProps, ProductSearchState> {
 
     productSearchService?: ProductSearchService;
@@ -41,7 +40,6 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
         this.debouncedSearch = debounce((str: string) => {
             this.searchProducts(str);
         }, 300);
-        this.searchProducts();
     }
 
     searchProducts(query?: string) {
@@ -52,13 +50,14 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
             }
         );
     }
+
     componentDidMount() {
+
+        this.searchProducts();
 
         if (this.props.searchInputTarget) {
             let target = document.getElementById(this.props.searchInputTarget);
             target.focus();
-
-
             let searchInput = this.refs['searchInput'] as HTMLInputElement;
             target.addEventListener('keyup', (evt: any) => {
                 searchInput.value = evt.target.value;
@@ -70,10 +69,8 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
 
                 this.debouncedSearch(evt.target.value)
             });
-
-
-
         }
+
     }
 
 
