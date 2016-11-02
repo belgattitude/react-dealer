@@ -78,7 +78,7 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
             let unitFormatter = new Intl.NumberFormat('en-US', {
                 //style: 'currency',
                 //currency: 'USD',
-                minimumFractionDigits: 2,
+                minimumFractionDigits: 0,
             });
 
             let moneyFormatter = new Intl.NumberFormat('en-US', {
@@ -92,8 +92,9 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                 <div>
 
                     <div className="stock-badge">
-                        <div className="value">{ unitFormatter.format(product.available_stock) }</div>
-                        <div className={ this.productStockLevel.getStockLevel(product.stock_level) }></div>
+                        <div className={ this.productStockLevel.getStockLevel(product.stock_level) }>
+                            <span>{ unitFormatter.format(product.available_stock) }</span>
+                        </div>
                     </div>
                     <div className="price-badge">
                         { moneyFormatter.format(product.public_price) }
@@ -101,7 +102,6 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
 
                 </div>
             );
-
         };
 
 

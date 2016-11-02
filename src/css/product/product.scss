@@ -8,6 +8,7 @@
   }
   .level-1-low {
     @include battery(20%, $md-orange-800);
+
   }
   .level-2-normal {
     @include battery(33%, $md-green-500);
@@ -18,12 +19,13 @@
   .level-4-full {
     //@include gauge(0,120);
     @include battery(95%, $md-green-700);
+
   }
   .value {
       position: absolute;
       font-size: 11px;
       top: 0;
-    left: 0;
+      left: 0;
 
   }
 }
@@ -150,12 +152,8 @@
           position: absolute;
           width: 30%;
           height: auto;
-          opacity: 1;
           text-align: right;
           box-shadow: none;
-          &:hover {
-            opacity: 0.8;
-          }
         }
 
         .top-left-zone {

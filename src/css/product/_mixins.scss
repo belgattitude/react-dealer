@@ -70,6 +70,17 @@
     border-bottom-left-radius: 0;
     border-left: none;
   }
+  span {
+    position: absolute;
+    content: 'AAA';
+    display: block;
+    top: -2px;
+    margin: 0;
+    right: 5px;
+    font-size: 11px;
+    color: $md-black;
+  }
+
 
 }
 // #################################"
