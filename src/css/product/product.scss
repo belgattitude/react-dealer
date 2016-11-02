@@ -4,7 +4,7 @@
 .stock-badge {
 
   .level-0-empty {
-    @include battery(5%, $md-red-800);
+    @include battery(10%, $md-red-800);
   }
   .level-1-low {
     @include battery(20%, $md-orange-800);

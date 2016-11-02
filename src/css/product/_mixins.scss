@@ -44,13 +44,16 @@
   height: $battery-height;
   background: $md-white;
   border: solid 1px $battery-border-color;
-  border-radius: 3px;
+  border-radius: 2px;
   padding: $battery-padding;
 
   &::before {
     content: "";
     display: block;
-    height: 100%;
+    height: $battery-height - 4;
+    margin-top: 1px;
+    margin-left: 1px;
+    border-radius: 2px;
     width: $battery-percent;
     background: $battery-status-color;
   }
@@ -58,7 +61,7 @@
   &::after {
     content: "";
     position: absolute;
-    right: -4px;
+    right: -3px;
     top: 50%;
     transform: translateY(-50%);
     width: 3px;
@@ -72,11 +75,13 @@
   }
   span {
     position: absolute;
-    content: 'AAA';
-    display: block;
-    top: -2px;
+
+    display: inline;
+    line-height: $battery-height - 1;
+    top: 0px;
+    vertical-align: text-top;
     margin: 0;
-    right: 5px;
+    right: 2px;
     font-size: 11px;
     color: $md-black;
   }
