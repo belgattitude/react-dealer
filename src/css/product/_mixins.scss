@@ -21,11 +21,131 @@
 }
 
 @mixin product-badge($badge-color: $md-blue-700, $text-color: $md-white) {
-
   color: $text-color;
   border-radius: 5px;
   background-color: $badge-color;
   padding: 0;
   margin-bottom: 2px;
+}
+
+@mixin battery(
+  $battery-percent: 10%,
+  $battery-status-color: $md-red-300,
+  $battery-width: 30px,
+  $battery-height: 12px,
+  $battery-padding: 0px,
+  $battery-border-color: $md-grey-800
+) {
+
+  display: inline-block;
+  margin-right: 0px;
+  position: relative;
+  width: $battery-width;
+  height: $battery-height;
+  background: $md-white;
+  border: solid 1px $battery-border-color;
+  border-radius: 3px;
+  padding: $battery-padding;
+
+  &::before {
+    content: "";
+    display: block;
+    height: 100%;
+    width: $battery-percent;
+    background: $battery-status-color;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    right: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: $battery-height / 3;
+    background: inherit;
+    border: inherit;
+    border-radius: inherit;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+  }
 
 }
+// #################################"
+
+@mixin gauge(
+  $init: 22,  // Percentage init
+  $end: 120,  // Percentage end
+
+  $width: 40px,  //Gauge width
+  $inner-width: $width/2, //Gauge inner width
+
+  $color: #0a2, //Gauge color
+  $bg: $md-grey-300, //Gauge background color
+  $inner-bg: $md-grey-500 //Gauge inner background color
+){
+
+  $height: $width/2;
+  $inner-height: $inner-width/2;
+  $init-deg: ($init*1.8)-180deg;
+  $end-deg: ($end*1.8)-180deg;
+
+  display: block;
+  position: relative;
+  width: $width;
+  height: $height;
+  background: $bg;
+  border-radius: $width $width 0 0;
+  overflow: hidden;
+  cursor: pointer;
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    display: block;
+    border-radius: inherit;
+    background: $color;
+    width: inherit;
+    height: inherit;
+  }
+  &:before{
+    top: 0;
+    transition: transform 0.5s;
+    transform-origin: center bottom;
+    transform: rotate($init-deg);
+  }
+  &:after{
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: $inner-bg;
+    width: $inner-width;
+    height: $inner-height;
+  }
+
+  &-value:before{
+    content: $init+'%';
+    display: block;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%,50%);
+    width: $inner-width;
+    height: $inner-height;
+    text-align: center;
+    color: $color;
+    z-index: 1;
+  }
+
+  &:hover:before{
+    transform: rotate($end-deg);
+  }
+  &:hover > &-value:before{
+    content: $end+'%';
+  }
+
+}
+
+

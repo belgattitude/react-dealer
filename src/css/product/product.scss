@@ -1,17 +1,36 @@
 @import "_base.scss";
 
 
-/*
-* {
-  box-sizing: border-box;
-  &:before {
-    box-sizing: border-box;
+.stock-badge {
+
+  .level-0-empty {
+    @include battery(5%, $md-red-800);
   }
-  &:after {
-    box-sizing: border-box;
+  .level-1-low {
+    @include battery(20%, $md-orange-800);
+  }
+  .level-2-normal {
+    @include battery(33%, $md-green-500);
+  }
+  .level-3-high {
+    @include battery(66%, $md-green-700);
+  }
+  .level-4-full {
+    //@include gauge(0,120);
+    @include battery(95%, $md-green-700);
+  }
+  .value {
+      position: absolute;
+      font-size: 11px;
+      top: 0;
+    left: 0;
+
   }
 }
-*/
+
+
+
+
 .product-list-container {
   font-family: $primary-font;
   display: flex;
@@ -115,20 +134,41 @@
         }
 
         .product-new-badge {
-          @include product-badge();
+          @include product-badge($md-blue-700);
+        }
+        .product-promo-badge {
+          @include product-badge($md-green-700);
+        }
+        .product-liquidation-badge {
+          @include product-badge($md-red-700);
+        }
+
+        .bottom-right-zone {
+          bottom: 2px;
+          right: 5px;
+          z-index: 11;
+          position: absolute;
+          width: 30%;
+          height: auto;
+          opacity: 1;
+          text-align: right;
+          box-shadow: none;
+          &:hover {
+            opacity: 0.8;
+          }
         }
 
         .top-left-zone {
           top: 2px;
           left: 2px;
-          z-index: 5;
+          z-index: 11;
           position: absolute;
           width: 30%;
           height: auto;
-          opacity: 0.8;
+          opacity: 1;
           box-shadow: none;
           &:hover {
-            opacity: 1;
+            opacity: 0.8;
           }
         }
 

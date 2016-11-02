@@ -28,12 +28,16 @@ export class ProductPicture {
         this.spec_url = spec_url;
     }
 
-    getMediaUrl(media_id?: string): string {
+    getMediaUrl(media_id?: string, media_filemtime?: string): string {
         let media_url = '';
         if (media_id && media_id != '') {
             media_url = this.spec_url + '/' + this.options.resolution + '-' + this.options.quality;
             media_url += '/' + this.getPathPrefix(media_id) + '/';
-            media_url += media_id + '.' + this.options.format;
+            media_url += media_id;
+            if (media_filemtime) {
+                media_url += '_' + media_filemtime;
+            }
+            media_url += '.' + this.options.format
         }
         return media_url;
     }
