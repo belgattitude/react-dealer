@@ -8,7 +8,8 @@ import {debounce} from 'lodash';
 
 export interface ProductSearchProps {
     source: string,
-    searchInputTarget?: string
+    searchInputTarget?: string,
+    locale?: string
 }
 
 export interface ProductSearchState {
@@ -26,13 +27,25 @@ export interface ProductSearchParams {
 class ProductSearch extends React.Component<ProductSearchProps, ProductSearchState> {
 
     productSearchService?: ProductSearchService;
+    locale: string;
+
     debouncedSearch: any;
+
 
     constructor(props: ProductSearchProps) {
         super(props);
+
+        if (!props.locale) {
+            this.locale = 'fr-FR';
+        } else {
+            this.locale = props.locale;
+        };
+
         this.productSearchService = new ProductSearchService({
-            source: props.source
+            source: props.source,
+            locale: this.locale
         });
+
         this.state = {
             products: [],
             query: null
@@ -89,7 +102,9 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
                     { (productsCount > 0) &&
                         <div className="product-list-container">
                             {products.map((product) =>
-                                <ProductSearchCard key={product.product_id} product={product}/>
+                                <ProductSearchCard key={product.product_id}
+                                                   product={product}
+                                                   locale={this.locale} />
                             )
                             }
                         </div>

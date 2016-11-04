@@ -28,6 +28,14 @@
   margin-bottom: 2px;
 }
 
+@mixin product-price($badge-color: $md-blue-700, $text-color: $md-white) {
+  color: $text-color;
+  border-radius: 5px;
+  background-color: $badge-color;
+
+
+}
+
 @mixin battery(
   $battery-percent: 10%,
   $battery-status-color: $md-red-300,
@@ -46,6 +54,7 @@
   border: solid 1px $battery-border-color;
   border-radius: 2px;
   padding: $battery-padding;
+  transform-style: preserve-3d;
 
   &::before {
     content: "";
@@ -72,6 +81,7 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     border-left: none;
+
   }
   span {
     position: absolute;

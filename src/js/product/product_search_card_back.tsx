@@ -7,25 +7,35 @@ import '../../css/product/product.scss';
 
 export interface ProductSearchCardBackProps {
     product: Models.ProductSearchModel;
+    flipBackHandler: any
 }
 
 export interface ProductSearchCardBackState {
-    //flipped?: boolean;
+    flipped?: boolean
 }
 
 export default class ProductSearchCardBack extends React.Component<ProductSearchCardBackProps, ProductSearchCardBackState> {
 
     constructor(props) {
         super(props);
+
     }
+
 
     render() {
 
         let product = this.props.product;
-        let description = product.description;
         let descriptionCount = product.description.length;
         return (
-            <div className="product-card-back">
+            <div className="product-card-back" onClick={(evt) => this.props.flipBackHandler() }>
+
+                <div>
+                    <div className="btn-group-vertical">
+                        <button type="button" className="btn btn-secondary btn-sm" onClick={(evt) => this.props.flipBackHandler() }><i className="fa fa-repeat"></i></button>
+                        <button type="button" className="btn btn-secondary btn-sm"><i className="fa fa-search-plus"></i></button>
+                    </div>
+                </div>
+
 
                 <div>
                     {product.category_breadcrumb}

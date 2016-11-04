@@ -8,11 +8,12 @@ import '../../css/product/product.scss';
 
 
 export interface ProductSearchCardProps {
-    product: Models.ProductSearchModel;
+    product: Models.ProductSearchModel,
+    locale: string
 }
 
 export interface ProductSearchCardState {
-    flipped?: boolean;
+    flipped?: boolean
 }
 
 class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductSearchCardState> {
@@ -21,11 +22,18 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
 
     protected productStockLevel: ProductStock.ProductStockLevel;
 
+    protected locale: string;
+
+    protected unitFormatter: Intl.NumberFormat;
+    protected moneyFormatter: Intl.NumberFormat;
+
     constructor(props) {
         super(props);
         this.state = {
             flipped: false
         };
+
+        this.locale = props.locale;
 
         //30x30,40x40,65x90,170x200,250x750,400x500,800x800,1024x768,1280x1024,1200x1200,3000x3000
         let url_spec = 'http://api.emdmusic.com/media/preview/picture'; // no slash at the end
@@ -37,12 +45,29 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
         };
         this.pictureHelper = new MediaHelper.ProductPicture(url_spec, options);
         this.productStockLevel = new ProductStock.ProductStockLevel();
+        this.initMoneyFormatter('EUR');
+        this.initUnitFormatter(0)
     }
+
+    initMoneyFormatter(currency: string) {
+        this.moneyFormatter = new Intl.NumberFormat(this.locale, {
+            style: 'currency',
+            currency: currency,
+            minimumFractionDigits: 2,
+        });
+    }
+    initUnitFormatter(minimumFractionDigits: number) {
+        this.unitFormatter = new Intl.NumberFormat(this.locale, {
+            minimumFractionDigits: minimumFractionDigits,
+        });
+    }
+
 
     flipCard() {
         console.log('flipped');
         this.setState({ flipped: !this.state.flipped });
     }
+
 
     render() {
 
@@ -62,6 +87,15 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
             let is_new = product.flag_new
             let content = (
                             <div>
+
+                                <div className="btn-group-vertical">
+                                    <button type="button" className="btn btn-secondary btn-sm" onClick={(evt) => this.flipCard() }><i className="fa fa-repeat"></i></button>
+                                    <button type="button" className="btn btn-secondary btn-sm"><i className="fa fa-search-plus"></i></button>
+                                    <button type="button" className="btn btn-secondary btn-sm"><i className="fa fa-heart"></i></button>
+
+                                </div>
+
+
                                 { product.flag_new == "1" ? <div className="product-new-badge">New</div> : '' }
                                 { product.is_promotional == "1" && product.is_liquidation != "1" ?
                                     <div className="product-promo-badge">Promo</div> : ''
@@ -73,41 +107,41 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
         };
 
 
-        const bottom_right_badges = (product: Models.ProductSearchModel) => {
+        const top_right_badges = (product: Models.ProductSearchModel) => {
 
-            let unitFormatter = new Intl.NumberFormat('en-US', {
-                //style: 'currency',
-                //currency: 'USD',
-                minimumFractionDigits: 0,
-            });
-
-            let moneyFormatter = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: product.currency_reference,
-                minimumFractionDigits: 2,
-
-            });
-
-            return (
+            let content = (
                 <div>
-
+                    <button className="btn btn-secondary btn-sm">{ this.moneyFormatter.format(product.price) }</button>
+                    <div className="product-price">{ this.moneyFormatter.format(product.price) }</div>
+                    <div className="product-public-price">{ this.moneyFormatter.format(product.public_price) }</div>
                     <div className="stock-badge">
                         <div className={ this.productStockLevel.getStockLevel(product.stock_level) }>
-                            <span>{ unitFormatter.format(product.available_stock) }</span>
+                            <span>{ this.unitFormatter.format(product.available_stock) }</span>
                         </div>
                     </div>
-                    <div className="price-badge">
-                        { moneyFormatter.format(product.public_price) }
-                    </div>
+                </div>
+            )
 
+            return content;
+
+        };
+
+        const bottom_right_badges = (product: Models.ProductSearchModel) => {
+            return (
+                <div>
+                    <div className="btn-group-vertical">
+                        <button type="button" className="btn btn-secondary btn-sm" onClick={(evt) => this.flipCard() }><i className="fa fa-repeat"></i></button>
+                        <button type="button" className="btn btn-secondary btn-sm"><i className="fa fa-search-plus"></i></button>
+                        <button type="button" className="btn btn-secondary btn-sm"><i className="fa fa-heart"></i></button>
+
+                    </div>
                 </div>
             );
         };
 
 
-
         return (
-            <div className="product-card-wrap" onClick={(evt) => this.flipCard() }>
+            <div className="product-card-wrap">
                 <div className="product-card-container">
                     <div className={'product-card-flipper' + flippedClass}>
                         <div className="product-card-front">
@@ -116,6 +150,10 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                 <div className="top-left-zone">
                                     { top_left_bagdes(product) }
                                 </div>
+                                <div className="top-right-zone">
+                                    { top_right_badges(product) }
+                                </div>
+
                                 <div className="bottom-right-zone">
                                     { bottom_right_badges(product) }
                                 </div>
@@ -123,12 +161,16 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                             </div>
 
                             <div className="product-card-content">
-                                <span className="product-reference">
-                                    { product.reference }
-                                </span>
-                                <span className="product-brand">
-                                    { product.brand_title }
-                                </span>
+                                <div className="product-content-first">
+
+                                    <div className="product-reference">
+                                        { product.reference }
+                                    </div>
+                                    <div className="product-brand">
+                                        { product.brand_title }
+                                    </div>
+
+                                </div>
                                 <div className="product-title">
                                     { product.title }
                                 </div>
@@ -144,7 +186,8 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                             </div>
 
                         </div>
-                        <ProductSearchCardBack product={product} />
+                        <ProductSearchCardBack product={product}
+                                               flipBackHandler={(evt) => { this.flipCard() }} />
 
                     </div>
 
