@@ -20,20 +20,56 @@
   font-size: 1.2em;
 }
 
-@mixin product-badge($badge-color: $md-blue-700, $text-color: $md-white) {
+@mixin product-badge($badge-color: $md-blue-700, $text-color: $md-white, $border-color: transparent) {
+  /*
   color: $text-color;
   border-radius: 5px;
   background-color: $badge-color;
   padding: 0;
   margin-bottom: 2px;
+  */
+
+  display: inline-block;
+  font-weight: normal;
+  line-height: 0.8;
+  text-align: center;
+
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid $border-color;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  border-color: $border-color;
+  background-color: $badge-color;
+  font-size: .800rem;
+  color: $text-color;
+
+  /*
+    color: #fff;
+    background-color: #0275d8;
+    */
+
+
+
+
 }
 
-@mixin product-price($badge-color: $md-blue-700, $text-color: $md-white) {
+@mixin product-badge-price($text-color: $md-black, $background-color: $md-white, $border-color: #ccc) {
+  background-color: $background-color;
   color: $text-color;
-  border-radius: 5px;
-  background-color: $badge-color;
-
-
+  display: inline-block;
+  font-weight: normal;
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid $border-color;
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  font-size: .875rem;
 }
 
 @mixin battery(

@@ -1,10 +1,12 @@
 import * as React from 'react';
 import * as MediaHelper from '../openstore/product_media_helper';
-import * as ProductStock from '../openstore/product_stock_level';
 import ProductSearchCardBack from './product_search_card_back';
+import StockLevel from './stock_level';
 import * as Models from './product_search_model';
 
 import '../../css/product/product.scss';
+//import '../../css/tooltip/hint.scss';
+import '../../css/product/tooltip.scss';
 
 
 export interface ProductSearchCardProps {
@@ -20,7 +22,6 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
 
     protected pictureHelper: MediaHelper.ProductPicture;
 
-    protected productStockLevel: ProductStock.ProductStockLevel;
 
     protected locale: string;
 
@@ -44,7 +45,6 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
             format: 'jpg'
         };
         this.pictureHelper = new MediaHelper.ProductPicture(url_spec, options);
-        this.productStockLevel = new ProductStock.ProductStockLevel();
         this.initMoneyFormatter('EUR');
         this.initUnitFormatter(0)
     }
@@ -84,67 +84,117 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
         }
 
         const top_left_bagdes = (product: Models.ProductSearchModel) => {
-            let is_new = product.flag_new
+
+            let all_displayed = false;
             let content = (
                             <div>
+                                { product.fresh_rank > 0 || all_displayed ?
+                                    <div className="product-fresh-badge">
+                                        <span className="tooltip-toggle" aria-label={ "#" + (product.fresh_rank) + " in \n" + product.rankable_breadcrumb }>
+                                            <i className="fa fa-line-chart" aria-hidden="true"></i>&nbsp;
+                                            Fresh &amp; Shining
+                                        </span>
+                                    </div>
+                                    :
+                                    '' }
 
-                                <div className="btn-group-vertical">
-                                    <button type="button" className="btn btn-secondary btn-sm" onClick={(evt) => this.flipCard() }><i className="fa fa-repeat"></i></button>
-                                    <button type="button" className="btn btn-secondary btn-sm"><i className="fa fa-search-plus"></i></button>
-                                    <button type="button" className="btn btn-secondary btn-sm"><i className="fa fa-heart"></i></button>
-
-                                </div>
-
-
-                                { product.flag_new == "1" ? <div className="product-new-badge">New</div> : '' }
-                                { product.is_promotional == "1" && product.is_liquidation != "1" ?
-                                    <div className="product-promo-badge">Promo</div> : ''
+                                { product.bestseller_rank > 0 || all_displayed ?
+                                    <div className="product-bestseller-badge">
+                                        <span className="tooltip-toggle" aria-label={ "#" + (product.bestseller_rank) + " in \n" + product.rankable_breadcrumb }>
+                                            <i className="fa fa-fire" aria-hidden="true"></i>&nbsp;
+                                            Bestseller
+                                        </span>
+                                    </div>
+                                    :
+                                    '' }
+                                { product.popular_rank > 0 || all_displayed ?
+                                    <div className="product-popular-badge">
+                                        <span className="tooltip-toggle" aria-label={ "#" + (product.popular_rank) + " in \n" + product.rankable_breadcrumb }>
+                                            <i className="fa fa-heartbeat" aria-hidden="true"></i>&nbsp;
+                                            Popular
+                                        </span>
+                                    </div>
+                                    :
+                                    '' }
+                                { product.deal_rank > 0 || all_displayed ?
+                                    <div className="product-deal-badge">
+                                        <span className="tooltip-toggle" aria-label={ "#" + (product.deal_rank) + " in \n" + product.rankable_breadcrumb }>
+                                            <i className="fa fa-bullhorn" aria-hidden="true"></i>&nbsp;
+                                            Popular deal
+                                        </span>
+                                    </div>
+                                    :
+                                    '' }
+                                { product.flag_new == "1" || all_displayed ?
+                                    <div className="product-new-badge">New</div>
+                                    : ''
                                 }
-                                { product.is_liquidation == "1" ? <div className="product-liquidation-badge">Liquidation</div> : '' }
+                                { (product.is_promotional == "1"  && product.is_liquidation != "1") || all_displayed ?
+                                    <div className="product-promo-badge">Promo</div>
+                                    : ''
+                                }
+                                { product.is_liquidation == "1" || all_displayed ?
+                                    <div className="product-liquidation-badge">Liquidation</div>
+                                    : ''
+                                }
                             </div>
                           );
             return content;
         };
 
+        const inner_menu = ()  => {
+            let inner_menu =
+                <div className="inner-menu">
+                    <div className="btn-group-vertical">
+                        <button type="button" className="btn btn-secondary btn-sm" onClick={(evt) => this.flipCard() }><i className="fa fa-repeat"></i></button>
+                        <button type="button" className="btn btn-secondary btn-sm"><i className="fa fa-search-plus"></i></button>
+                        <button type="button" className="btn btn-secondary btn-sm disabled"><i className="fa fa-heart"></i></button>
+                    </div>
+                </div>;
+
+            return inner_menu;
+        };
+
 
         const top_right_badges = (product: Models.ProductSearchModel) => {
-
             let content = (
                 <div>
-                    <button className="btn btn-secondary btn-sm">{ this.moneyFormatter.format(product.price) }</button>
-                    <div className="product-price">{ this.moneyFormatter.format(product.price) }</div>
-                    <div className="product-public-price">{ this.moneyFormatter.format(product.public_price) }</div>
-                    <div className="stock-badge">
-                        <div className={ this.productStockLevel.getStockLevel(product.stock_level) }>
-                            <span>{ this.unitFormatter.format(product.available_stock) }</span>
-                        </div>
-                    </div>
+                    <div className="product-badge-price">{ this.moneyFormatter.format(product.price) }</div>
+                    <StockLevel product={product} locale={this.locale} />
                 </div>
-            )
-
+            );
             return content;
-
         };
 
         const bottom_right_badges = (product: Models.ProductSearchModel) => {
             return (
                 <div>
-                    <div className="btn-group-vertical">
-                        <button type="button" className="btn btn-secondary btn-sm" onClick={(evt) => this.flipCard() }><i className="fa fa-repeat"></i></button>
-                        <button type="button" className="btn btn-secondary btn-sm"><i className="fa fa-search-plus"></i></button>
-                        <button type="button" className="btn btn-secondary btn-sm"><i className="fa fa-heart"></i></button>
 
-                    </div>
                 </div>
             );
         };
 
 
+        const bottom_left_badges = (product: Models.ProductSearchModel) => {
+            return (
+                <div>
+                    { product.serie_reference != null ?
+                        <div className="product-serie-badge">{ product.serie_reference } serie</div>
+                        : ''
+                    }
+                </div>
+            );
+        };
+
         return (
             <div className="product-card-wrap">
+
                 <div className="product-card-container">
                     <div className={'product-card-flipper' + flippedClass}>
                         <div className="product-card-front">
+
+                            { inner_menu() }
+
                             <div className="product-card-image">
                                 <img src={ img } />
                                 <div className="top-left-zone">
@@ -153,11 +203,12 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                 <div className="top-right-zone">
                                     { top_right_badges(product) }
                                 </div>
-
+                                <div className="bottom-left-zone">
+                                    { bottom_left_badges(product) }
+                                </div>
                                 <div className="bottom-right-zone">
                                     { bottom_right_badges(product) }
                                 </div>
-
                             </div>
 
                             <div className="product-card-content">
@@ -173,6 +224,7 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                 </div>
                                 <div className="product-title">
                                     { product.title }
+                                    { product.characteristic }
                                 </div>
                             </div>
 

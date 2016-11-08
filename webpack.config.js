@@ -50,6 +50,7 @@ var config = {
         'main_dealer_app': ['./js/main_dealer_app'],
         'product_search_app': ['./js/product_search_app'],
         'dealer_locator': ['./js/dealer/dealer_locator'],
+        'product_search': ['./js/product/product_search'],
         'fetch': ['whatwg-fetch'],
         'babel-polyfill': ['babel-polyfill'],
         'react': ['react', 'react-dom']
@@ -165,7 +166,7 @@ var config = {
                 loader: 'html'
             },
             {
-                test: /\.scss|\.css$/,
+                test: /\.scss|\.sass|\.css$/,
                 loader: isProduction
                     ? ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap!postcss-loader!sass-loader?sourceMap')
                     : 'style!css!postcss-loader!sass'
@@ -222,18 +223,21 @@ if (!isProduction) {
 
     //console.log('entry', config.entry);
     // plugins
-   // config.plugins.push(new webpack.HotModuleReplacementPlugin());
+    // config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
 } else {
+
     // Production mode
     //new webpack.optimize.CommonsChunkPlugin('init.js'),
     //config.plugins.push(new webpack.optimize.CommonsChunkPlugin('common.js'));
     //new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"react", /* filename= */"react.bundle.js")
     //config.plugins.push(new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"dealer_locator", /* filename= */"dealer_locator.js"));
 
+    /*
     config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
         name: ['product_search_app']
     }));
+    */
 
     config.plugins.push(new ExtractTextPlugin('[name].css', {allChunks: true}));
 

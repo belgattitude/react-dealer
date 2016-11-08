@@ -39,6 +39,7 @@ export interface ProductSearchModel {
     popular_rank?: number,
     deal_rank?: number,
     fresh_rank?: number,
+    rankable_breadcrumb?: string,
     weight?: number,
     volume?: number,
     length?: number,

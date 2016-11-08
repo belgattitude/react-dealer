@@ -22,19 +22,32 @@ export default class ProductSearchCardBack extends React.Component<ProductSearch
     }
 
 
+    flipCard() {
+        this.props.flipBackHandler();
+    }
+
     render() {
 
         let product = this.props.product;
         let descriptionCount = product.description.length;
+
+        const inner_menu = ()  => {
+            let inner_menu =
+                <div className="inner-menu">
+                    <div className="btn-group-vertical">
+                        <button type="button" className="btn btn-secondary btn-sm" onClick={(evt) => this.flipCard() }><i className="fa fa-repeat"></i></button>
+                        <button type="button" className="btn btn-secondary btn-sm"><i className="fa fa-search-plus"></i></button>
+                        <button type="button" className="btn btn-secondary btn-sm disabled"><i className="fa fa-heart"></i></button>
+                    </div>
+                </div>;
+            return inner_menu;
+        };
+
+
         return (
             <div className="product-card-back" onClick={(evt) => this.props.flipBackHandler() }>
 
-                <div>
-                    <div className="btn-group-vertical">
-                        <button type="button" className="btn btn-secondary btn-sm" onClick={(evt) => this.props.flipBackHandler() }><i className="fa fa-repeat"></i></button>
-                        <button type="button" className="btn btn-secondary btn-sm"><i className="fa fa-search-plus"></i></button>
-                    </div>
-                </div>
+                { inner_menu() }
 
 
                 <div>

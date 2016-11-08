@@ -57,7 +57,7 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
 
     searchProducts(query?: string) {
         if (!query) query = '';
-        this.productSearchService.searchProducts('ES', 'en', query, 50).then(
+        this.productSearchService.searchProducts('BE', 'en', query, 50).then(
             (products) => {
                 this.setState({ products : products.data} );
             }
@@ -95,6 +95,7 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
 
         return (
             <div>
+
                 <div>
                     { input }
                 </div>
