@@ -1,6 +1,5 @@
 @import "_base.scss";
 
-
 .stock-badge {
 
   .level-0-empty {
@@ -15,10 +14,21 @@
   }
   .level-3-high {
     @include battery(66%, $md-green-700);
+    span {
+      right: 32px;
+      font-weight: 800;
+      color: $md-grey-600;
+    }
+
   }
   .level-4-full {
     //@include gauge(0,120);
     @include battery(93%, $md-green-700);
+    span {
+      right: 32px;
+      font-weight: 800;
+      color: $md-grey-600;
+    }
 
   }
   .value {
@@ -52,10 +62,25 @@
     margin: 5px 5px 5px 5px;
     flex-grow: 1;
     background-color: white;
-    width: 31%;
+
 
     box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.4);
     border-radius: 0px;
+    width: 31%;
+
+    @media screen and (max-width: 400px) {
+      width: 99%;
+    }
+
+    @media screen and (max-width: 768px) {
+      width: 31%;
+
+    }
+
+    @media screen and (min-width: 1024px) {
+      width: 23%;
+
+    }
 
     .flipped {
       transform: rotateY(180deg);
@@ -63,6 +88,7 @@
 
     .product-card-container {
 
+      width: 100%;
       display: flex;
       flex-grow: 1;
 
@@ -75,6 +101,7 @@
         transform-style: preserve-3d;
         position: relative;
         display: flex;
+        width: 100%;
 
       }
 
@@ -82,7 +109,7 @@
         backface-visibility: hidden;
         position: relative;
         flex-grow: 1;
-
+        width: 100%;
         top: 0;
         bottom: 0;
         left: 0;
@@ -154,36 +181,44 @@
         .product-serie-badge {
           @include product-badge($md-cyan-800);
           transform: rotate(-2deg);
+          opacity: 0.8;
         }
 
 
         .product-bestseller-badge {
           @include product-badge($md-yellow-800);
           margin-bottom: 3px;
+          opacity: 0.9;
         }
         .product-fresh-badge {
           @include product-badge($md-cyan-700);
           margin-bottom: 3px;
+          opacity: 0.9;
         }
         .product-deal-badge {
           @include product-badge($md-red-400);
           margin-bottom: 3px;
+          opacity: 0.9;
         }
         .product-popular-badge {
           @include product-badge($md-green-400);
           margin-bottom: 3px;
+          opacity: 0.9;
         }
         .product-new-badge {
           @include product-badge($md-blue-400);
           margin-bottom: 3px;
+          opacity: 0.9;
         }
         .product-promo-badge {
           @include product-badge($md-green-700);
           margin-bottom: 3px;
+          opacity: 0.9;
         }
         .product-liquidation-badge {
           @include product-badge($md-red-700);
           margin-bottom: 3px;
+          opacity: 0.9;
         }
 
         .bottom-right-zone {
@@ -221,14 +256,13 @@
           text-align: left;
         }
 
-
         .top-right-zone {
           top: 10px;
           right: 10px;
           text-align: end;
           z-index: 11;
           position: absolute;
-          width: 30%;
+          width: 60%;
           height: auto;
           box-shadow: none;
 
@@ -250,13 +284,12 @@
             margin-right: 2px;
 
             span {
-              display: none;
+              /*display: none;*/
             }
 
           }
 
         }
-
 
 
         img {
@@ -281,7 +314,7 @@
       .product-card-content {
         border-top: 1px solid rgba(0, 0, 0, 0.1);
         box-shadow: 0px 10px 10px -10px rgba(0, 0, 0, 0.1) inset;
-        padding: 15px 15px 15px 15px;
+        padding: 10px 15px 5px 15px;
 
         /*background-color: #373a3c !important;*/
 /*
@@ -294,8 +327,11 @@
 
 
         .product-title {
+          margin-top: 5px;
           display:inline-block;
           text-overflow: ellipsis;
+          overflow: hidden;
+          width: 100%;
         }
       }
 
@@ -330,30 +366,42 @@
         }
         .product-brand {
           @include product-brand();
-          font-size: 0.9em;
+          font-size: 0.8em;
           position:absolute;
-          bottom: 0;
-          right: 0;
+          top: -5px;
+          right: -5px;
+
         }
       }
 
 
-      .product-title {
-        font-size: 1em;
-      }
-
       .product-description {
           width: 90%;
-        bottom: 10px;
+          bottom: 10px;
           height: 80px;
           margin: 0;
           padding: 0;
-        font-size: 0.75rem;
+          font-size: 0.75rem;
           background-color: white;
           position: relative;
           overflow-y: scroll;
           overflow-wrap: normal;
-        position: absolute;
+          position: absolute;
+          ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            li {
+              padding-left: 1.2em;
+              &:before {
+                content: '\f138'; /* FontAwesome char code inside the '' */
+                font-family: FontAwesome;
+                display: inline-block;
+                width: 1.2em; /* same as padding-left set on li */
+                margin-left: -1.2em; /* same as padding-left set on li */
+              }
+            }
+          }
 
       }
 

@@ -75,6 +75,7 @@
     "font-awesome": "^4.7.0",
     "hint.css": "^2.4.1",
     "install": "^0.8.2",
+    "lightbox2": "^2.9.0",
     "lodash": "^4.16.6",
     "mdbootstrap": "^4.1.1",
     "mobx": "^2.6.2",

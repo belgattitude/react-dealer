@@ -35,14 +35,18 @@ export default class StockLevel extends React.Component<StockLevelProps, StockLe
     }
 
 
-
     render() {
-
         let product = this.props.product;
         return (
             <div className="stock-badge">
                 <div className={ this.productStockLevel.getStockLevel(product.stock_level) }>
-                    <span>{ this.unitFormatter.format(product.available_stock) }</span>
+                    <span>
+                        { product.available_stock >= 30 ?
+                            <a>&gt;</a>
+                            : ''
+                        }
+                        { this.unitFormatter.format(product.available_stock) }
+                    </span>
                 </div>
             </div>
         );

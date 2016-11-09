@@ -1,8 +1,8 @@
 import * as React from 'react';
 //import * as MediaHelper from '../openstore/product_media_helper';
 import * as Models from './product_search_model';
+import ProductDescription from './product_description';
 import '../../css/product/product.scss';
-
 
 
 export interface ProductSearchCardBackProps {
@@ -19,7 +19,7 @@ export default class ProductSearchCardBack extends React.Component<ProductSearch
     constructor(props) {
         super(props);
         this.state = {};
-        this.state = {};
+
     }
 
 
@@ -50,33 +50,23 @@ export default class ProductSearchCardBack extends React.Component<ProductSearch
 
                 { inner_menu() }
 
-
                 <div>
                     {product.category_breadcrumb}
                 </div>
                 <div className="product-card-title">
-                                <span className="product-reference">
-                                    {product.reference}
-                                </span>
+                    <span className="product-reference">
+                        {product.reference}
+                    </span>
                     <span className="product-brand">
                                     {product.brand_title}
-                                </span>
+                    </span>
                     <div className="product-title">
                         {product.title}
                     </div>
                 </div>
 
-                { (descriptionCount > 0) &&
-                <div className="product-description">
-                    <ul>
-                    {product.description.split("\n").map(function(item, id) {
-                        return (
-                            <li key={'bullet-' + product.product_id + '-' + id}>{item}</li>
-                        )
-                    })}
-                    </ul>
-                </div>
-                }
+                <ProductDescription description={product.description} characteristic={product.characteristic} />
+
             </div>
 
         );
