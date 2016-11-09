@@ -220,7 +220,6 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                     </div>
                                 </div>
                                 <div className="product-title">
-                                    { product.search_relevance }&nbsp;
                                     { product.title }&nbsp;
                                     { product.characteristic }
                                 </div>
