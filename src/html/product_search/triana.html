@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Emd product catalog component example</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"/>
@@ -13,7 +13,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.1.1/css/mdb.min.css"/>
     -->
 
-    <link rel="stylesheet" href="./product_search_app.css">
+    <link rel="stylesheet" href="./product_search.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
+    <script src="product_search.js"></script>
+
     <style>
         body {
             margin-top: 50px;
@@ -69,10 +74,9 @@
         <!--First row-->
         <div class="row">
             <div class="col-md-12">
-                <div id="product_search">
+                <div id="product_search_container">
                     There's should be the product_search component
                 </div>
-
             </div>
         </div>
     </div>
@@ -81,37 +85,10 @@
 <!--Footer-->
 <footer class="page-footer blue center-on-small-only">
 
-    <!--Footer Links-->
-    <div class="container-fluid">
-        <div class="row">
-
-            <!--First column-->
-            <div class="col-md-6">
-                <h5 class="title">Footer Content</h5>
-                <p>Here you can use rows and columns here to organize your footer content.</p>
-            </div>
-            <!--/.First column-->
-
-            <!--Second column-->
-            <div class="col-md-6">
-                <h5 class="title">Links</h5>
-                <ul>
-                    <li><a href="#!">Link 1</a></li>
-                    <li><a href="#!">Link 2</a></li>
-                    <li><a href="#!">Link 3</a></li>
-                    <li><a href="#!">Link 4</a></li>
-                </ul>
-            </div>
-            <!--/.Second column-->
-        </div>
-    </div>
-    <!--/.Footer Links-->
-
     <!--Copyright-->
     <div class="footer-copyright">
         <div class="container-fluid">
             © 2016 Copyright
-
         </div>
     </div>
     <!--/.Copyright-->
@@ -126,9 +103,25 @@
 <!--
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.1.1/js/mdb.min.js"></script>
 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.2/react-dom.js"></script>
-<script src="product_search_app.js"></script>
+
+<script type="text/javascript">
+        (function (product_search) {
+            if (typeof product_search === 'undefined') {
+                throw new Error('Missing product_search javascript application (include product_search.js).')
+            }
+            console.log('default', product_search.default);
+            console.log('product_search', product_search);
+            var productSearch = React.createElement(product_search.default, {
+                source: 'http://apps.emdmusic.com/api/v1/catalog/search',
+                searchInputTarget: 'catalogSearchTextInput'
+            }, null);
+            ReactDOM.render(
+                    productSearch,
+                    document.getElementById('product_search_container')
+            );
+        })(product_search);
+</script>
+
 
 
 </body>

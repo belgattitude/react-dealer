@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as MediaHelper from '../openstore/product_media_helper';
+//import * as MediaHelper from '../openstore/product_media_helper';
 import * as Models from './product_search_model';
 import '../../css/product/product.scss';
 
@@ -7,18 +7,19 @@ import '../../css/product/product.scss';
 
 export interface ProductSearchCardBackProps {
     product: Models.ProductSearchModel;
-    flipBackHandler: any
+    flipBackHandler: any;
 }
 
 export interface ProductSearchCardBackState {
-    flipped?: boolean
+
 }
 
 export default class ProductSearchCardBack extends React.Component<ProductSearchCardBackProps, ProductSearchCardBackState> {
 
     constructor(props) {
         super(props);
-
+        this.state = {};
+        this.state = {};
     }
 
 

@@ -10,12 +10,12 @@ import '../../css/product/tooltip.scss';
 
 
 export interface ProductSearchCardProps {
-    product: Models.ProductSearchModel,
-    locale: string
+    product: Models.ProductSearchModel;
+    locale: string;
 }
 
 export interface ProductSearchCardState {
-    flipped?: boolean
+    flipped?: boolean;
 }
 
 class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductSearchCardState> {
@@ -173,7 +173,6 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                 </div>
             );
         };
-
 
         const bottom_left_badges = (product: Models.ProductSearchModel) => {
             return (

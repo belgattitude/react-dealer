@@ -3,25 +3,26 @@ import '../../css/product/product.scss';
 import ProductSearchService from  './product_search_service';
 import * as Models from './product_search_model';
 import ProductSearchCard from './product_search_card';
+
 import {debounce} from 'lodash';
 
 
 export interface ProductSearchProps {
-    source: string,
-    searchInputTarget?: string,
-    locale?: string
+    source: string;
+    searchInputTarget?: string;
+    locale?: string;
 }
 
 export interface ProductSearchState {
-    products: Array<Models.ProductSearchModel>,
-    query?: string
+    products: Array<Models.ProductSearchModel>;
+    query?: string;
 }
 
 export interface ProductSearchParams {
-    pricelist: string,
-    language: string,
-    query: string,
-    limit: number
+    pricelist: string;
+    language: string;
+    query: string;
+    limit: number;
 }
 
 class ProductSearch extends React.Component<ProductSearchProps, ProductSearchState> {

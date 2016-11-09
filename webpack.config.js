@@ -47,17 +47,23 @@ var config = {
         stats: {colors: true}
     },
     entry: {
+
+        /** dealer locator app and component */
         'main_dealer_app': ['./js/main_dealer_app'],
-        'product_search_app': ['./js/product_search_app'],
         'dealer_locator': ['./js/dealer/dealer_locator'],
+
+        /** product search component and internal application */
         'product_search': ['./js/product/product_search'],
+        'product_search_app': ['./js/product_search_app'],
+
+        /** Fetch component and polyfills **/
         'fetch': ['whatwg-fetch'],
         'babel-polyfill': ['babel-polyfill'],
         'react': ['react', 'react-dom']
     },
     output: {
         path: outputPath,
-        filename: '[name].js',
+        filename: '[name]/[name].js',
         //library: 'DealerLocator',
         //libraryTarget: 'umd',
         //umdNamedDefine: true
@@ -128,6 +134,7 @@ var config = {
             cleaner:  [autoprefixer({ browsers: [['last 3 versions', 'ie 9-10', 'Firefox > 44']] })]
         };
     },
+
     sassLoader: {
         data: '@import "' + path.resolve(__dirname, 'src/theme/dealer_locator/default/_config.scss') + '";'
     },
@@ -239,7 +246,7 @@ if (!isProduction) {
     }));
     */
 
-    config.plugins.push(new ExtractTextPlugin('[name].css', {allChunks: true}));
+    config.plugins.push(new ExtractTextPlugin('[name]/[name].css', {allChunks: true}));
 
     config.plugins.push(new webpack.optimize.OccurrenceOrderPlugin())
     // Add uglify plugin
