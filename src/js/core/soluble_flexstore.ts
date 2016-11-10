@@ -1,7 +1,12 @@
 
 
 export interface IJsonResult {
-    data: Array<any>
+    data: Array<any>;
+    request_id?: number;
+    success: boolean;
+    total: number;
+    limit: number;
+    count: number;
 }
 
 
