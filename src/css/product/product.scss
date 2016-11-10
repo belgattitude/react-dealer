@@ -31,13 +31,18 @@
     }
 
   }
-  .value {
-      position: absolute;
-      font-size: 11px;
-      top: 0;
-      left: 0;
+  .level-unknown {
+    //@include gauge(0,120);
+    @include battery(0%, $md-green-400, $battery-border-color: $md-green-400);
+    span {
+
+      font-weight: 800;
+      color: $md-grey-600;
+    }
 
   }
+
+
 }
 
 

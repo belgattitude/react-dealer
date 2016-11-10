@@ -49,7 +49,7 @@ export class ProductStockLevel {
         if (this.map[stock_level]) {
             className = this.map[stock_level];
         } else {
-            className = 'level-1-low';
+            className = 'level-unknown';
         }
 
         return className;

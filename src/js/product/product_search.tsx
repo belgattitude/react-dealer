@@ -9,8 +9,13 @@ import {debounce} from 'lodash';
 
 export interface ProductSearchProps {
     source: string;
+    pricelist: string;
+    language: string;
+
     searchInputTarget?: string;
+    hideSearchInput: boolean;
     locale?: string;
+
 }
 
 export interface ProductSearchState {
@@ -58,7 +63,7 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
 
     searchProducts(query?: string) {
         if (!query) query = '';
-        this.productSearchService.searchProducts('BE', 'en', query, 150).then(
+        this.productSearchService.searchProducts(this.props.pricelist, this.props.language, query, 50).then(
             (products) => {
                 this.setState({ products : products.data} );
             }
@@ -94,12 +99,17 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
         let products = this.state.products;
         let productsCount = products.length;
 
+        const hiddenStyle = {
+            display: 'none'
+        };
+
         return (
             <div>
 
-                <div>
+                <div style={ this.props.hideSearchInput ? hiddenStyle : ''}>
                     { input }
                 </div>
+
                 <div>
                     { (productsCount > 0) &&
                         <div className="product-list-container">

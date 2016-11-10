@@ -20,7 +20,7 @@
 
     <style>
         body {
-            margin-top: 50px;
+            margin-top: 70px;
         }
     </style>
 </head>
@@ -28,7 +28,7 @@
 
 
     <!--Navbar-->
-    <nav class="navbar navbar-fixed-top navbar-dark bg-primary">
+    <nav class="navbar navbar-fixed-top navbar-dark bg-primary" style="height: 60px">
 
         <!-- Collapse button-->
         <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#collapseEx2">
@@ -39,30 +39,24 @@
             <!--Collapse content-->
             <div class="collapse navbar-toggleable-xs" id="collapseEx2">
                 <!--Navbar Brand-->
-                <a class="navbar-brand" href="#">Navbar</a>
+                <a class="navbar-brand" href="#">Triana</a>
                 <!--Links-->
+                <!--
                 <ul class="nav navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Pricing</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="#">Products <span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
+                -->
                 <!--Search form-->
-                <form class="form-inline">
-                    <input class="form-control" id="catalogSearchTextInput" type="text" placeholder="Search">
+                <form class="form-inline float-xs-right">
+                    <input class="form-control" id="catalogSearchTextInput" type="text" placeholder="Search" autocomplete="off">
                 </form>
             </div>
             <!--/.Collapse content-->
         </div>
     </nav>
+
     <!--/.Navbar-->
 
 
@@ -108,11 +102,13 @@
             if (typeof product_search === 'undefined') {
                 throw new Error('Missing product_search javascript application (include product_search.js).')
             }
-            console.log('default', product_search.default);
-            console.log('product_search', product_search);
             var productSearch = React.createElement(product_search.default, {
                 source: 'http://apps.emdmusic.com/api/v1/catalog/search',
-                searchInputTarget: 'catalogSearchTextInput'
+                searchInputTarget: 'catalogSearchTextInput',
+                hideSearchInput: true,
+                language: 'en',
+                pricelist: 'ES',
+                locale: 'fr-FR'
             }, null);
             ReactDOM.render(
                     productSearch,
