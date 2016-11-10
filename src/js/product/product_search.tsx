@@ -4,8 +4,9 @@ import ProductSearchService from  './product_search_service';
 import * as Models from './product_search_model';
 import ProductSearchCard from './product_search_card';
 
-import {debounce} from 'lodash';
+import {debounce, union, flatMap, includes} from 'lodash';
 import {IJsonResult} from "../core/soluble_flexstore";
+import {ProductSearchParams} from "./product_search_service";
 
 
 export interface ProductSearchProps {
@@ -22,15 +23,9 @@ export interface ProductSearchProps {
 
 export interface ProductSearchState {
     products: Array<Models.ProductSearchModel>;
-    query?: string;
+
 }
 
-export interface ProductSearchParams {
-    pricelist: string;
-    language: string;
-    query: string;
-    limit: number;
-}
 
 class ProductSearch extends React.Component<ProductSearchProps, ProductSearchState> {
 
@@ -43,7 +38,7 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
 
     searchCount: number = 0;
 
-
+    previousSearchParams: ProductSearchParams;
 
     constructor(props: ProductSearchProps) {
 
@@ -57,7 +52,6 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
             this.searchLimit = props.searchLimit;
         }
 
-
         if (props.locale) {
             this.locale = props.locale;
         };
@@ -68,27 +62,56 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
         });
 
         this.state = {
-            products: [],
-            query: null
+            products: []
         };
-        this.debouncedSearch = debounce((str: string) => {
-            this.searchProducts(str);
+        this.debouncedSearch = debounce((query: string) => {
+            this.searchProducts(this.getSearchParams(query));
 
         }, this.searchDebounceTime);
     }
 
-    searchProducts(query?: string, append: boolean=false) {
-        if (!query) query = '';
+    getSearchParams(query?: string) : ProductSearchParams {
+
+        let searchParams = {
+            pricelist: this.props.pricelist,
+            language: this.props.language,
+            query: query,
+            limit: this.searchLimit
+        };
+        return searchParams;
+
+    }
+
+    loadMore() {
+        let searchParams = this.previousSearchParams;
+        searchParams.query = 'pb45';
+        this.searchProducts(searchParams, true);
+    }
+
+    searchProducts(searchParams: ProductSearchParams, append: boolean=false) {
+
         this.searchCount++;
-        this.productSearchService.searchProducts(this.props.pricelist, this.props.language, query, this.searchLimit).then(
+        this.previousSearchParams = searchParams;
+
+        this.productSearchService.searchProducts(searchParams).then(
             (response?: IJsonResult) => {
                 if (response) {
-                    let data = response.data;
+                    let data = [];
                     if (append) {
-
-
+                        let newData = this.state.products;
+                        let currentIds = this.state.products.map((item) => {
+                            return item.product_id;
+                        });
+                        // Add only if product is not yet displayed
+                        response.data.forEach(function(record, index) {
+                            if (!includes(currentIds, record.product_id)) {
+                                newData.push(record);
+                            }
+                        });
+                        data = newData;
+                    } else {
+                        data = response.data;
                     }
-
                     this.setState({
                         products: data
                     });
@@ -99,7 +122,7 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
 
     componentDidMount() {
 
-        this.searchProducts();
+        this.searchProducts(this.getSearchParams());
 
         if (this.props.searchInputTarget) {
             let target = document.getElementById(this.props.searchInputTarget);
@@ -126,16 +149,6 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
         let products = this.state.products;
         let productsCount = products.length;
 
-
-        let moreProduct = () => {
-            return (
-                <div className="">
-                    <button className="btn btn-secondary">Load more ... </button>
-                </div>
-            );
-
-        }
-
         let searchInputStyle = {
             display: this.props.hideSearchInput ? 'none' : 'block'
         };
@@ -148,25 +161,36 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
             );
         };
 
-        let displayMoreProducts = this.searchCount > 0 && productsCount > 0 && false;
-        let displayNoResults = productsCount == 0 && this.searchCount > 0;
+        let moreProduct = () => {
+            return (
+                <div className="">
+                    <button className="btn btn-secondary" onClick={(evt) => this.loadMore() }>Load more ... </button>
+                </div>
+            );
+        }
+
+        let hasMore = 1000;
+        let displayMoreProducts = ((this.searchCount > 0) && productsCount > 0 && (hasMore > 0));
+        let displayNoResults = (productsCount == 0 && this.searchCount > 0);
 
         return (
             <div>
                 <div style={ searchInputStyle }>
                     { input }
                 </div>
-                        <div className="product-list-container">
-                            {products.map((product) =>
-                                <ProductSearchCard key={product.product_id}
-                                                   product={product}
-                                                   locale={this.locale} />
-                            )
+                        { (productsCount > 0) ?
+                            <div className="product-list-container">
+                                {products.map((product) =>
+                                    <ProductSearchCard key={product.product_id}
+                                                       product={product}
+                                                       locale={this.locale} />
+                                )
+                                }
+                            </div>
+                            : ''
+                        }
 
-                            }
-                        </div>
-
-                        { (displayMoreProducts) && moreProduct() }
+                        { displayMoreProducts && moreProduct() }
 
                         { displayNoResults && noResults()}
 
@@ -175,15 +199,5 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
     }
 
 }
-/*
-
- { (productsCount > 0) &&
- { products.map((product) => {
- return <ProductSearchCard key={product.product_id} product={product}/>
- })
- }
- }
-
- */
 
 export default ProductSearch;

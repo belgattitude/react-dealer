@@ -4,10 +4,17 @@ import { Promise } from 'core-js';
 import * as Models from './product_search_model';
 import { IJsonResult } from './../core/soluble_flexstore';
 
+export interface ProductSearchParams {
+    pricelist: string;
+    language: string;
+    query: string;
+    limit: number;
+}
+
 
 export default class ProductSearchService {
 
-    results: Array<Models.ProductSearchModel> = [];
+//    results: Array<Models.ProductSearchModel> = [];
 
     isLoading: boolean = false;
 
@@ -20,7 +27,7 @@ export default class ProductSearchService {
     
     constructor(options) {
         this.options = options;
-        this.results = [];
+//        this.results = [];
         this.isLoading = false;
 
     }
@@ -29,9 +36,10 @@ export default class ProductSearchService {
         this.requestId++;
     }
 
-    searchProducts(pricelist: string, language: string, query: string, limit: number): Promise<IJsonResult> {
+    //searchProducts(pricelist: string, language: string, query: string, limit: number): Promise<IJsonResult> {
+    searchProducts(searchParams: ProductSearchParams): Promise<IJsonResult> {
         this.incrementRequestId();
-        let promise = this.searchAsyncProducts(pricelist, language, query, limit);
+        let promise = this.searchAsyncProducts(searchParams);
         this.isLoading = true;
         promise.then((response: IJsonResult) =>  {
             //this.results = response.data;
@@ -44,16 +52,21 @@ export default class ProductSearchService {
         return promise;
     }
 
-    searchAsyncProducts(pricelist: string, language: string, query: string, limit: number): Promise<IJsonResult> {
+    searchAsyncProducts(searchParams: ProductSearchParams): Promise<IJsonResult> {
         let source = this.options.source;
+        let query = searchParams.query;
+        if (!query) {
+            query = '';
+        }
+
         let params = {
-            pricelist: pricelist,
-            language: language,
+            pricelist: searchParams.pricelist,
+            language: searchParams.language,
             query: query,
-            limit: limit,
+            limit: searchParams.limit,
             requestId: this.requestId
         };
-
+        if (!query) query = '';
         // Setting url with search params
         let url = new URL(source);
 

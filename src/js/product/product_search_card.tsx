@@ -92,7 +92,7 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                     <div className="product-fresh-badge">
                                         <span className="tooltip-toggle" aria-label={ "#" + (product.fresh_rank) + " in \n" + product.rankable_breadcrumb }>
                                             <i className="fa fa-line-chart" aria-hidden="true"></i>&nbsp;
-                                            Fresh &amp; Shining
+                                            Fresh &amp; shining
                                         </span>
                                     </div>
                                     :
