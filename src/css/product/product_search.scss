@@ -1,6 +1,9 @@
 @import "_base.scss";
 @import "product_stock";
 @import "product_search_no_result";
+@import "product_search_load_more";
+
+
 
 
 .product-list-container {
@@ -17,7 +20,9 @@
   box-sizing: border-box;
 
 
+
   @import "product_card";
+
 
   .product-card-wrap {
     flex-grow: 1;
@@ -45,8 +50,35 @@
 
     }
 
+
   }
 
 }
 
 
+@media print {
+  .product-list-container {
+    -webkit-print-color-adjust: exact;
+
+    .product-card-wrap {
+      flex-grow: 1;
+      width: 25%;
+
+      .product-card-front {
+        page-break-inside: avoid;
+      }
+
+      .product-card-back {
+        display: none;
+      }
+
+      .product-badge-price {
+
+        &:after {
+          display: none !important;
+        }
+      }
+    }
+  }
+
+}

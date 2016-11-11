@@ -10,10 +10,6 @@
   box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.4);
   border-radius: 0px;
 
-
-
-
-
   .flipped {
     transform: rotateY(180deg);
   }
@@ -208,11 +204,12 @@
             background-color: rgba(255,255,255, 1);
           }*/
           &:after {
-            font-size: 0.5em;
+            font-size: 0.5rem;
             position: absolute;
             content: 'tax excl.';
             top: 20px;
             right: 2px;
+
           }
         }
 

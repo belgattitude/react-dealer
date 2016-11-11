@@ -1,4 +1,5 @@
 import * as React from 'react';
+import '../../css/product/_fonts';
 import '../../css/product/product_search.scss';
 import ProductSearchService from  './product_search_service';
 import * as Models from './product_search_model';
