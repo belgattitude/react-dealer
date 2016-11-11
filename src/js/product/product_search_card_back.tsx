@@ -2,7 +2,7 @@ import * as React from 'react';
 //import * as MediaHelper from '../openstore/product_media_helper';
 import * as Models from './product_search_model';
 import ProductDescription from './product_description';
-import '../../css/product/product.scss';
+import '../../css/product/product_card.scss';
 
 
 export interface ProductSearchCardBackProps {

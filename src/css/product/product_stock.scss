@@ -1,0 +1,43 @@
+@import "_base.scss";
+
+.stock-badge {
+
+  .level-0-empty {
+    @include battery(10%, $md-red-800, $battery-border-color: $md-red-800);
+  }
+  .level-1-low {
+    @include battery(20%, $md-orange-800);
+
+  }
+  .level-2-normal {
+    @include battery(33%, $md-green-500);
+  }
+  .level-3-high {
+    @include battery(66%, $md-green-700);
+    span {
+      right: 32px;
+      font-weight: normal;
+      color: $md-grey-600;
+    }
+
+  }
+  .level-4-full {
+    //@include gauge(0,120);
+    @include battery(93%, $md-green-700);
+    span {
+      right: 32px;
+      font-weight: normal;
+      color: $md-grey-600;
+    }
+
+  }
+  .level-unknown {
+    @include battery(0%, $md-green-400, $battery-border-color: $md-green-400);
+    span {
+      font-weight: normal;
+      color: $md-grey-600;
+    }
+  }
+
+}
+

@@ -6,7 +6,7 @@ var productSearch = React.createElement(ProductSearch, {
     source: 'http://localhost/emdmusic_server/public/api/v1/catalog/search',
     searchInputTarget: 'catalogSearchTextInput',
     searchDebounceTime: 400,
-    searchLimit: 50,
+    searchLimit: 10,
     hideSearchInput: true,
     language: 'en',
     pricelist: 'ES',

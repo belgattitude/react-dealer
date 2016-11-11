@@ -1,5 +1,5 @@
 import * as React from 'react';
-import '../../css/product/product.scss';
+import '../../css/product/product_search.scss';
 import ProductSearchService from  './product_search_service';
 import * as Models from './product_search_model';
 import ProductSearchCard from './product_search_card';
@@ -23,13 +23,14 @@ export interface ProductSearchProps {
 
 export interface ProductSearchState {
     products: Array<Models.ProductSearchModel>;
-
+    total: number;
+    hasMore: number;
 }
 
 
 class ProductSearch extends React.Component<ProductSearchProps, ProductSearchState> {
 
-    productSearchService?: ProductSearchService;
+    productSearchService: ProductSearchService;
 
     debouncedSearch: any;
     searchDebounceTime: number = 400;
@@ -57,13 +58,15 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
         };
 
         this.productSearchService = new ProductSearchService({
-            source: props.source,
-            locale: this.locale
+            source: props.source
         });
 
         this.state = {
-            products: []
+            products: [],
+            total: 0,
+            hasMore: 0
         };
+
         this.debouncedSearch = debounce((query: string) => {
             this.searchProducts(this.getSearchParams(query));
 
@@ -84,7 +87,8 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
 
     loadMore() {
         let searchParams = this.previousSearchParams;
-        searchParams.query = 'pb45';
+        let previousOffset = (this.previousSearchParams.offset) ? this.previousSearchParams.offset : 0;
+        searchParams.offset = this.props.searchLimit + previousOffset;
         this.searchProducts(searchParams, true);
     }
 
@@ -112,8 +116,16 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
                     } else {
                         data = response.data;
                     }
+
+                    let total: number = response.total;
+                    let start: number = response.start;
+                    let limit: number = response.limit;
+                    let hasMore: number = Math.max(total - (start + limit), 0);
+
                     this.setState({
-                        products: data
+                        products: data,
+                        total: total,
+                        hasMore: hasMore
                     });
                 }
             }
@@ -155,22 +167,25 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
 
         const noResults = () => {
             return (
-                <div className="no-results">
+                <div className="product-search-no-result">
                     No result...
                 </div>
             );
         };
 
-        let moreProduct = () => {
+        let moreProductDiv = () => {
             return (
-                <div className="">
-                    <button className="btn btn-secondary" onClick={(evt) => this.loadMore() }>Load more ... </button>
+
+                <div className="product-search-load-more">
+                    <button className="btn btn-secondary" onClick={(evt) => this.loadMore() }>
+                        Load more... (total {this.state.total} products, has still {this.state.hasMore}...).
+                    </button>
                 </div>
             );
         }
 
-        let hasMore = 1000;
-        let displayMoreProducts = ((this.searchCount > 0) && productsCount > 0 && (hasMore > 0));
+        let hasMore = this.state.hasMore;
+        let displayMoreProducts = ((this.searchCount > 0) && productsCount > 0 && (hasMore > 0) || true);
         let displayNoResults = (productsCount == 0 && this.searchCount > 0);
 
         return (
@@ -190,7 +205,7 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
                             : ''
                         }
 
-                        { displayMoreProducts && moreProduct() }
+                        { displayMoreProducts && moreProductDiv() }
 
                         { displayNoResults && noResults()}
 

@@ -9,27 +9,28 @@ export interface ProductSearchParams {
     language: string;
     query: string;
     limit: number;
+    offset?: number;
 }
 
+export interface ProductSearchServiceOptions {
+    source: string;
+}
 
 export default class ProductSearchService {
 
-//    results: Array<Models.ProductSearchModel> = [];
+    //results: Array<Models.ProductSearchModel> = [];
 
     isLoading: boolean = false;
 
-    options = {
-        language: 'en',
+    options: ProductSearchServiceOptions = {
         source: null
     };
 
     protected requestId: number = 1;
     
-    constructor(options) {
+    constructor(options: ProductSearchServiceOptions) {
         this.options = options;
-//        this.results = [];
         this.isLoading = false;
-
     }
 
     incrementRequestId() {
@@ -54,19 +55,22 @@ export default class ProductSearchService {
 
     searchAsyncProducts(searchParams: ProductSearchParams): Promise<IJsonResult> {
         let source = this.options.source;
-        let query = searchParams.query;
-        if (!query) {
-            query = '';
-        }
 
-        let params = {
+        let params: any = {
             pricelist: searchParams.pricelist,
             language: searchParams.language,
-            query: query,
             limit: searchParams.limit,
             requestId: this.requestId
         };
-        if (!query) query = '';
+
+        if (searchParams.query) {
+            params.query = searchParams.query;
+        }
+
+        if (searchParams.offset) {
+            params.offset = searchParams.offset;
+        }
+
         // Setting url with search params
         let url = new URL(source);
 

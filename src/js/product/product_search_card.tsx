@@ -4,7 +4,7 @@ import ProductSearchCardBack from './product_search_card_back';
 import StockLevel from './stock_level';
 import * as Models from './product_search_model';
 
-import '../../css/product/product.scss';
+import '../../css/product/product_card.scss';
 //import '../../css/tooltip/hint.scss';
 import '../../css/product/tooltip.scss';
 

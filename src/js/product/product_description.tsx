@@ -1,5 +1,5 @@
 import * as React from 'react';
-import '../../css/product/product.scss';
+import '../../css/product/product_card.scss';
 
 
 export interface ProductDescriptionProps {

@@ -1,0 +1,33 @@
+@import "_base.scss";
+
+.product-search-load-more {
+
+  box-shadow: inset 1px 1px 5px 5px rgba(60,60,60, 0.05),
+  -1px 2px 5px 1px rgba(0, 0, 0, 0.4);
+
+  align-content: stretch;
+  height: 250px;
+  width: 100%;
+  padding-top: 15px;
+  margin-bottom: 5px;
+  color: $md-grey-800;
+  position: relative;
+  text-align: center;
+  font-size: 2em;
+  justify-content: center;
+
+  &:before {
+    content: '\f05e'; /* FontAwesome char code inside the '' */
+    font-family: FontAwesome;
+    display: inline-block;
+    font-size: 5em;
+    opacity: 0.2;
+    text-align: center;
+    color: $md-grey-800;
+    top: 25px;
+    position: absolute;
+  }
+
+}
+
+

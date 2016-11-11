@@ -7,6 +7,7 @@ export interface IJsonResult {
     total: number;
     limit: number;
     count: number;
+    start: number;
 }
 
 

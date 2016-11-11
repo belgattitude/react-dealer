@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as Models from './product_search_model';
 import * as ProductStockLevel from '../openstore/product_stock_level';
-import '../../css/product/product.scss';
+import '../../css/product/product_stock.scss';
 
 
 export interface StockLevelProps {
