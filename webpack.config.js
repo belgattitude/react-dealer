@@ -240,18 +240,17 @@ if (!isProduction) {
     //new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"react", /* filename= */"react.bundle.js")
     //config.plugins.push(new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"dealer_locator", /* filename= */"dealer_locator.js"));
 
-    /*
+/*
     config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
         name: ['product_search_app']
     }));
-    */
+*/
 
     config.plugins.push(new ExtractTextPlugin('[name]/[name].css', {allChunks: true}));
 
     config.plugins.push(new webpack.optimize.OccurrenceOrderPlugin())
+
     // Add uglify plugin
-
-
     config.plugins.push(
         new webpack.optimize.UglifyJsPlugin({
             compress: {
