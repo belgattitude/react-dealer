@@ -233,7 +233,7 @@
           opacity: 0.9;
         }
         .product-fresh-badge {
-          @include product-badge($md-green-400);
+          @include product-badge($md-blue-400);
           color: white;
           margin-bottom: 3px;
           opacity: 0.9;
