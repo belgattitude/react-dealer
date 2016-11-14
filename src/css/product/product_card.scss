@@ -68,11 +68,19 @@
       }
     }
 
+
+
     .inner-menu {
       position: absolute;
       top: 90px;
       right: 10px;
       z-index: 20;
+
+
+      @include menu-group-vertical();
+
+
+
     }
 
     .product-card-image {
@@ -167,6 +175,7 @@
         z-index: 11;
         position: absolute;
         width: 30%;
+        height: auto;
         height: auto;
         text-align: left;
         box-shadow: none;
@@ -273,6 +282,7 @@
         margin-top: 5px;
         display:inline-block;
         text-overflow: ellipsis;
+        text-rendering: optimizeLegibility;
         overflow: hidden;
         width: 100%;
         font-size: 1em;

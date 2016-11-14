@@ -59,21 +59,31 @@
 @media print {
   .product-list-container {
     -webkit-print-color-adjust: exact;
-
+    display: table;
     .product-card-wrap {
       flex-grow: 1;
-      width: 25%;
+      width: 23%;
+
+      border: 1px solid $md-grey-600;
+      zoom: 0.8;
+      display: inline-block;
+
+      /*
+      &:nth-of-type(4n) {
+        page-break-after:always;
+      }*/
 
       .product-card-front {
         page-break-inside: avoid;
       }
 
-      .product-card-back {
+      .product-card-back, .btn-group {
         display: none;
       }
 
-      .product-badge-price {
 
+
+      .product-badge-price {
         &:after {
           display: none !important;
         }
