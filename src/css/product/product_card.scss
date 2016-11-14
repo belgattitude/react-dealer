@@ -1,5 +1,33 @@
 @import "_base.scss";
 
+
+.product-card-pricebox {
+  background-color: $md-white;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-content: stretch;
+  padding: 10px;
+  position: absolute;
+  bottom: 3px;
+
+  .pricebox-public, .pricebox-list {
+    border: 1px solid $md-grey-400;
+    flex-grow: 1;
+
+  }
+
+  .pricebox-public {
+    border: 1px solid $md-grey-400;
+    margin-right: 5px;
+  }
+
+  .pricebox-list {
+    border: 1px solid $md-grey-400;
+  }
+}
+
 .product-card-wrap {
   /*border: 1px solid rgba(0,0,0, 0.4);*/
   display: flex;
@@ -9,6 +37,7 @@
 
   box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.4);
   border-radius: 0px;
+
 
   .flipped {
     transform: rotateY(180deg);
@@ -36,6 +65,7 @@
     .product-card-front, .product-card-back {
       backface-visibility: hidden;
       position: relative;
+      background-color: $md-white;
       flex-grow: 1;
       width: 100%;
       top: 0;
@@ -76,10 +106,7 @@
       right: 10px;
       z-index: 20;
 
-
       @include menu-group-vertical();
-
-
 
     }
 
@@ -123,39 +150,25 @@
 
       .product-bestseller-badge {
         @include product-badge($md-yellow-800);
-        margin-bottom: 3px;
-        opacity: 0.9;
       }
       .product-fresh-badge {
         @include product-badge($md-blue-400);
         color: white;
-        margin-bottom: 3px;
-        opacity: 0.9;
       }
       .product-deal-badge {
         @include product-badge($md-red-400);
-        margin-bottom: 3px;
-        opacity: 0.9;
       }
       .product-popular-badge {
         @include product-badge($md-green-400);
-        margin-bottom: 3px;
-        opacity: 0.9;
       }
       .product-new-badge {
         @include product-badge($md-blue-400);
-        margin-bottom: 3px;
-        opacity: 0.9;
       }
       .product-promo-badge {
         @include product-badge($md-green-700);
-        margin-bottom: 3px;
-        opacity: 0.9;
       }
       .product-liquidation-badge {
         @include product-badge($md-red-700);
-        margin-bottom: 3px;
-        opacity: 0.9;
       }
 
       .bottom-right-zone {
@@ -212,14 +225,22 @@
             cursor: text;
             background-color: rgba(255,255,255, 1);
           }*/
-          &:after {
-            font-size: 0.5rem;
+          &:before {
+            font-size: 8px;
             position: absolute;
-            content: 'tax excl.';
-            top: 20px;
+            content: attr(data-text-footer);
+            top: 22px;
             right: 2px;
-
           }
+          &:after {
+            font-size: 8px;
+            position: absolute;
+            content: attr(data-text-header);
+            top: 2px;
+            right: 25px;
+          }
+
+
         }
 
         .product-public-price {

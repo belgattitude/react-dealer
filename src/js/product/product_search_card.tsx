@@ -3,9 +3,11 @@ import * as MediaHelper from '../openstore/product_media_helper';
 import ProductSearchCardBack from './product_search_card_back';
 import StockLevel from './stock_level';
 import * as Models from './product_search_model';
+import { MoneyFormatter } from '../formatter/money_formatter';
+import { UnitFormatter } from '../formatter/unit_formatter';
 
 import '../../css/product/product_card.scss';
-//import '../../css/tooltip/hint.scss';
+
 import '../../css/product/tooltip.scss';
 
 
@@ -25,8 +27,9 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
 
     protected locale: string;
 
-    protected unitFormatter: Intl.NumberFormat;
-    protected moneyFormatter: Intl.NumberFormat;
+
+    protected unitFormatter: UnitFormatter;
+    protected moneyFormatter: MoneyFormatter;
 
     constructor(props) {
         super(props);
@@ -45,20 +48,14 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
             format: 'jpg'
         };
         this.pictureHelper = new MediaHelper.ProductPicture(url_spec, options);
-        this.initMoneyFormatter('EUR');
-        this.initUnitFormatter(0)
-    }
-
-    initMoneyFormatter(currency: string) {
-        this.moneyFormatter = new Intl.NumberFormat(this.locale, {
-            style: 'currency',
-            currency: currency,
-            minimumFractionDigits: 2,
+        this.moneyFormatter = new MoneyFormatter({
+            currency: 'EUR',
+            decimals: 2,
+            locale: this.locale
         });
-    }
-    initUnitFormatter(minimumFractionDigits: number) {
-        this.unitFormatter = new Intl.NumberFormat(this.locale, {
-            minimumFractionDigits: minimumFractionDigits,
+        this.unitFormatter = new UnitFormatter({
+            decimals: 0,
+            locale: this.locale
         });
     }
 
@@ -146,9 +143,9 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
             let inner_menu =
                 <div className="inner-menu">
                     <div className="menu-group-vertical">
-                        <button type="button" className="btn btn-secondary btn-sm" onClick={(evt) => this.flipCard() }><i className="fa fa-repeat"></i></button>
-                        <button type="button" className="btn btn-secondary btn-sm"><i className="fa fa-search-plus"></i></button>
-                        <button type="button" className="btn btn-secondary btn-sm disabled"><i className="fa fa-heart"></i></button>
+                        <button type="button" className="btn btn-sm" onClick={(evt) => this.flipCard() }><i className="fa fa-repeat"></i></button>
+                        <button type="button" className="btn btn-sm"><i className="fa fa-search-plus"></i></button>
+                        <button type="button" className="btn btn-sm disabled"><i className="fa fa-heart"></i></button>
                     </div>
                 </div>;
 
@@ -159,7 +156,7 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
         const top_right_badges = (product: Models.ProductSearchModel) => {
             let content = (
                 <div>
-                    <div className="product-badge-price">{ this.moneyFormatter.format(product.price) }</div>
+                    <div className="product-badge-price" data-text-header="List price" data-text-footer="tax excl.">{ this.moneyFormatter.format(product.price) }</div>
                     <StockLevel product={product} locale={this.locale} />
                 </div>
             );
