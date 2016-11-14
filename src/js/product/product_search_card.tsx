@@ -1,8 +1,9 @@
 import * as React from 'react';
-import * as MediaHelper from '../openstore/product_media_helper';
+
 import ProductSearchCardBack from './product_search_card_back';
 import StockLevel from './stock_level';
 import * as Models from './product_search_model';
+import { ProductPicture } from '../openstore/product_media_helper';
 import { MoneyFormatter } from '../formatter/money_formatter';
 import { UnitFormatter } from '../formatter/unit_formatter';
 
@@ -22,11 +23,9 @@ export interface ProductSearchCardState {
 
 class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductSearchCardState> {
 
-    protected pictureHelper: MediaHelper.ProductPicture;
-
+    protected productPicture: ProductPicture;
 
     protected locale: string;
-
 
     protected unitFormatter: UnitFormatter;
     protected moneyFormatter: MoneyFormatter;
@@ -47,7 +46,7 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
             quality: 85,
             format: 'jpg'
         };
-        this.pictureHelper = new MediaHelper.ProductPicture(url_spec, options);
+        this.productPicture = new ProductPicture(url_spec, options);
         this.moneyFormatter = new MoneyFormatter({
             currency: 'EUR',
             decimals: 2,
@@ -70,10 +69,8 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
 
         const product = this.props.product;
         const media_id = product.picture_media_id;
-        let img = '';
-        if (media_id != '') {
-            img = this.pictureHelper.getMediaUrl(media_id, product.picture_media_filemtime);
-        }
+
+        let img = this.productPicture.getMediaUrl(media_id, product.picture_media_filemtime);
 
         let flippedClass = '';
         if (this.state.flipped) {
@@ -113,7 +110,7 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                     </div>
                                     :
                                     '' }
-                                { product.deal_rank > 0 || all_displayed ?
+                                { product.deal_rank > 0 && product.list_price != product.price  || all_displayed ?
                                     <div className="product-deal-badge">
                                         <span className="tooltip-toggle" aria-label={ "#" + (product.deal_rank) + " in \n" + product.rankable_breadcrumb }>
                                             <i className="fa fa-bullhorn" aria-hidden="true"></i>&nbsp;
@@ -232,8 +229,11 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                             </div>
 
                         </div>
-                        <ProductSearchCardBack product={product}
-                                               flipBackHandler={(evt) => { this.flipCard() }} />
+                        <ProductSearchCardBack product={ product }
+                                               flipBackHandler={ (evt) => { this.flipCard() }}
+                                               moneyFormatter={ this.moneyFormatter }
+                                               unitFormatter={ this.unitFormatter }
+                                               productPicture={ this.productPicture } />
 
                     </div>
 

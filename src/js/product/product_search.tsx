@@ -70,7 +70,6 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
 
         this.debouncedSearch = debounce((query: string) => {
             this.searchProducts(this.getSearchParams(query));
-
         }, this.searchDebounceTime);
     }
 
@@ -169,7 +168,7 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
         const noResults = () => {
             return (
                 <div className="product-search-no-result">
-                    No result...
+                    No results, please refine your search...
                 </div>
             );
         };

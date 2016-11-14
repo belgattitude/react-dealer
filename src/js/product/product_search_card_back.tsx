@@ -1,13 +1,21 @@
 import * as React from 'react';
 //import * as MediaHelper from '../openstore/product_media_helper';
 import * as Models from './product_search_model';
-import ProductDescription from './product_description';
+import { ProductPicture } from '../openstore/product_media_helper';
+//import ProductDescription from './product_description';
+import { MoneyFormatter } from '../formatter/money_formatter';
+import { UnitFormatter } from '../formatter/unit_formatter';
+
 import '../../css/product/product_card.scss';
+
 
 
 export interface ProductSearchCardBackProps {
     product: Models.ProductSearchModel;
     flipBackHandler: any;
+    moneyFormatter: MoneyFormatter;
+    unitFormatter: UnitFormatter;
+    productPicture: ProductPicture
 }
 
 export interface ProductSearchCardBackState {
@@ -16,10 +24,16 @@ export interface ProductSearchCardBackState {
 
 export default class ProductSearchCardBack extends React.Component<ProductSearchCardBackProps, ProductSearchCardBackState> {
 
-    constructor(props) {
-        super(props);
-        this.state = {};
+    protected locale: string;
 
+    protected productPicture: ProductPicture;
+    protected unitFormatter: UnitFormatter;
+    protected moneyFormatter: MoneyFormatter;
+
+    constructor(props: ProductSearchCardBackProps) {
+        super(props);
+        this.moneyFormatter = props.moneyFormatter;
+        this.state = {};
     }
 
 
@@ -73,13 +87,13 @@ export default class ProductSearchCardBack extends React.Component<ProductSearch
                     <div className="pricebox-public">
                         <span>Public price</span>
                         <div>
-                            { product.public_price }
+                            { this.moneyFormatter.format(product.public_price) }
                         </div>
                     </div>
                     <div className="pricebox-list">
                         <span>List price</span>
                         <div>
-                            { product.list_price }
+                            { this.moneyFormatter.format(product.list_price) }
                         </div>
                     </div>
                 </div>
