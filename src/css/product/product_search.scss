@@ -69,6 +69,14 @@
         display: none;
       }
 
+      /* prevent hover on image */
+      .product-card-image {
+        img {
+          transform: none !important;
+        }
+      }
+
+
       /* prevent printing of flipped front */
       .flipped {
         transform: none;
@@ -89,7 +97,7 @@
         }
       }
 
-      border: 1px solid $md-grey-400;
+      border: 1px solid $md-grey-300;
       width: 23%;
 
       zoom: 0.7;

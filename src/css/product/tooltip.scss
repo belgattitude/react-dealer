@@ -10,7 +10,7 @@
     top: 28px; left: 0;
     opacity: 0;
     overflow-wrap: break-word;
-z-index: 40;
+    z-index: +1;
     width: 200px;
     font-size: 11px;
     line-height: 1.5em;
@@ -28,6 +28,7 @@ z-index: 40;
     top: 18px; left: 15px;
     opacity: 0;
     width: 0; height: 0;
+    z-index: +1;
     border: solid transparent 5px;
     border-bottom-color: rgba(0,0,0,0.8);
     transition: opacity 250ms, top 250ms;
@@ -36,7 +37,7 @@ z-index: 40;
   //Triggering the transition
   &:focus::before, &:focus::after, &:hover::before, &:hover::after {
     opacity: 1;
-    z-index: 40;
+
     transition: all 0.75s ease;
   }
 }

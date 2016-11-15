@@ -43,6 +43,49 @@
   display: block;
   position: relative;
 
+
+  //.tooltip-toggle {
+  &::after {
+    content: attr(aria-label);
+    display: block;
+    position: absolute;
+    top: 28px; left: 10px;
+    opacity: 0;
+    overflow-wrap: break-word;
+    z-index: +1;
+    border-radius: 5px;
+    width: 150px;
+    font-size: 11px;
+    line-height: 1.5em;
+    padding: 0.5em 0.8em;
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    text-align: center;
+    pointer-events: none; /* This prevents the box from apearing when hovered. */
+    transition: opacity 250ms, top 250ms;
+  }
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 18px; left: 20px;
+    opacity: 0;
+    z-index: +1;
+    width: 0; height: 0;
+    border: solid transparent 5px;
+    border-bottom-color: rgba(0,0,0,0.8);
+    transition: opacity 250ms, top 250ms;
+  }
+
+  //Triggering the transition
+  &:focus::before, &:focus::after, &:hover::before, &:hover::after {
+    opacity: 0.9;
+
+    transition: all 0.75s ease;
+  }
+
+
   span {
     display: inline-block;
     font-weight: normal;
@@ -54,13 +97,16 @@
     border: 1px solid $border-color;
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
-
+    z-index: 30;
     border-color: $border-color;
     background-color: $badge-color;
     font-size: 0.8em;
     color: $text-color;
     margin-bottom: 3px;
     opacity: 0.9;
+
+
+
   }
 
 }

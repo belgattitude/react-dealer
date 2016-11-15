@@ -83,8 +83,8 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
             let content = (
                             <div>
                                 { product.fresh_rank > 0 || all_displayed ?
-                                    <div className="product-fresh-badge">
-                                        <span className="tooltip-toggle" aria-label={ "#" + (product.fresh_rank) + " in \n" + product.rankable_breadcrumb }>
+                                    <div className="product-fresh-badge" aria-label={ "#" + (product.fresh_rank) + " in \n" + product.rankable_breadcrumb }>
+                                        <span>
                                             <i className="fa fa-line-chart" aria-hidden="true"></i>&nbsp;
                                             Fresh &amp; shining
                                         </span>
@@ -93,8 +93,8 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                     '' }
 
                                 { product.bestseller_rank > 0 || all_displayed ?
-                                    <div className="product-bestseller-badge">
-                                        <span className="tooltip-toggle" aria-label={ "#" + (product.bestseller_rank) + " in \n" + product.rankable_breadcrumb }>
+                                    <div className="product-bestseller-badge" aria-label={ "#" + (product.bestseller_rank) + " in \n" + product.rankable_breadcrumb }>
+                                        <span>
                                             <i className="fa fa-fire" aria-hidden="true"></i>&nbsp;
                                             Bestseller
                                         </span>
@@ -102,8 +102,8 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                     :
                                     '' }
                                 { product.popular_rank > 0 || all_displayed ?
-                                    <div className="product-popular-badge">
-                                        <span className="tooltip-toggle" aria-label={ "#" + (product.popular_rank) + " in \n" + product.rankable_breadcrumb }>
+                                    <div className="product-popular-badge" aria-label={ "#" + (product.popular_rank) + " in \n" + product.rankable_breadcrumb }>
+                                        <span>
                                             <i className="fa fa-heartbeat" aria-hidden="true"></i>&nbsp;
                                             Popular
                                         </span>
@@ -111,8 +111,8 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                     :
                                     '' }
                                 { product.deal_rank > 0 && product.list_price != product.price  || all_displayed ?
-                                    <div className="product-deal-badge">
-                                        <span className="tooltip-toggle" aria-label={ "#" + (product.deal_rank) + " in \n" + product.rankable_breadcrumb }>
+                                    <div className="product-deal-badge" aria-label={ "#" + (product.deal_rank) + " in \n" + product.rankable_breadcrumb }>
+                                        <span>
                                             <i className="fa fa-bullhorn" aria-hidden="true"></i>&nbsp;
                                             Popular deal
                                         </span>
@@ -120,8 +120,8 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                     :
                                     '' }
                                 { product.flag_new == "1" || all_displayed ?
-                                    <div className="product-new-badge">
-                                        <span className="tooltip-toggle" aria-label={ product.available_at }>
+                                    <div className="product-new-badge" aria-label={ product.available_at }>
+                                        <span>
                                             <i className="fa fa-clock-o" aria-hidden="true"></i>&nbsp;
                                             New
                                         </span>
@@ -130,8 +130,8 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                     : ''
                                 }
                                 { (product.is_promotional == "1"  && product.is_liquidation != "1") || all_displayed ?
-                                    <div className="product-promo-badge">
-                                        <span className="tooltip-toggle" aria-label={ product.discount_1 }>
+                                    <div className="product-promo-badge" aria-label={ product.discount_1 }>
+                                        <span>
                                             <i className="fa fa-arrow-circle-down" aria-hidden="true"></i>&nbsp;
                                             Promo
                                         </span>
@@ -139,8 +139,8 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                     : ''
                                 }
                                 { product.is_liquidation == "1" || all_displayed ?
-                                    <div className="product-liquidation-badge">
-                                        <span className="tooltip-toggle" aria-label={ product.discount_1 }>
+                                    <div className="product-liquidation-badge" aria-label={ product.discount_1 }>
+                                        <span>
                                             <i className="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;
                                             Liquidation
                                         </span>
