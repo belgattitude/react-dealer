@@ -79,7 +79,7 @@
     .product-card-front, .product-card-back {
       backface-visibility: hidden;
       position: relative;
-      background-color: $md-white;
+
       flex-grow: 1;
       width: 100%;
       top: 0;
@@ -97,8 +97,9 @@
       position: absolute;
       transform: rotateY(180deg);
       /*background: white;*/
-      background: rgba(55,58,60,0.4);
-      background-image: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent);
+      background-color: $md-white;
+      //background: rgba(55,58,60,0.4);
+      background-image: radial-gradient(circle, rgba(0, 0, 0, 0.5), transparent);
       background-repeat: no-repeat;
       /*color: white;*/
 

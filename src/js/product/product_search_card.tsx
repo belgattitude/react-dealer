@@ -120,15 +120,31 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                     :
                                     '' }
                                 { product.flag_new == "1" || all_displayed ?
-                                    <div className="product-new-badge">New</div>
+                                    <div className="product-new-badge">
+                                        <span className="tooltip-toggle" aria-label={ product.available_at }>
+                                            <i className="fa fa-clock-o" aria-hidden="true"></i>&nbsp;
+                                            New
+                                        </span>
+
+                                    </div>
                                     : ''
                                 }
                                 { (product.is_promotional == "1"  && product.is_liquidation != "1") || all_displayed ?
-                                    <div className="product-promo-badge">Promo</div>
+                                    <div className="product-promo-badge">
+                                        <span className="tooltip-toggle" aria-label={ product.discount_1 }>
+                                            <i className="fa fa-arrow-circle-down" aria-hidden="true"></i>&nbsp;
+                                            Promo
+                                        </span>
+                                    </div>
                                     : ''
                                 }
                                 { product.is_liquidation == "1" || all_displayed ?
-                                    <div className="product-liquidation-badge">Liquidation</div>
+                                    <div className="product-liquidation-badge">
+                                        <span className="tooltip-toggle" aria-label={ product.discount_1 }>
+                                            <i className="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;
+                                            Liquidation
+                                        </span>
+                                    </div>
                                     : ''
                                 }
                             </div>
