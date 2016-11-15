@@ -62,15 +62,25 @@
     display: table;
     vertical-align: text-top;
     .product-card-wrap {
-
       .inner-menu {
         display: none;
+      }
+
+      .flipped {
+        transform: none;
+      }
+
+
+      .product-badge-price {
+        &:after, &:before {
+          display: none;
+        }
       }
 
       flex-grow: 1;
       width: 23%;
 
-      border: 1px solid $md-grey-600;
+      border: 1px solid $md-grey-400;
       zoom: 0.8;
       display: inline-block;
 
