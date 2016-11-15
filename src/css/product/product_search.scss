@@ -20,13 +20,13 @@
   box-sizing: border-box;
 
 
-
   @import "product_card";
 
 
   .product-card-wrap {
     flex-grow: 1;
     width: 31%;
+
 
     @media screen and (max-width: 1000px) {
       width: 32%;
@@ -60,7 +60,13 @@
   .product-list-container {
     -webkit-print-color-adjust: exact;
     display: table;
+    vertical-align: text-top;
     .product-card-wrap {
+
+      .inner-menu {
+        display: none;
+      }
+
       flex-grow: 1;
       width: 23%;
 
