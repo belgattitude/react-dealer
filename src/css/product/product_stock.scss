@@ -15,6 +15,7 @@
   .level-3-high {
     @include battery(66%, $md-green-700);
     span {
+      display: none;
       right: 32px;
       font-weight: normal;
       color: $md-grey-600;
@@ -25,6 +26,7 @@
     //@include gauge(0,120);
     @include battery(93%, $md-green-700);
     span {
+      display: none;
       right: 32px;
       font-weight: normal;
       color: $md-grey-600;
