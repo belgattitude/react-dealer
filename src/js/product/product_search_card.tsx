@@ -9,9 +9,6 @@ import { UnitFormatter } from '../formatter/unit_formatter';
 
 import '../../css/product/product_card.scss';
 
-import '../../css/product/tooltip.scss';
-
-
 export interface ProductSearchCardProps {
     product: Models.ProductSearchModel;
     locale: string;
@@ -80,10 +77,14 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
         const top_left_bagdes = (product: Models.ProductSearchModel) => {
 
             let all_displayed = false;
+            let rankable_breadcrumb = '';
+            if (product.rankable_breadcrumb) {
+                rankable_breadcrumb = product.rankable_breadcrumb.replace(new RegExp('\\|', 'g'), '»');
+            }
             let content = (
                             <div>
                                 { product.fresh_rank > 0 || all_displayed ?
-                                    <div className="product-fresh-badge" aria-label={ "#" + (product.fresh_rank) + " in \n" + product.rankable_breadcrumb }>
+                                    <div className="product-fresh-badge" aria-label={ "#" + (product.fresh_rank) + " in " + rankable_breadcrumb }>
                                         <span>
                                             <i className="fa fa-line-chart" aria-hidden="true"></i>&nbsp;
                                             Fresh &amp; shining
@@ -93,7 +94,7 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                     '' }
 
                                 { product.bestseller_rank > 0 || all_displayed ?
-                                    <div className="product-bestseller-badge" aria-label={ "#" + (product.bestseller_rank) + " in \n" + product.rankable_breadcrumb }>
+                                    <div className="product-bestseller-badge" aria-label={ "#" + (product.bestseller_rank) + " in " + rankable_breadcrumb }>
                                         <span>
                                             <i className="fa fa-fire" aria-hidden="true"></i>&nbsp;
                                             Bestseller
@@ -102,7 +103,7 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                     :
                                     '' }
                                 { product.popular_rank > 0 || all_displayed ?
-                                    <div className="product-popular-badge" aria-label={ "#" + (product.popular_rank) + " in \n" + product.rankable_breadcrumb }>
+                                    <div className="product-popular-badge" aria-label={ "#" + (product.popular_rank) + " in " + rankable_breadcrumb }>
                                         <span>
                                             <i className="fa fa-heartbeat" aria-hidden="true"></i>&nbsp;
                                             Popular
@@ -111,7 +112,7 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                     :
                                     '' }
                                 { product.deal_rank > 0 && product.list_price != product.price  || all_displayed ?
-                                    <div className="product-deal-badge" aria-label={ "#" + (product.deal_rank) + " in \n" + product.rankable_breadcrumb }>
+                                    <div className="product-deal-badge" aria-label={ "#" + (product.deal_rank) + " in " + rankable_breadcrumb }>
                                         <span>
                                             <i className="fa fa-bullhorn" aria-hidden="true"></i>&nbsp;
                                             Popular deal

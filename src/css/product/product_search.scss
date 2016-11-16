@@ -76,6 +76,17 @@
         }
       }
 
+      .product-bestseller-badge, .product-fresh-badge,
+      .product-deal-badge, .product-popular-badge,
+      .product-new-badge, .product-promo-badge,
+      .product-liquidation-badge {
+        padding: 0px;
+        span {
+          padding: 4px 2px 2px 2px !important;
+          font-size: 8px;
+
+        }
+      }
 
       /* prevent printing of flipped front */
       .flipped {

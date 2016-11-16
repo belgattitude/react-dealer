@@ -167,7 +167,7 @@
         @include product-badge($md-yellow-800);
       }
       .product-fresh-badge {
-        @include product-badge($md-light-blue-800);
+        @include product-badge($color-fresh, $text-opacity: 1);
         color: white;
       }
       .product-deal-badge {

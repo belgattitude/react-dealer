@@ -39,7 +39,7 @@
   color: $text-color;
 }
 
-@mixin product-badge($badge-color: $md-blue-700, $text-color: $md-white, $border-color: transparent) {
+@mixin product-badge($badge-color: $md-blue-700, $text-color: $md-white, $border-color: transparent, $text-opacity:0.9) {
   display: block;
   position: relative;
 
@@ -81,7 +81,6 @@
   //Triggering the transition
   &:focus::before, &:focus::after, &:hover::before, &:hover::after {
     opacity: 0.9;
-
     transition: all 0.75s ease;
   }
 
@@ -103,7 +102,7 @@
     font-size: 0.8em;
     color: $text-color;
     margin-bottom: 3px;
-    opacity: 0.9;
+    opacity: $text-opacity;
 
 
 
