@@ -2,12 +2,16 @@
 
 .stock-badge {
 
+  .level-till-end-of-stock {
+    @include battery(25%, $md-green-200, $battery-border-color: $md-orange-400);
+  }
+
   .level-0-empty {
     @include battery(10%, $md-red-800, $battery-border-color: $md-red-800);
   }
+
   .level-1-low {
     @include battery(20%, $md-orange-800);
-
   }
   .level-2-normal {
     @include battery(33%, $md-green-500);

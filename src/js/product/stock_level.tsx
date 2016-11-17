@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as Models from './product_search_model';
 import * as ProductStockLevel from '../openstore/product_stock_level';
+import { UnitFormatter } from '../formatter/unit_formatter';
 import '../../css/product/product_stock.scss';
 
 
@@ -17,9 +18,11 @@ export default class StockLevel extends React.Component<StockLevelProps, StockLe
 
     protected productStockLevel: ProductStockLevel.ProductStockLevel;
 
-    protected unitFormatter: Intl.NumberFormat;
+    protected unitFormatter: UnitFormatter;
 
     protected locale: string;
+
+    protected max_stock: number = 30;
 
     constructor(props) {
         super(props);
@@ -28,26 +31,41 @@ export default class StockLevel extends React.Component<StockLevelProps, StockLe
         this.initUnitFormatter(0);
     }
 
-    initUnitFormatter(minimumFractionDigits: number) {
-        this.unitFormatter = new Intl.NumberFormat(this.locale, {
-            minimumFractionDigits: minimumFractionDigits,
+    initUnitFormatter(decimals: number) {
+        this.unitFormatter = new UnitFormatter({
+           locale: this.locale,
+           decimals: decimals
         });
     }
 
 
     render() {
+
         let product = this.props.product;
+        let stockClass = this.productStockLevel.getStockLevel(product.stock_level);
+
+        let stock = product.available_stock;
+        let stockLabel = this.unitFormatter.format(stock);
+
+        if (stock >= this.max_stock) {
+            stockLabel = ">" + stockLabel;
+        }
+
+        let till_end_of_stock = (product.flag_till_end_of_stock == "1");
+        if (till_end_of_stock) {
+            stockClass = "level-till-end-of-stock";
+            stockLabel = this.unitFormatter.format(product.remaining_total_available_stock);
+        }
+
         return (
             <div className="stock-badge">
-                <div className={ this.productStockLevel.getStockLevel(product.stock_level) }>
+
+                <div className={ stockClass }>
                     <span>
-                        { product.available_stock >= 30 ?
-                            <a>&gt;</a>
-                            : ''
-                        }
-                        { this.unitFormatter.format(product.available_stock) }
+                        { stockLabel }
                     </span>
                 </div>
+
             </div>
         );
     }

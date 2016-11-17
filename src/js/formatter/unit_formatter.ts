@@ -3,6 +3,7 @@
 export interface UnitFormatterProps {
     locale?: string;
     decimals?: number;
+    unit?: string;
 }
 
 
@@ -12,9 +13,9 @@ export class UnitFormatter {
 
     protected locale:string = 'en-US';
 
-
     protected decimals: number =  0;
 
+    protected unit: string = '';
 
     public constructor(props: UnitFormatterProps) {
 
@@ -29,13 +30,29 @@ export class UnitFormatter {
 
     protected initFormatter() {
         this.formatter = new Intl.NumberFormat(this.locale, {
-
             minimumFractionDigits: this.decimals,
         });
     }
 
-    public format(value: number): string {
+    /**
+     *
+     * @param value
+     * @returns {string}
+     */
+    public format(value: string | number): string {
+        let formatted = '';
 
-        return this.formatter.format(value);
+        if (typeof value === "string") {
+            formatted = this.formatter.format(parseFloat(value));
+        } else {
+            formatted = this.formatter.format(value);
+        }
+
+
+        if (this.unit != '') {
+            formatted = formatted + ' ' + this.unit;
+        }
+
+        return formatted;
     }
 }

@@ -51,8 +51,10 @@ export interface ProductSearchModel {
     currency_symbol: string;
     unit_reference: string;
     type_reference: string;
-    flag_till_end_of_stock: boolean;
-    flag_end_of_lifecycle: boolean;
+    flag_till_end_of_stock: string;
+    flag_end_of_lifecycle: string;
+    remaining_available_stock?: string;
+    remaining_total_available_stock?: string;
     available_at?: string;
     picture_media_id?: string;
     picture_media_filemtime: string;

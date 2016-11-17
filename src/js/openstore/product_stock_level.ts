@@ -21,6 +21,7 @@ export class ProductStockLevel {
     public static readonly STOCK_NORMAL = "ON_STOCK_NORMAL";
     public static readonly STOCK_LOW    = "ON_STOCK_LOW";
     public static readonly STOCK_EMPTY  = "NO_STOCK";
+    public static readonly STOCK_LAST   = "STOCK_LAST"
 
     protected map: LevelToClassNameMap;
 
@@ -38,6 +39,7 @@ export class ProductStockLevel {
         map[ProductStockLevel.STOCK_NORMAL] = 'level-2-normal';
         map[ProductStockLevel.STOCK_LOW] = 'level-1-low';
         map[ProductStockLevel.STOCK_EMPTY] = 'level-0-empty';
+
         return map;
     }
 

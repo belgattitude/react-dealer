@@ -20,7 +20,7 @@
   "devDependencies": {
     "@types/core-js": "^0.9.34",
     "@types/lodash": "^4.14.39",
-    "@types/react": "^0.14.48",
+    "@types/react": "^0.14.49",
     "@types/react-dom": "^0.14.18",
     "@types/react-intl": "^2.0.29",
     "@types/whatwg-fetch": "0.0.32",
@@ -77,8 +77,8 @@
     "mobx": "^2.6.2",
     "mobx-react": "^3.5.9",
     "npm": "^3.10.9",
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2",
+    "react": "^15.4.0",
+    "react-dom": "^15.4.0",
     "react-intl": "^2.1.5",
     "react-tooltip": "^3.2.1",
     "whatwg-fetch": "^2.0.0"

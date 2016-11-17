@@ -51,7 +51,8 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
         });
         this.unitFormatter = new UnitFormatter({
             decimals: 0,
-            locale: this.locale
+            locale: this.locale,
+            unit: ''
         });
     }
 
@@ -81,8 +82,30 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
             if (product.rankable_breadcrumb) {
                 rankable_breadcrumb = product.rankable_breadcrumb.replace(new RegExp('\\|', 'g'), '»');
             }
+
+            // remaining stock
+
+            let only_left = '';
+            if ( product.flag_till_end_of_stock == "1" ) {
+
+
+                if (product.remaining_total_available_stock) {
+
+                    let pcs_remain = parseInt(product.remaining_total_available_stock);
+                    let unit = (pcs_remain > 1) ? 'pcs' : 'pc';
+                    only_left = this.unitFormatter.format(pcs_remain) + ' ' + unit + ' left !!!';
+
+                } else {
+                    only_left = 'Out of stock !!!';
+                }
+
+
+            }
+
+
             let content = (
                             <div>
+
                                 { product.fresh_rank > 0 || all_displayed ?
                                     <div className="product-fresh-badge" aria-label={ "#" + (product.fresh_rank) + " in " + rankable_breadcrumb }>
                                         <span>
@@ -148,6 +171,13 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                     </div>
                                     : ''
                                 }
+                                { only_left != '' ?
+                                    <div className="product-stock-remaining-message">
+                                        { only_left }
+                                    </div>
+                                    :''
+                                }
+
                             </div>
                           );
             return content;
@@ -168,6 +198,7 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
 
 
         const top_right_badges = (product: Models.ProductSearchModel) => {
+
             let content = (
                 <div>
                     <div className="product-badge-price" data-text-header="List price" data-text-footer="tax excl.">{ this.moneyFormatter.format(product.price) }</div>
