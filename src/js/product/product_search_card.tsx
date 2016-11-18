@@ -188,7 +188,7 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                 <div className="inner-menu">
                     <div className="menu-group-vertical">
                         <button type="button" className="btn btn-sm" onClick={(evt) => this.flipCard() }><i className="fa fa-repeat"></i></button>
-                        <button type="button" className="btn btn-sm"><i className="fa fa-search-plus"></i></button>
+                        <button type="button" className="btn btn-sm disabled"><i className="fa fa-search-plus"></i></button>
                         <button type="button" className="btn btn-sm disabled"><i className="fa fa-heart"></i></button>
                     </div>
                 </div>;

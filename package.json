@@ -28,7 +28,7 @@
     "autoprefixer-loader": "^3.2.0",
     "awesome-typescript-loader": "^2.2.4",
     "babel-core": "^6.18.2",
-    "babel-eslint": "^7.1.0",
+    "babel-eslint": "^7.1.1",
     "babel-loader": "^6.2.7",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-react-intl": "^2.2.0",
@@ -41,7 +41,7 @@
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-1": "^6.16.0",
     "copy-webpack-plugin": "^4.0.1",
-    "css-loader": "^0.25.0",
+    "css-loader": "^0.26.0",
     "eslint": "^3.10.2",
     "eslint-loader": "^1.6.1",
     "eslint-plugin-import": "^2.2.0",
@@ -60,7 +60,7 @@
     "sass-loader": "^4.0.2",
     "source-map-loader": "^0.1.5",
     "style-loader": "^0.13.1",
-    "ts-loader": "^1.2.1",
+    "ts-loader": "^1.2.2",
     "typescript": "^2.1.1",
     "typings": "^2.0.0",
     "url-loader": "^0.5.7",
@@ -74,13 +74,13 @@
     "font-awesome": "^4.7.0",
     "lodash": "^4.17.2",
     "mdbootstrap": "^4.2.0",
-    "mobx": "^2.6.2",
+    "mobx": "^2.6.3",
     "mobx-react": "^3.5.9",
-    "npm": "^3.10.9",
+    "npm": "^4.0.2",
     "react": "^15.4.0",
     "react-dom": "^15.4.0",
     "react-intl": "^2.1.5",
     "react-tooltip": "^3.2.1",
-    "whatwg-fetch": "^2.0.0"
+    "whatwg-fetch": "^2.0.1"
   }
 }

@@ -113,7 +113,7 @@
       /*background: white;*/
       background-color: $md-white;
       //background: rgba(55,58,60,0.4);
-      background-image: radial-gradient(circle, rgba(0, 0, 0, 0.5), transparent);
+      //background-image: radial-gradient(circle, rgba(0, 0, 0, 0.5), transparent);
       background-repeat: no-repeat;
       /*color: white;*/
 
@@ -365,6 +365,12 @@
       }
     }
 
+    .product-category-breadcrumb {
+      font-size: 0.9em;
+      color: $md-grey-400;
+
+
+    }
 
     .product-description {
       width: 90%;

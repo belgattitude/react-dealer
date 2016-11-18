@@ -44,20 +44,20 @@ export default class ProductSearchCardBack extends React.Component<ProductSearch
     render() {
 
         let product = this.props.product;
-        let descriptionCount = product.description.length;
 
         const inner_menu = ()  => {
             let inner_menu =
                 <div className="inner-menu">
                     <div className="menu-group-vertical">
                         <button type="button" className="btn btn-sm" onClick={(evt) => this.flipCard() }><i className="fa fa-repeat"></i></button>
-                        <button type="button" className="btn btn-sm"><i className="fa fa-search-plus"></i></button>
+                        <button type="button" className="btn btn-sm disabled"><i className="fa fa-search-plus"></i></button>
                         <button type="button" className="btn btn-sm disabled"><i className="fa fa-heart"></i></button>
                     </div>
                 </div>;
             return inner_menu;
         };
 
+        let categ = product.category_breadcrumb.replace(new RegExp('\\|', 'g'), '»');
 
         return (
             <div className="product-card-back" onClick={(evt) => this.props.flipBackHandler() }>
@@ -78,9 +78,14 @@ export default class ProductSearchCardBack extends React.Component<ProductSearch
                     </div>
                 </div>
 
-                <div>
-                    {product.category_breadcrumb}
+                <div className="product-category-breadcrumb">
+                    {categ}
                 </div>
+
+                <div className="product-id">
+                    (#{product.product_id})
+                </div>
+
 
                 <div className="product-card-pricebox">
 
