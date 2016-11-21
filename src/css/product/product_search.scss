@@ -3,8 +3,12 @@
 @import "product_search_no_result";
 @import "product_search_load_more";
 
+.product-search-container {
 
+  border: 1px solid black;
+  @import "loader_bar";
 
+}
 
 .product-list-container {
   font-family: $primary-font;

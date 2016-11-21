@@ -141,8 +141,9 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
     protected scrollTop() {
 
         // Bugs here,
-        //ReactDOM.findDOMNode(this).scrollIntoView();
-        //ReactDOM.findDOMNode(this).scrollTo(0, 0);
+        //  - ReactDOM.findDOMNode(this).scrollIntoView();
+        //  - ReactDOM.findDOMNode(this).scrollTop = 0;
+        // So let's make a window.scrollTo(0,0)
         window.scrollTo(0, 0);
 
     }
@@ -155,15 +156,14 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
             let target = document.getElementById(this.props.searchInputTarget);
             target.focus();
             let searchInput = this.refs['searchInput'] as HTMLInputElement;
-            target.addEventListener('keyup', (evt: any) => {
-                searchInput.value = evt.target.value;
-
+            target.addEventListener('keyup', (evt: Event) => {
+                let target = evt.target as HTMLInputElement;
+                searchInput.value = target.value;
                 /*
                 var event = new Event('change');
                 searchInput.dispatchEvent(event);
                 */
-
-                this.debouncedSearch(evt.target.value)
+                this.debouncedSearch(target.value)
             });
         }
 
@@ -205,10 +205,18 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
 
         return (
             <div className="product-search-container">
-
                 <div style={ searchInputStyle }>
                     { input }
                 </div>
+                <div className="loader-bar">
+                    <div className="bar">Hello</div>
+                </div>
+                <div>
+                    <span className="loader loader-quart">
+                        Loading...
+                    </span>
+                </div>
+
                 { (productsCount > 0) ?
                     <div className="product-list-container">
                         {products.map((product) =>
