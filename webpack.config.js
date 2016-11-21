@@ -170,7 +170,9 @@ var config = {
             },
             {
                 test: /\.html$/,
-                loader: 'html'
+                //loader: 'html'
+                // to allow html reloading
+                loader: "raw-loader"
             },
             {
                 test: /\.scss|\.sass|\.css$/,

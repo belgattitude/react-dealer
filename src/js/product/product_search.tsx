@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import '../../css/product/_fonts';
 import '../../css/product/product_search.scss';
 import ProductSearchService from  './product_search_service';
@@ -8,6 +9,7 @@ import ProductSearchCard from './product_search_card';
 import {debounce, union, flatMap, includes} from 'lodash';
 import {IJsonResult} from "../core/soluble_flexstore";
 import {ProductSearchParams} from "./product_search_service";
+
 
 
 export interface ProductSearchProps {
@@ -31,16 +33,17 @@ export interface ProductSearchState {
 
 class ProductSearch extends React.Component<ProductSearchProps, ProductSearchState> {
 
-    productSearchService: ProductSearchService;
+    protected productSearchService: ProductSearchService;
 
-    debouncedSearch: any;
-    searchDebounceTime: number = 400;
-    searchLimit: number = 50;
-    locale: string = 'fr-FR';
+    protected debouncedSearch: any;
+    protected searchDebounceTime: number = 400;
+    protected searchLimit: number = 50;
+    protected locale: string = 'fr-FR';
 
-    searchCount: number = 0;
+    protected searchCount: number = 0;
 
-    previousSearchParams: ProductSearchParams;
+    protected previousSearchParams: ProductSearchParams;
+
 
     constructor(props: ProductSearchProps) {
 
@@ -127,9 +130,21 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
                         total: total,
                         hasMore: hasMore
                     });
+
+                    this.scrollTop();
+
                 }
             }
         );
+    }
+
+    protected scrollTop() {
+
+        // Bugs here,
+        //ReactDOM.findDOMNode(this).scrollIntoView();
+        //ReactDOM.findDOMNode(this).scrollTo(0, 0);
+        window.scrollTo(0, 0);
+
     }
 
     componentDidMount() {
@@ -189,25 +204,26 @@ class ProductSearch extends React.Component<ProductSearchProps, ProductSearchSta
         let displayNoResults = (productsCount == 0 && this.searchCount > 0);
 
         return (
-            <div>
+            <div className="product-search-container">
+
                 <div style={ searchInputStyle }>
                     { input }
                 </div>
-                        { (productsCount > 0) ?
-                            <div className="product-list-container">
-                                {products.map((product) =>
-                                    <ProductSearchCard key={product.product_id}
-                                                       product={product}
-                                                       locale={this.locale} />
-                                )
-                                }
-                            </div>
-                            : ''
+                { (productsCount > 0) ?
+                    <div className="product-list-container">
+                        {products.map((product) =>
+                            <ProductSearchCard key={product.product_id}
+                                               product={product}
+                                               locale={this.locale} />
+                        )
                         }
+                    </div>
+                    : ''
+                }
 
-                        { displayMoreProducts && moreProductDiv() }
+                { displayMoreProducts && moreProductDiv() }
 
-                        { displayNoResults && noResults()}
+                { displayNoResults && noResults()}
 
             </div>
         );
