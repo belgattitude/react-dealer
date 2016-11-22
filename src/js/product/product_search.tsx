@@ -14,7 +14,6 @@ import { IJsonResult } from "../core/soluble_flexstore";
 export { ProductSearchService, ProductPictureService };
 
 export interface ProductSearchProps {
-
     productSearchService: ProductSearchService;
     productPictureService: ProductPictureService;
 
@@ -25,6 +24,8 @@ export interface ProductSearchProps {
     hideSearchInput: boolean;
     locale?: string;
     searchLimit?: number;
+    // window || scrollintoview
+    scrollTopMethod?: string;
 }
 
 export interface ProductSearchState {
@@ -37,6 +38,7 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
     protected debouncedSearch: any;
     protected searchDebounceTime: number = 400;
     protected searchLimit: number = 50;
+    protected scrollTopMethod: string = 'window';
     protected locale: string = 'fr-FR';
 
     protected isLoading: boolean = false;
@@ -63,6 +65,11 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
         if (props.locale) {
             this.locale = props.locale;
         };
+
+        if (props.scrollTopMethod) {
+            this.scrollTopMethod = props.scrollTopMethod;
+        };
+
 
 
         this.state = {
@@ -150,7 +157,7 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
 
         // If the component is inside a complex
         // layout prefer scrollIntoView()
-        if (false) {
+        if (this.scrollTopMethod == 'scrollintoview') {
             let element = ReactDOM.findDOMNode(this);
             element.scrollIntoView(true);
         } else {
