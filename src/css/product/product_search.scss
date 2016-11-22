@@ -5,19 +5,29 @@
 
 .product-search-container {
 
-  border: 1px solid black;
-  @import "loader_bar";
+
+
 
   .product-search-loader-container {
+
+    @import "loader_bar";
+
+    &.disabled {
+      display: none;
+      .loader-circle {
+        animation: none;
+        display: none;
+      }
+    }
     display: block;
-    background-image: linear-gradient(white, rgba(255,255,255,0.1));
+    background-image: linear-gradient(white, rgba(255,255,255,0.4));
     z-index: 100;
-    width: 100%;
+    right: 0;
     height: 80px;
     text-align: right;
     position: absolute;
     padding: 5px 15px 5px 5px;
-    .loader {
+    .loader-circle {
       display: inline-block;
       position: relative;
       right: 10px;

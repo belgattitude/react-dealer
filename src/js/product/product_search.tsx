@@ -31,20 +31,21 @@ export interface ProductSearchState {
     products: Array<Models.ProductSearchModel>;
     total: number;
     hasMore: number;
-    isLoading: boolean;
 }
 
-
 export class ProductSearch extends React.Component<ProductSearchProps, ProductSearchState> {
-
     protected debouncedSearch: any;
     protected searchDebounceTime: number = 400;
     protected searchLimit: number = 50;
     protected locale: string = 'fr-FR';
 
+    protected isLoading: boolean = false;
+
     protected searchCount: number = 0;
 
     protected previousSearchParams: ProductSearchParams;
+
+    protected loaderContainer: any;
 
 
     constructor(props: ProductSearchProps) {
@@ -68,12 +69,13 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
             products: [],
             total: 0,
             hasMore: 0,
-            isLoading: false
+
         } as ProductSearchState;
 
         this.debouncedSearch = debounce((query: string) => {
             this.searchProducts(this.getSearchParams(query));
         }, this.searchDebounceTime);
+
     }
 
     getSearchParams(query?: string) : ProductSearchParams {
@@ -100,7 +102,7 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
         this.searchCount++;
         this.previousSearchParams = searchParams;
 
-        this.setState({isLoading: true} as ProductSearchState);
+        this.showLoader();
 
         this.props.productSearchService.searchProducts(searchParams).then(
             (response?: IJsonResult) => {
@@ -128,35 +130,32 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
                     let limit: number = response.limit;
                     let hasMore: number = Math.max(total - (start + limit), 0);
 
-                    if (this.searchCount < 20000) {
-                        this.setState({
-                            products: data,
-                            total: total,
-                            hasMore: hasMore,
-                            isLoading: false
-                        } as ProductSearchState);
-                    } else {
-                        this.setState({
-                            isLoading: false
-                        } as ProductSearchState);
+                    this.hideLoader();
+                    this.setState({
+                        products: data,
+                        total: total,
+                        hasMore: hasMore,
 
-                    }
+                    } as ProductSearchState);
                 }
             }
         ).catch((ex: Error) => {
             console.log('Promise has been cancelled not need to re-render product results');
+            this.hideLoader();
         });
-
-
     }
+
 
     protected scrollTop() {
 
-        // Bugs here,
-        //  - ReactDOM.findDOMNode(this).scrollIntoView();
-        //  - ReactDOM.findDOMNode(this).scrollTop = 0;
-        // So let's make a window.scrollTo(0,0)
-        window.scrollTo(0, 0);
+        // If the component is inside a complex
+        // layout prefer scrollIntoView()
+        if (false) {
+            let element = ReactDOM.findDOMNode(this);
+            element.scrollIntoView(true);
+        } else {
+            window.scrollTo(0, 0);
+        }
 
     }
 
@@ -202,7 +201,6 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
 
         let moreProductDiv = () => {
             return (
-
                 <div className="product-search-load-more">
                     <button className="btn btn-secondary" onClick={(evt) => this.loadMore() }>
                         Load more... (total {this.state.total} products, has still {this.state.hasMore}...).
@@ -211,31 +209,30 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
             );
         }
 
-        let loaderBar = () => {
-
-            return (
-                <div className="product-search-loader-container">
-                    <span className="loader loader-quart">
-
-                    </span>
-                </div>
-            );
-        }
 
         let hasMore = this.state.hasMore;
         let displayMoreProducts = ((this.searchCount > 0) && productsCount > 0 && (hasMore > 0));
         let displayNoResults = (productsCount == 0 && this.searchCount > 0);
+
 
         return (
             <div className="product-search-container">
                 <div style={ searchInputStyle }>
                     { input }
                 </div>
-                { this.state.isLoading && loaderBar() }
+
+                <div className="product-search-loader-container disabled"
+                     ref={(loaderContainer) => { this.loaderContainer = loaderContainer; }}>
+                    <span className="loader-circle">
+                    </span>
+                </div>
 
                 <ProductSearchResults products={this.state.products}
                                       productPictureService={this.props.productPictureService}
-                                      locale={this.locale} />
+                                      locale={this.locale}
+
+                />
+
 
                 { displayMoreProducts && moreProductDiv() }
 
@@ -243,6 +240,27 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
 
             </div>
         );
+
+    }
+
+    protected hideLoader(className: string = 'disabled') {
+        this.isLoading = false;
+        let el = this.loaderContainer;
+        if (el.classList) {
+            el.classList.add(className);
+        } else { // < IE10
+            el.className += ' ' + className;
+        }
+    }
+
+    protected showLoader(className: string = 'disabled') {
+        this.isLoading = true;
+        let el = this.loaderContainer;
+        if (el.classList) {
+            el.classList.remove(className);
+        } else {
+            el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+        }
     }
 
 }

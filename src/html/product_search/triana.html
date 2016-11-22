@@ -81,41 +81,44 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/js/mdb.min.js"></script>
 
 <script type="text/javascript">
-        (function (product_search, product_search_service) {
+    (function (product_search) {
 
-            if (typeof product_search === 'undefined') {
-                throw new Error('Missing product_search javascript application (include product_search.js).')
+        var windowInnerWidth = window.innerWidth|| document.documentElement.clientWidth || document.body.clientWidth;
+        var isMobile = (windowInnerWidth < 600);
+
+        if (typeof product_search === 'undefined') {
+            throw new Error('Missing product_search javascript application (include product_search.js).')
+        }
+
+        var productPictureService = new product_search.ProductPictureService({
+            spec_url: 'http://api.emdmusic.com/media/preview/picture',
+            format: {
+                resolution: isMobile ? '170x200' : '400x500',
+                type: 'jpg',
+                quality: 85
             }
+        });
 
-            var productPictureService = new product_search.ProductPictureService({
-                spec_url: 'http://api.emdmusic.com/media/preview/picture',
-                format: {
-                    resolution: '400x500',
-                    type: 'jpg',
-                    quality: 85
-                }
-            });
+        var productSearchService = new product_search.ProductSearchService({
+            source: 'http://apps.emdmusic.com/api/v1/catalog/search'
+        });
 
-            var productSearchService = new product_search.ProductSearchService({
-                source: 'http://apps.emdmusic.com/api/v1/catalog/search'
-            });
-
-            var productSearch = React.createElement(product_search.ProductSearch, {
-                productSearchService: productSearchService,
-                productPictureService: productPictureService,
-                searchInputTarget: 'catalogSearchTextInput',
-                searchDebounceTime: 350,
-                searchLimit: 30,
-                hideSearchInput: true,
-                language: 'en',
-                pricelist: 'ES',
-                locale: 'fr-FR'
-            }, null);
-            ReactDOM.render(
-                    productSearch,
-                    document.getElementById('product_search_container')
-            );
-        })(product_search);
+        var productSearch = React.createElement(product_search.ProductSearch, {
+            productSearchService: productSearchService,
+            productPictureService: productPictureService,
+            searchInputTarget: 'catalogSearchTextInput',
+            searchDebounceTime: isMobile ? 500 : 300,
+            searchLimit: isMobile ? 20 : 50,
+            hideSearchInput: true,
+            language: 'en',
+            pricelist: 'ES',
+            locale: 'fr-FR'
+        }, null);
+        ReactDOM.render(
+                productSearch,
+                document.getElementById('product_search_container')
+        );
+    })(product_search);
 </script>
 
 
