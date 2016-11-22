@@ -1,7 +1,7 @@
 import * as React from 'react';
 //import * as MediaHelper from '../openstore/product_media_helper';
 import * as Models from './product_search_model';
-import { ProductPicture } from '../openstore/product_media_helper';
+import { ProductPictureService } from '../openstore/product_picture_service';
 //import ProductDescription from './product_description';
 import { MoneyFormatter } from '../formatter/money_formatter';
 import { UnitFormatter } from '../formatter/unit_formatter';
@@ -15,7 +15,7 @@ export interface ProductSearchCardBackProps {
     flipBackHandler: any;
     moneyFormatter: MoneyFormatter;
     unitFormatter: UnitFormatter;
-    productPicture: ProductPicture
+    productPictureService: ProductPictureService
 }
 
 export interface ProductSearchCardBackState {
@@ -26,7 +26,7 @@ export default class ProductSearchCardBack extends React.Component<ProductSearch
 
     protected locale: string;
 
-    protected productPicture: ProductPicture;
+    protected productPicture: ProductPictureService;
     protected unitFormatter: UnitFormatter;
     protected moneyFormatter: MoneyFormatter;
 

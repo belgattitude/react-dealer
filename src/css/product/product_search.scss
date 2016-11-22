@@ -8,6 +8,28 @@
   border: 1px solid black;
   @import "loader_bar";
 
+  .product-search-loader-container {
+    display: block;
+    background-image: linear-gradient(white, rgba(255,255,255,0.1));
+    z-index: 100;
+    width: 100%;
+    height: 80px;
+    text-align: right;
+    position: absolute;
+    padding: 5px 15px 5px 5px;
+    .loader {
+      display: inline-block;
+      position: relative;
+      right: 10px;
+      content: "cool";
+      top: 10px;
+      z-index: +1;
+      width: 50px;
+      height: 50px;
+      vertical-align: middle;
+    }
+  }
+
 }
 
 .product-list-container {

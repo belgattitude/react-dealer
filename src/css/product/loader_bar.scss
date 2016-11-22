@@ -1,32 +1,8 @@
 
-// $Mixin
-@mixin size($width , $height: $width ) {
-  width: $width;
-  height: $height;
-}
-
-@mixin fontsize($size: 24, $base: 16) {
-  font-size: $size + px;
-  font-size: ($size / $base) * 1rem;
-}
-
-@mixin absPosition ($top: auto, $right: auto, $bottom: auto, $left: auto) {
-  position: absolute;
-  top: $top;
-  right: $right;
-  bottom: $bottom;
-  left: $left;
-}
-
-@mixin animation($animation...) {
-  animation: $animation;
-}
-
 .loader {
   display: inline-block;
   position: absolute;
   z-index: +1;
-  transform: translateX(50%);
   width: 50px;
   height: 50px;
   vertical-align: middle;
@@ -37,41 +13,47 @@
   border: 6px solid rgba(255, 255, 255, 0.4);
   &:after {
     content: '';
-    @include absPosition(-6px, -6px, -6px, -6px);
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    bottom: -6px;
+    left: -6px;
     border-radius: 50px;
     border: 6px solid transparent;
     border-top-color: $md-blue-200;
-    @include animation(spin 2s linear infinite);
+    //@include animation(spin 2s linear infinite);
+    animation: spin 2s linear infinite;
   }
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+      border-top-color: $md-blue-100;
+    }
+
+    25% {
+      transform: rotate(90deg);
+      border-top-color: $md-blue-400;
+    }
+
+    50% {
+      transform: rotate(180deg);
+      border-top-color: $md-blue-800;
+    }
+
+    75% {
+      transform: rotate(270deg);
+      border-top-color: $md-blue-400;
+
+    }
+
+    100% {
+      transform: rotate(360deg);
+      border-top-color: $md-blue-100;
+    }
+  }
+
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-    border-top-color: $md-blue-100;
-  }
-
-  25% {
-    transform: rotate(90deg);
-    border-top-color: $md-blue-400;
-  }
-
-  50% {
-    transform: rotate(180deg);
-    border-top-color: $md-blue-800;
-  }
-
-  75% {
-    transform: rotate(270deg);
-    border-top-color: $md-blue-400;
-
-  }
-
-  100% {
-    transform: rotate(360deg);
-    border-top-color: $md-blue-100;
-  }
-}
 
 
 .loader-bar {

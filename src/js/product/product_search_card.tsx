@@ -3,24 +3,24 @@ import * as React from 'react';
 import ProductSearchCardBack from './product_search_card_back';
 import StockLevel from './stock_level';
 import * as Models from './product_search_model';
-import { ProductPicture } from '../openstore/product_media_helper';
+import { ProductPictureService, ProductPictureServiceProps } from '../openstore/product_picture_service';
 import { MoneyFormatter } from '../formatter/money_formatter';
 import { UnitFormatter } from '../formatter/unit_formatter';
+
 
 import '../../css/product/product_card.scss';
 
 export interface ProductSearchCardProps {
     product: Models.ProductSearchModel;
     locale: string;
+    productPictureService: ProductPictureService;
 }
 
 export interface ProductSearchCardState {
     flipped?: boolean;
 }
 
-class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductSearchCardState> {
-
-    protected productPicture: ProductPicture;
+export class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductSearchCardState> {
 
     protected locale: string;
 
@@ -35,15 +35,6 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
 
         this.locale = props.locale;
 
-        //30x30,40x40,65x90,170x200,250x750,400x500,800x800,1024x768,1280x1024,1200x1200,3000x3000
-        let url_spec = 'http://api.emdmusic.com/media/preview/picture'; // no slash at the end
-        //let url_spec = 'http://localhost/workspace/openstore/public/media/preview/picture'; // no slash at the end
-        let options = {
-            resolution: '400x500',
-            quality: 85,
-            format: 'jpg'
-        };
-        this.productPicture = new ProductPicture(url_spec, options);
         this.moneyFormatter = new MoneyFormatter({
             currency: 'EUR',
             decimals: 2,
@@ -68,7 +59,7 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
         const product = this.props.product;
         const media_id = product.picture_media_id;
 
-        let img = this.productPicture.getMediaUrl(media_id, product.picture_media_filemtime);
+        let img = this.props.productPictureService.getMediaUrl(media_id, product.picture_media_filemtime);
 
         let flippedClass = '';
         if (this.state.flipped) {
@@ -227,6 +218,7 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
             );
         };
 
+
         return (
             <div className="product-card-wrap">
 
@@ -281,7 +273,7 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
                                                flipBackHandler={ (evt) => { this.flipCard() }}
                                                moneyFormatter={ this.moneyFormatter }
                                                unitFormatter={ this.unitFormatter }
-                                               productPicture={ this.productPicture } />
+                                               productPictureService={ this.props.productPictureService } />
 
                     </div>
 
@@ -290,8 +282,5 @@ class ProductSearchCard extends React.Component<ProductSearchCardProps, ProductS
             </div>
         );
     }
-
-
 }
 
-export default ProductSearchCard;

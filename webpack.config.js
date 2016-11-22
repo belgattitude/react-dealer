@@ -53,7 +53,10 @@ var config = {
         'dealer_locator': ['./js/dealer/dealer_locator'],
 
         /** product search component and internal application */
-        'product_search': ['./js/product/product_search'],
+        'product_search': [
+                './js/product/product_search',
+
+        ],
         'product_search_app': ['./js/product_search_app'],
 
         /** Fetch component and polyfills **/
@@ -70,7 +73,7 @@ var config = {
 
         library: '[name]',
         libraryTarget: 'umd',
-        umdNamedDefine: false
+        umdNamedDefine: true
         //publicPath: '/assets/'
     },
 

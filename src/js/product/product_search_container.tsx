@@ -3,21 +3,17 @@ import * as ReactDOM from 'react-dom';
 import '../../css/product/_fonts';
 import '../../css/product/product_search.scss';
 import { ProductSearchService } from  './product_search_service';
-import { ProductPictureService } from  '../openstore/product_picture_service';
 import { ProductSearchParams } from "./product_search_params";
-
 import * as Models from './product_search_model';
-import { ProductSearchResults } from './product_search_results';
+import ProductSearchCard from './product_search_card';
 import { debounce, includes } from 'lodash';
-import { IJsonResult } from "../core/soluble_flexstore";
+import {IJsonResult} from "../core/soluble_flexstore";
 
-export { ProductSearchService, ProductPictureService };
+
 
 export interface ProductSearchProps {
-
     productSearchService: ProductSearchService;
-    productPictureService: ProductPictureService;
-
+    source: string;
     pricelist: string;
     language: string;
     searchDebounceTime?: number;
@@ -36,6 +32,8 @@ export interface ProductSearchState {
 
 
 export class ProductSearch extends React.Component<ProductSearchProps, ProductSearchState> {
+
+    protected productSearchService: ProductSearchService;
 
     protected debouncedSearch: any;
     protected searchDebounceTime: number = 400;
@@ -120,7 +118,6 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
                         data = newData;
                     } else {
                         data = response.data;
-                        this.scrollTop();
                     }
 
                     let total: number = response.total;
@@ -128,19 +125,23 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
                     let limit: number = response.limit;
                     let hasMore: number = Math.max(total - (start + limit), 0);
 
-                    if (this.searchCount < 20000) {
+                    if (this.searchCount < 100) {
+
                         this.setState({
                             products: data,
                             total: total,
                             hasMore: hasMore,
                             isLoading: false
                         } as ProductSearchState);
+
                     } else {
                         this.setState({
                             isLoading: false
                         } as ProductSearchState);
 
                     }
+                    this.scrollTop();
+
                 }
             }
         ).catch((ex: Error) => {
@@ -172,9 +173,9 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
                 let target = evt.target as HTMLInputElement;
                 searchInput.value = target.value;
                 /*
-                var event = new Event('change');
-                searchInput.dispatchEvent(event);
-                */
+                 var event = new Event('change');
+                 searchInput.dispatchEvent(event);
+                 */
                 this.debouncedSearch(target.value)
             });
         }
@@ -233,9 +234,20 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
                 </div>
                 { this.state.isLoading && loaderBar() }
 
-                <ProductSearchResults products={this.state.products}
-                                      productPictureService={this.props.productPictureService}
-                                      locale={this.locale} />
+
+                { (productsCount > 0) ?
+                    <div className="product-list-container">
+                        {products.map((product) => {
+                                console.log('rendering product ', product.product_id);
+                                return (<ProductSearchCard key={product.product_id}
+                                                           product={product}
+                                                           locale={this.locale}/>);
+                            }
+                        )
+                        }
+                    </div>
+                    : ''
+                }
 
                 { displayMoreProducts && moreProductDiv() }
 

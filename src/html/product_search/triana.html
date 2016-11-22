@@ -80,14 +80,29 @@
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/js/mdb.min.js"></script>
 
-
 <script type="text/javascript">
-        (function (product_search) {
+        (function (product_search, product_search_service) {
+
             if (typeof product_search === 'undefined') {
                 throw new Error('Missing product_search javascript application (include product_search.js).')
             }
-            var productSearch = React.createElement(product_search.default, {
-                source: 'http://apps.emdmusic.com/api/v1/catalog/search',
+
+            var productPictureService = new product_search.ProductPictureService({
+                spec_url: 'http://api.emdmusic.com/media/preview/picture',
+                format: {
+                    resolution: '400x500',
+                    type: 'jpg',
+                    quality: 85
+                }
+            });
+
+            var productSearchService = new product_search.ProductSearchService({
+                source: 'http://apps.emdmusic.com/api/v1/catalog/search'
+            });
+
+            var productSearch = React.createElement(product_search.ProductSearch, {
+                productSearchService: productSearchService,
+                productPictureService: productPictureService,
                 searchInputTarget: 'catalogSearchTextInput',
                 searchDebounceTime: 350,
                 searchLimit: 30,
