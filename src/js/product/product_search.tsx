@@ -158,7 +158,7 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
         // If the component is inside a complex
         // layout prefer scrollIntoView()
         if (this.scrollTopMethod == 'scrollintoview') {
-            let element = ReactDOM.findDOMNode(this);
+            let element = ReactDOM.findDOMNode(this) as HTMLElement;
             element.scrollIntoView(true);
         } else {
             window.scrollTo(0, 0);
