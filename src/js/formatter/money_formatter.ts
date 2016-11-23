@@ -1,31 +1,31 @@
+import { NumberFormatterProps } from './number_formatter';
 
-
-export interface MoneyFormatterProps {
-    locale?: string;
+export interface MoneyFormatterProps extends NumberFormatterProps {
     currency: string;
-    decimals?: number;
 }
 
-
-export class MoneyFormatter {
+export class MoneyFormatter  {
 
     protected formatter: Intl.NumberFormat;
-
     protected locale:string = 'en-US';
+
+    protected minimumFractionDigits: number = 2;
+    protected maximumFractionDigits: number = 2;
 
     protected currency:string;
 
-    protected decimals: number =  2;
-
-
     public constructor(props: MoneyFormatterProps) {
 
-        if (props.decimals) {
-            this.decimals = props.decimals;
-        }
         if (props.locale) {
             this.locale = props.locale;
         }
+        if (props.minimumFractionDigits != null) {
+            this.minimumFractionDigits = props.minimumFractionDigits;
+        }
+        if (props.maximumFractionDigits != null) {
+            this.maximumFractionDigits = props.maximumFractionDigits;
+        }
+
         this.currency = props.currency;
         this.initFormatter();
     }
@@ -34,12 +34,48 @@ export class MoneyFormatter {
         this.formatter = new Intl.NumberFormat(this.locale, {
             style: 'currency',
             currency: this.currency,
-            minimumFractionDigits: this.decimals,
+            minimumFractionDigits: this.minimumFractionDigits,
+            maximumFractionDigits: this.maximumFractionDigits,
         });
     }
 
-    public format(value: number): string {
+    public format(value: number | string): string {
 
-        return this.formatter.format(value);
+        let formatted: string = '';
+        let val: number;
+
+        if (typeof value === "string") {
+            val = parseFloat(value);
+        } else {
+            val = value;
+        }
+
+        formatted = this.formatter.format(val);
+        return formatted;
+
     }
+
+    /*
+    public format(value: number | string, part?: string): string {
+
+        let formatted = '';
+        let val: number;
+
+        if (typeof value === "string") {
+            val = parseFloat(value);
+        } else {
+            val = value;
+        }
+
+        if (part == 'fraction') {
+            val = val%1;
+        } else if (part == 'integer') {
+            val = Math.floor(val);
+        }
+
+        formatted = this.formatter.format(val);
+        return formatted;
+
+    }
+*/
 }

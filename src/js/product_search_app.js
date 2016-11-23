@@ -28,7 +28,7 @@ var productSearch = React.createElement(ProductSearch, {
     searchDebounceTime: isMobile ? 450 : 350,
     searchLimit: isMobile ? 15 : 50,
     hideSearchInput: true,
-    pricelist: 'ES',
+    pricelist: 'BE',
 
 }, null);
 

@@ -26,6 +26,7 @@ export class ProductSearchCard extends React.Component<ProductSearchCardProps, P
 
     protected unitFormatter: UnitFormatter;
     protected moneyFormatter: MoneyFormatter;
+    protected discountFormatter: UnitFormatter;
 
     constructor(props) {
         super(props);
@@ -37,14 +38,25 @@ export class ProductSearchCard extends React.Component<ProductSearchCardProps, P
 
         this.moneyFormatter = new MoneyFormatter({
             currency: 'EUR',
-            decimals: 2,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
             locale: this.locale
         });
         this.unitFormatter = new UnitFormatter({
-            decimals: 0,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
             locale: this.locale,
             unit: ''
         });
+        this.discountFormatter = new UnitFormatter({
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+            locale: this.locale,
+            unit: '%',
+            unitSeparator: ''
+        });
+
+
     }
 
 
@@ -78,26 +90,57 @@ export class ProductSearchCard extends React.Component<ProductSearchCardProps, P
 
             let only_left = '';
             if ( product.flag_till_end_of_stock == "1" ) {
-
-
                 if (product.remaining_total_available_stock) {
-
                     let pcs_remain = parseInt(product.remaining_total_available_stock);
                     let unit = (pcs_remain > 1) ? 'pcs' : 'pc';
                     only_left = this.unitFormatter.format(pcs_remain) + ' ' + unit + ' left !!!';
-
                 } else {
                     only_left = 'Out of stock !!!';
                 }
+            }
 
-
+            let discount_message: string = '';
+            let discounted_price: boolean =  (product.list_price != product.price);
+            let isPromotionnal: boolean = (product.is_promotional == "1"  && product.is_liquidation != "1");
+            let isLiquidation: boolean = (product.is_liquidation == "1");
+            if (discounted_price) {
+                discount_message = '-' + this.discountFormatter.format(product.total_discount) + ', save ' + this.moneyFormatter.format(product.price_saving) + '/pc !!!';
             }
 
 
             let content = (
                             <div>
+                                { product.deal_rank > 0 && (isLiquidation || isPromotionnal)  || all_displayed ?
+                                    <div className="product-deal-badge" aria-label={ "#" + (product.deal_rank) + " in " + rankable_breadcrumb }>
+                                        <span>
+                                            <i className="fa fa-bullhorn" aria-hidden="true"></i>&nbsp;
+                                            Popular deal
+                                        </span>
+                                    </div>
+                                    :
+                                    '' }
 
-                                { product.fresh_rank > 0 || all_displayed ?
+                                { isLiquidation || all_displayed ?
+                                    <div className="product-liquidation-badge" aria-label={ 'Liquidation: ' + discount_message}>
+                                        <span>
+                                            <i className="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;
+                                            Liquidation
+                                        </span>
+                                    </div>
+                                    : ''
+                                }
+
+                                { isPromotionnal || all_displayed ?
+                                    <div className="product-promo-badge" aria-label={ 'Promo: ' + discount_message}>
+                                        <span>
+                                            <i className="fa fa-hand-peace-o" aria-hidden="true"></i>&nbsp;
+                                            - { this.discountFormatter.format(product.total_discount) }
+                                        </span>
+                                    </div>
+                                    : ''
+                                }
+
+                                { (!isLiquidation && product.fresh_rank > 0) || all_displayed ?
                                     <div className="product-fresh-badge" aria-label={ "#" + (product.fresh_rank) + " in " + rankable_breadcrumb }>
                                         <span>
                                             <i className="fa fa-line-chart" aria-hidden="true"></i>&nbsp;
@@ -107,7 +150,7 @@ export class ProductSearchCard extends React.Component<ProductSearchCardProps, P
                                     :
                                     '' }
 
-                                { product.bestseller_rank > 0 || all_displayed ?
+                                { (product.bestseller_rank) > 0 || all_displayed ?
                                     <div className="product-bestseller-badge" aria-label={ "#" + (product.bestseller_rank) + " in " + rankable_breadcrumb }>
                                         <span>
                                             <i className="fa fa-fire" aria-hidden="true"></i>&nbsp;
@@ -116,7 +159,7 @@ export class ProductSearchCard extends React.Component<ProductSearchCardProps, P
                                     </div>
                                     :
                                     '' }
-                                { product.popular_rank > 0 || all_displayed ?
+                                { (product.popular_rank > 0) || all_displayed ?
                                     <div className="product-popular-badge" aria-label={ "#" + (product.popular_rank) + " in " + rankable_breadcrumb }>
                                         <span>
                                             <i className="fa fa-heartbeat" aria-hidden="true"></i>&nbsp;
@@ -125,40 +168,13 @@ export class ProductSearchCard extends React.Component<ProductSearchCardProps, P
                                     </div>
                                     :
                                     '' }
-                                { product.deal_rank > 0 && product.list_price != product.price  || all_displayed ?
-                                    <div className="product-deal-badge" aria-label={ "#" + (product.deal_rank) + " in " + rankable_breadcrumb }>
-                                        <span>
-                                            <i className="fa fa-bullhorn" aria-hidden="true"></i>&nbsp;
-                                            Popular deal
-                                        </span>
-                                    </div>
-                                    :
-                                    '' }
-                                { product.flag_new == "1" || all_displayed ?
+                                { !isLiquidation && product.flag_new == "1" || all_displayed ?
                                     <div className="product-new-badge" aria-label={ product.available_at }>
                                         <span>
                                             <i className="fa fa-clock-o" aria-hidden="true"></i>&nbsp;
                                             New
                                         </span>
 
-                                    </div>
-                                    : ''
-                                }
-                                { (product.is_promotional == "1"  && product.is_liquidation != "1") || all_displayed ?
-                                    <div className="product-promo-badge" aria-label={ product.discount_1 }>
-                                        <span>
-                                            <i className="fa fa-arrow-circle-down" aria-hidden="true"></i>&nbsp;
-                                            Promo
-                                        </span>
-                                    </div>
-                                    : ''
-                                }
-                                { product.is_liquidation == "1" || all_displayed ?
-                                    <div className="product-liquidation-badge" aria-label={ product.discount_1 }>
-                                        <span>
-                                            <i className="fa fa-exclamation-circle" aria-hidden="true"></i>&nbsp;
-                                            Liquidation
-                                        </span>
                                     </div>
                                     : ''
                                 }
@@ -190,9 +206,31 @@ export class ProductSearchCard extends React.Component<ProductSearchCardProps, P
 
         const top_right_badges = (product: Models.ProductSearchModel) => {
 
+            let isDiscounted: boolean =  (product.list_price != product.price);
+
+            let rawPrice = product.price;
+
+            let intPart = this.moneyFormatter.format(rawPrice);
+            let fractionPart = this.moneyFormatter.format((rawPrice % 1))
+                //.replace(/\D$/g, '')
+                .replace(/^0/, '');
+
+            let price = {
+                __html: intPart.replace(new RegExp('(' + fractionPart + ')'), '<span class="decimals">$1</span>')
+            }
+
             let content = (
                 <div>
-                    <div className="product-badge-price" data-text-header="List price" data-text-footer="tax excl.">{ this.moneyFormatter.format(product.price) }</div>
+                    <div className="product-badge-price" data-text-header="List price">
+                        <div className="price" dangerouslySetInnerHTML={price}></div>
+                        { isDiscounted ?
+                            <div className="discount-footer">
+                                <span className="stroked-price"> { this.moneyFormatter.format(product.list_price) }</span>
+                                <span className="total-discount"> { this.discountFormatter.format(product.total_discount) }</span>
+                            </div>
+                            : ''
+                        }
+                    </div>
                     <StockLevel product={product} locale={this.locale} />
                 </div>
             );
@@ -219,8 +257,19 @@ export class ProductSearchCard extends React.Component<ProductSearchCardProps, P
         };
 
 
+        let classExtras = '';
+        if (product.is_promotional == '1') {
+            classExtras += ' product-card-highlighted';
+        } else if (product.flag_new == "1" ||
+                    product.bestseller_rank > 0 ||
+                    product.popular_rank > 0 ||
+                    product.fresh_rank > 0
+                ) {
+            classExtras += ' product-card-raised';
+        }
+
         return (
-            <div className="product-card-wrap">
+            <div className={ "product-card-wrap" + classExtras}>
 
                 <div className="product-card-container">
                     <div className={'product-card-flipper' + flippedClass}>

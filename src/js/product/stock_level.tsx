@@ -33,8 +33,10 @@ export default class StockLevel extends React.Component<StockLevelProps, StockLe
 
     initUnitFormatter(decimals: number) {
         this.unitFormatter = new UnitFormatter({
-           locale: this.locale,
-           decimals: decimals
+            locale: this.locale,
+            maximumFractionDigits: decimals,
+            minimumFractionDigits: decimals,
+            unit: ''
         });
     }
 

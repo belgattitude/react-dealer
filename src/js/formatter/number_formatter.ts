@@ -2,39 +2,54 @@
 
 export interface NumberFormatterProps {
     locale?: string;
-    decimals?: number;
+    minimumFractionDigits?: number;
+    maximumFractionDigits?: number;
 }
 
 
 export class NumberFormatter {
 
     protected formatter: Intl.NumberFormat;
-
     protected locale:string = 'en-US';
 
-
-    protected decimals: number =  2;
-
+    protected minimumFractionDigits: number = 2;
+    protected maximumFractionDigits: number = 2;
 
     public constructor(props: NumberFormatterProps) {
-
-        if (props.decimals) {
-            this.decimals = props.decimals;
-        }
         if (props.locale) {
             this.locale = props.locale;
+        }
+        if (props.minimumFractionDigits != null) {
+            this.minimumFractionDigits = props.minimumFractionDigits;
+        }
+        if (props.maximumFractionDigits != null) {
+            this.maximumFractionDigits = props.maximumFractionDigits;
         }
         this.initFormatter();
     }
 
+
     protected initFormatter() {
         this.formatter = new Intl.NumberFormat(this.locale, {
-
+            minimumFractionDigits: this.minimumFractionDigits,
+            maximumFractionDigits: this.maximumFractionDigits
         });
     }
 
-    public format(value: number): string {
+    /**
+     *
+     * @param value
+     * @returns {string}
+     */
+    public format(value: string | number): string {
 
-        return this.formatter.format(value);
+        let formatted = '';
+        if (typeof value === "string") {
+            formatted = this.formatter.format(parseFloat(value));
+        } else {
+            formatted = this.formatter.format(value);
+        }
+
+        return formatted;
     }
 }

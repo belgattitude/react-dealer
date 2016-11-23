@@ -39,9 +39,10 @@
   color: $text-color;
 }
 
-@mixin product-badge($badge-color: $md-blue-700, $text-color: $md-white, $border-color: transparent, $text-opacity:0.9) {
+@mixin product-badge($badge-color: $md-blue-700, $text-color: $md-white, $border-color: transparent, $opacity: 1, $text-opacity:0.9) {
   display: block;
   position: relative;
+  opacity: $opacity;
 
 
   //.tooltip-toggle {
@@ -110,11 +111,11 @@
 
 }
 
-@mixin product-badge-price($text-color: $md-black, $background-color: $md-white, $border-color: #ccc) {
+@mixin product-badge-price($text-color: $md-black, $background-color: $md-white, $border-color: #ccc, $opacity: 1) {
 
   color: $text-color;
   display: inline-block;
-  font-weight: 500;
+  font-weight: normal;
   color: $md-grey-800;
   /*line-height: 1.20;*/
   text-align: center;
@@ -123,18 +124,23 @@
   user-select: none;
   border: 1px solid $border-color;
   /*padding: 0.25rem 0.5rem;*/
-  padding: 5px 5px 7px 10px;
+  padding: 5px 5px 5px 8px;
   font-size: 1.1em;
-  border-radius: 0.25rem;
-  font-size: .875rem;
+  border-radius: 0rem;
+  font-size: .950rem;
+  opacity: $opacity;
+  text-align: right;
 
+
+
+  /*
   &:before {
     font-size: 8px;
     position: absolute;
     content: attr(data-text-footer);
     top: 20px;
     right: 2px;
-  }
+  }*/
   /*
   &:after {
     font-size: 8px;
@@ -154,7 +160,8 @@
   $battery-width: 30px,
   $battery-height: 12px,
   $battery-padding: 0px,
-  $battery-border-color: $md-grey-800
+  $battery-border-color: $md-grey-800,
+  $battery-text-color: $md-black
 ) {
 
   display: inline-block;
@@ -205,7 +212,7 @@
     margin: 0;
     right: 2px;
     font-size: 11px;
-    color: $md-black;
+    color: $battery-text-color;
   }
 
 }
@@ -243,7 +250,9 @@
       &.active {
         z-index: 2;
       }
+
       // Clearfix
+
       &:after {
         content: "";
         display: table;

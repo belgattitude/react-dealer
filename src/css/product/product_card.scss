@@ -8,7 +8,7 @@
   overflow-wrap: normal;
   text-overflow: ellipsis;
   overflow-y:visible;
-  color: $md-red-800;
+  color: $md-red-900;
   font-weight: 400;
 
   margin: 0px 0px 0px 0px;
@@ -60,11 +60,22 @@
   /*border: 1px solid rgba(0,0,0, 0.4);*/
   display: flex;
   margin: 5px 5px 5px 5px;
-  background-color: white;
-
-
-  box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.4);
+  background-color: $md-white;
   border-radius: 0px;
+  border: 1px solid $md-grey-300;
+
+  &.product-card-raised {
+    box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.2);
+
+  }
+  &.product-card-highlighted {
+    /*border: 1px solid $md-yellow-400;*/
+    box-shadow: 0px 0px 3px 3px rgba(255, 252, 0, 0.2) inset;
+  }
+
+  &.product-card-rounded {
+    border-radius: 3px;
+  }
 
 
   .flipped {
@@ -166,7 +177,7 @@
       }
 
       &:hover, &:focus {
-        box-shadow: inset 1px 1px 5px 10px rgba(60,60,60, 0.05);
+        box-shadow: inset 1px 1px 5px 10px rgba(60,60,60, 0.03);
 
       }
 
@@ -194,10 +205,11 @@
         @include product-badge($md-blue-400);
       }
       .product-promo-badge {
-        @include product-badge($md-green-700);
+        @include product-badge($md-red-900);
       }
       .product-liquidation-badge {
-        @include product-badge($md-red-700);
+        //$badge-color: $md-blue-700, $text-color: $md-white, $border-color: transparent, $opacity: 1, $text-opacity:0.9) {
+        @include product-badge($badge-color: $md-yellow-400, $text-color: $md-grey-800, $border-color: $md-yellow-400, $opacity: 1);
       }
 
       .bottom-right-zone {
@@ -247,8 +259,52 @@
         box-shadow: none;
 
         .product-badge-price {
-          @include product-badge-price($text-color: black, $background-color: white, $border-color: #ccc);
-          background-color: rgba(255,255,255, 0.9);
+          @include product-badge-price($text-color: black, $background-color: white, $border-color: #ccc, $opacity: 0.9);
+          //transform: translateY(-10px) translateX(10px);
+          background-color: $md-white;
+          border: 0px solid $md-grey-800;
+
+          border-radius: 5px;
+          margin: 0px 0px 0px 0px;
+          padding: 0px 0px 0px 0px;
+
+          color: $md-black;
+          text-align: right;
+          /*font-family: Arial;*/
+
+          .price {
+            padding: 0;
+            margin: 0;
+
+            font-size: 1.3em;
+            line-height: normal;
+
+          }
+
+          span.decimals {
+            font-size: 0.6em;
+            font-weight: 300;
+          }
+
+          .discount-footer {
+            border-top: $md-grey-400 solid 1px;
+            display: block;
+            font-size: 0.7em;
+            /*border: 1px solid blue;*/
+            position: relative;
+            vertical-align: center;
+            text-align: right;
+            .total-discount {
+              color:$md-red-800;
+              font-size: 1.1em;
+              font-weight: 600;
+            }
+            .stroked-price {
+              text-decoration: line-through;
+            }
+          }
+
+
           /*
           &:hover {
             cursor: text;
@@ -291,7 +347,7 @@
         transform: scale(1);
         &:hover, &:focus {
           transform: scale(1.8) rotate(-7deg);
-          z-index: 10;
+
           cursor: pointer;
         }
       }

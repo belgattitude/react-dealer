@@ -16,8 +16,10 @@ export interface ProductSearchModel {
     characteristic?: string;
     price: number;
     list_price: number;
+    price_saving: number;
     public_price?: number;
     map_price?: number;
+    total_discount: number;
     discount_1: number;
     discount_2: number;
 

@@ -147,14 +147,12 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
                 }
             }
         ).catch((ex: Error) => {
-            console.log('Promise has been cancelled not need to re-render product results');
+            console.log('Promise has been cancelled not need to re-render product results', ex);
             this.hideLoader();
         });
     }
 
-
     protected scrollTop() {
-
         // If the component is inside a complex
         // layout prefer scrollIntoView()
         if (this.scrollTopMethod == 'scrollintoview') {
@@ -163,7 +161,6 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
         } else {
             window.scrollTo(0, 0);
         }
-
     }
 
     componentDidMount() {
@@ -265,7 +262,7 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
         let el = this.loaderContainer;
         if (el.classList) {
             el.classList.remove(className);
-        } else {
+        } else { // < IE10
             el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
         }
     }

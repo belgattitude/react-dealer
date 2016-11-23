@@ -3,7 +3,7 @@
 .stock-badge {
 
   .level-till-end-of-stock {
-    @include battery(25%, $md-green-200, $battery-border-color: $md-orange-400);
+    @include battery(25%, $md-white, $battery-border-color: $md-green-500, $battery-text-color: $md-grey-900);
   }
 
   .level-0-empty {
@@ -27,7 +27,7 @@
 
   }
   .level-4-full {
-    //@include gauge(0,120);
+
     @include battery(93%, $md-green-700);
     span {
       display: none;

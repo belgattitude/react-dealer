@@ -5,8 +5,7 @@
 
 .product-search-container {
 
-
-
+  background-color: $md-grey-50;
 
   .product-search-loader-container {
 
@@ -20,7 +19,7 @@
       }
     }
     display: block;
-    background-image: linear-gradient(white, rgba(255,255,255,0.4));
+    background-image: linear-gradient(white, rgba(255, 255, 255, 0.4));
     z-index: 100;
     right: 0;
     height: 80px;
@@ -39,12 +38,11 @@
       vertical-align: middle;
     }
   }
-
 }
-
 .product-list-container {
   font-family: $primary-font;
   display: flex;
+
   /*background-color: rgba(60,60,60, 0.1);*/
   /*
   background: linear-gradient(135deg, #fff, #999);
@@ -55,49 +53,76 @@
   margin: 0 auto;
   box-sizing: border-box;
 
-
   @import "product_card";
 
+  /* Normal screen -> 3 columns */
+  @media screen and (max-width: 1000px) {
 
-  .product-card-wrap {
-    flex-grow: 1;
-    width: 31%;
-
-
-    @media screen and (max-width: 1000px) {
+    .product-card-wrap {
+      flex-grow: 1;
       width: 32%;
     }
 
-    @media screen and (max-width: 800px) {
+  }
+  /* Tablet screen -> 2 columns */
+  @media screen and (max-width: 800px) {
+    .product-card-wrap {
+      flex-grow: 1;
       width: 48%;
     }
+  }
 
-    @media screen and (max-width: 650px) {
+  /* Mobile screen -> 1 column */
+  @media screen and (max-width: 650px) {
+    background-color: $md-grey-100;
+
+    .product-card-wrap {
+      flex-grow: 1;
       width: 99%;
-      margin: 0px 1px 5px 0px;
-    }
+      margin: 0px 10px 5px 10px;
+      border-radius: 3px;
+      /*
+      box-shadow: none;
 
-    @media screen and (min-width: 1200px) {
+      border: 1px solid $md-grey-300;
+      */
+    }
+  }
+
+  /* Large screen -> 4 columns */
+  @media screen and (min-width: 1000px) {
+
+    .product-card-wrap {
+      flex-grow: 1;
+      width: 32%;
+    }
+  }
+
+  /* Large screen -> 4 columns */
+  @media screen and (min-width: 1200px) {
+
+    .product-card-wrap {
+      flex-grow: 1;
       width: 23%;
     }
+  }
 
-    @media screen and (min-width: 1600px) {
+  /* Very large screen -> 5 columns */
+  @media screen and (min-width: 1600px) {
+    .product-card-wrap {
+      flex-grow: 1;
       width: 15%;
-
     }
-
-
   }
 
 }
-
 
 @media print {
   .product-list-container {
     -webkit-print-color-adjust: exact;
     display: table;
     vertical-align: text-top;
-
+    background-color: $md-white;
     .product-card-wrap {
       vertical-align: text-top;
       /* not printing inner menu */
@@ -137,7 +162,6 @@
         display: none;
       }
 
-
       .product-badge-price {
         &:after, &:before {
           display: none;
@@ -149,8 +173,6 @@
 
       zoom: 0.7;
       display: inline-block;
-
-
 
       .product-badge-price {
         &:after {
