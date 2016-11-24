@@ -48,6 +48,7 @@
   background: linear-gradient(135deg, #fff, #999);
 */
   flex-wrap: wrap;
+  padding: 0px 5px 0px 5px;
 
   align-items: stretch;
   margin: 0 auto;
@@ -73,7 +74,7 @@
   }
 
   /* Mobile screen -> 1 column */
-  @media screen and (max-width: 650px) {
+  @media screen and (max-width: 670px) {
     background-color: $md-grey-100;
 
     .product-card-wrap {
@@ -107,7 +108,7 @@
     }
   }
 
-  /* Very large screen -> 5 columns */
+  /* Very large screen -> 6 columns */
   @media screen and (min-width: 1600px) {
     .product-card-wrap {
       flex-grow: 1;

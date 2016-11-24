@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { ProductSearchBar } from './product/product_search_bar';
 import { ProductSearch } from './product/product_search';
 import { ProductSearchService } from './product/product_search_service';
 import { ProductPictureService } from './openstore/product_picture_service';
@@ -7,6 +8,10 @@ import { ProductPictureService } from './openstore/product_picture_service';
 
 var windowInnerWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 var isMobile = (windowInnerWidth < 600);
+
+var productSearchBar = React.createElement(ProductSearchBar, {
+
+});
 
 var productSearch = React.createElement(ProductSearch, {
     locale: 'fr-FR',
@@ -31,6 +36,11 @@ var productSearch = React.createElement(ProductSearch, {
     pricelist: 'BE',
 
 }, null);
+
+ReactDOM.render(
+    productSearchBar,
+    document.getElementById('product_search_bar')
+)
 
 ReactDOM.render(
     productSearch,

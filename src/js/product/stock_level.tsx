@@ -14,7 +14,7 @@ export interface StockLevelState {
 
 }
 
-export default class StockLevel extends React.Component<StockLevelProps, StockLevelState> {
+export class StockLevel extends React.Component<StockLevelProps, StockLevelState> {
 
     protected productStockLevel: ProductStockLevel.ProductStockLevel;
 

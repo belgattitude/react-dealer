@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-import ProductSearchCardBack from './product_search_card_back';
-import StockLevel from './stock_level';
-import * as Models from './product_search_model';
+import { ProductSearchCardBack } from './product_search_card_back';
+import { StockLevel } from './stock_level';
 import { ProductPictureService, ProductPictureServiceProps } from '../openstore/product_picture_service';
 import { MoneyFormatter } from '../formatter/money_formatter';
 import { UnitFormatter } from '../formatter/unit_formatter';
+import * as Models from './product_search_model';
 
 
 import '../../css/product/product_card.scss';
@@ -124,7 +124,7 @@ export class ProductSearchCard extends React.Component<ProductSearchCardProps, P
                                     <div className="product-liquidation-badge" aria-label={ 'Liquidation: ' + discount_message}>
                                         <span>
                                             <i className="fa fa-thumbs-o-up" aria-hidden="true"></i>&nbsp;
-                                            Liquidation
+                                            Stock clearance
                                         </span>
                                     </div>
                                     : ''

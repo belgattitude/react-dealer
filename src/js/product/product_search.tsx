@@ -107,6 +107,8 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
     searchProducts(searchParams: ProductSearchParams, append: boolean=false) {
 
         this.searchCount++;
+
+
         this.previousSearchParams = searchParams;
 
         this.showLoader();
@@ -171,7 +173,7 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
             let target = document.getElementById(this.props.searchInputTarget);
             target.focus();
             let searchInput = this.refs['searchInput'] as HTMLInputElement;
-            target.addEventListener('keyup', (evt: Event) => {
+            target.addEventListener('input', (evt: Event) => {
                 let target = evt.target as HTMLInputElement;
                 searchInput.value = target.value;
                 /*
@@ -187,7 +189,7 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
 
     render() {
 
-        let input = <input type="text" ref="searchInput" onChange={(evt: any) => this.debouncedSearch(evt.target.value) }/>;
+        let input = <input type="text" ref="searchInput" onInput={(evt: any) => this.debouncedSearch(evt.target.value) }/>;
         let products = this.state.products;
         let productsCount = products.length;
 

@@ -10,8 +10,12 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"/>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/css/mdb.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.0/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.0/react-dom.js"></script>
 
+    <!--
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/css/mdb.min.css"/>
+-->
     <!--
     <link rel="stylesheet" href="./product_search_app/product_search_app.css">
     -->
@@ -34,7 +38,7 @@
         </button>
 -->
         <form class="form-inline float-xs-right" onSubmit="return false;">
-            <input class="form-control" id="catalogSearchTextInput" type="text" placeholder="Search" autocomplete="off">
+            <input class="form-control" id="catalogSearchTextInputOld" type="text" placeholder="Search" autocomplete="off">
         </form>
 
 
@@ -59,17 +63,13 @@
     </nav>
     <!--/.Navbar-->
 
+    <div id="product_search_bar">
+        Loading product search bar...
+    </div>
 
-        <!--First row-->
-    <!--
-        <div class="row">
-           <div class="col-md-12"> -->
-
-                <div id="product_search">
-                    Loading...
-                </div>
-           <!-- </div>
-        </div>-->
+    <div id="product_search">
+        Loading product search...
+    </div>
 
 
 
@@ -80,8 +80,6 @@
 <!--
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/js/mdb.min.js"></script>
 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.0/react.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.0/react-dom.js"></script>
 <script src="./product_search_app/product_search_app.js"></script>
 
 

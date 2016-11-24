@@ -59,13 +59,13 @@
 .product-card-wrap {
   /*border: 1px solid rgba(0,0,0, 0.4);*/
   display: flex;
-  margin: 5px 5px 5px 5px;
+  margin: 3px 3px 3px 3px;
   background-color: $md-white;
   border-radius: 0px;
   border: 1px solid $md-grey-300;
 
   &.product-card-raised {
-    box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.5);
 
   }
   &.product-card-highlighted {
@@ -209,7 +209,7 @@
       }
       .product-liquidation-badge {
         //$badge-color: $md-blue-700, $text-color: $md-white, $border-color: transparent, $opacity: 1, $text-opacity:0.9) {
-        @include product-badge($badge-color: $md-yellow-400, $text-color: $md-grey-800, $border-color: $md-yellow-400, $opacity: 1);
+        @include product-badge($badge-color: $md-yellow-100, $text-color: $md-grey-900, $border-color: $md-yellow-400, $opacity: 1);
       }
 
       .bottom-right-zone {
@@ -275,9 +275,9 @@
           .price {
             padding: 0;
             margin: 0;
-
             font-size: 1.3em;
             line-height: normal;
+            border-bottom: $md-grey-400 solid 1px;
 
           }
 
@@ -287,7 +287,7 @@
           }
 
           .discount-footer {
-            border-top: $md-grey-400 solid 1px;
+
             display: block;
             font-size: 0.7em;
             /*border: 1px solid blue;*/
@@ -412,7 +412,7 @@
       }
       .product-brand {
         @include product-brand();
-        font-size: 0.8em;
+        font-size: 1.0em;
         position:absolute;
         top: -5px;
         right: -5px;

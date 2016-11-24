@@ -1,5 +1,5 @@
 
-interface LevelToClassNameMap {
+export interface LevelToClassNameMap {
     [level: string]: string;
 }
 

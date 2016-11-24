@@ -22,7 +22,7 @@ export interface ProductSearchCardBackState {
 
 }
 
-export default class ProductSearchCardBack extends React.Component<ProductSearchCardBackProps, ProductSearchCardBackState> {
+export class ProductSearchCardBack extends React.Component<ProductSearchCardBackProps, ProductSearchCardBackState> {
 
     protected locale: string;
 
