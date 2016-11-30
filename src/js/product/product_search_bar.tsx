@@ -5,65 +5,59 @@ import '../../css/product/product_search_bar.scss';
 
 
 export interface ProductSearchBarProps {
+
+    searchInputId: string;
+
+    /**
+     * Initial searchText
+     */
+    initialSearchText?: string;
+
 }
 
 export interface ProductSearchBarState {
     hasQuery: boolean;
+    searchText: string;
 }
 
 export class ProductSearchBar extends React.Component<ProductSearchBarProps, ProductSearchBarState> {
 
+    protected searchInput: HTMLInputElement;
+
     constructor(props: ProductSearchBarProps) {
         super(props);
+        let initialText = this.props.initialSearchText || '';
+
         this.state = {
-            hasQuery: false
+            hasQuery: initialText != '',
+            searchText: initialText
         } as ProductSearchBarState;
     }
 
+    onSearchTextChange() {
+        let value = this.searchInput.value;
+        this.setState({
+            searchText: value,
+            hasQuery: (value ? true : false)
+        });
+    }
 
-    /**
-     * function tog(v){return v?'addClass':'removeClass';}
-     $(document).on('input', '.clearable', function(){
-    $(this)[tog(this.value)]('x');
-}).on('mousemove', '.x', function( e ){
-    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
-}).on('touchstart click', '.onX', function( ev ){
-    ev.preventDefault();
-    $(this).removeClass('x onX').val('').change();
-});
-
-
-     */
-
-    onSearchInput(evt: any) {
-        if (event.target) {
-            let element = evt.target as HTMLInputElement;
-            let value = element.value;
-            if (value) {
-
-                this.setState({
-                    hasQuery: true
-                })
-            } else {
-                this.setState({
-                    hasQuery: false
-                })
-            }
-        }
+    clearSearch() {
+        this.searchInput.value = '';
     }
 
 
+
+
     render() {
+        const id = this.props.searchInputId;
 
-        const id = "catalogSearchTextInput";
-
-        let searchInputClass = [
-            'clearable',
-        ].join(' ');
-
+        let hasQueryClass = '';
         if (this.state.hasQuery) {
-            searchInputClass += " x";
+            hasQueryClass = 'has-query';
         }
+
+
 
         return (
             <div className="product-searchbar-container">
@@ -78,15 +72,27 @@ export class ProductSearchBar extends React.Component<ProductSearchBarProps, Pro
 
                     <div className="right">
                         <div className="product-searchbar-input">
-                                <span className="text-input-wrapper">
-                                    <input className={"search-input " + searchInputClass}
+                                <span className={'text-input-wrapper ' + hasQueryClass }>
+                                    <input className="search-input"
+                                           ref={(searchInput) => { this.searchInput = searchInput; }}
                                            onInput={ (evt: any) => {
-                                                this.onSearchInput(evt);
+                                                this.onSearchTextChange();
                                            } }
-                                           id={ id } type="search" autoComplete="off"
+                                           onChange={ (evt: any) => {
+                                                this.onSearchTextChange();
+                                           } }
+                                           id={ id }
+                                           type="input"
+                                           autoComplete="off"
                                            placeholder="Search"
+                                           value={ this.state.searchText }
                                     />
-                                    <span>✖</span>
+                                    <span className="clear-icon" onClick={ (evt: any) => {
+                                        this.clearSearch();
+                                    } }>
+                                        ✖
+
+                                    </span>
                                 </span>
                         </div>
                     </div>

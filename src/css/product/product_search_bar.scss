@@ -1,6 +1,7 @@
 @import "_base.scss";
 
 $searchbar-bg-color: #0275d8;
+$searchbar-bg-color: $md-grey-100;
 
 /*
 .close-icon {
@@ -98,7 +99,7 @@ $searchbar-bg-color: #0275d8;
     .left, .right {
       display: flex;
       flex: 1;
-      border: 1px solid black;
+
 
     }
 
@@ -110,39 +111,58 @@ $searchbar-bg-color: #0275d8;
     .right {
       justify-content: flex-end;
       display: flex;
-
+      align-items: center;
+      margin-right: 5px;
       .product-searchbar-input {
         flex: 1;
         display: inline-block;
         text-align: right;
+        align-items: center;
 
+        //background-color: $md-white;
         .text-input-wrapper {
-          display: inline-block;
-          border:1px solid $md-white;
-          border-radius: 5px;
-          padding: 1px 6px 1px 1px;
-          display: inline-block;
+          display: flex;
+          flex-direction: row;
+
+
+          border:1px solid $md-grey-100;
+          border-radius: 3px;
+          padding: 3px 3px 3px 3px;
+
           background-color: white;
-          input {
-            /*
+          vertical-align: top;
+          input.search-input {
+            flex: 1;
             border:none;
             background:none;
             outline:none;
-            padding:0 0;
             margin:0 0;
             font:inherit;
-            */
+            font-size: 1.0em;
+            width: auto;
+            min-width: 10px;
+            resize: horizontal;
           }
-          span {
-            border: 1px solid black;
+
+          .clear-icon {
             cursor:pointer;
-            color:blue;
-            font-weight:bold;
-            /*visibility:hidden;*/
+            color:$md-grey-800;
+            margin: 0 0;
+            opacity: 0;
+            background-color: $md-grey-200;
+            transition:opacity 0.7s linear;
+            vertical-align: middle;
+            text-align: center;
+            padding: 0px 5px 0px 5px;
           }
+
+          &.has-query {
+            .clear-icon {
+              opacity: 1;
+            }
+          }
+
         }
-
-
       }
 
     }

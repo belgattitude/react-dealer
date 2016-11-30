@@ -22,8 +22,11 @@ var productPictureService = new ProductPictureService({
     }
 });
 
-var productSearchBar = React.createElement(ProductSearchBar, {
+var searchInputId = 'catalogSearchTextInput';
 
+var productSearchBar = React.createElement(ProductSearchBar, {
+    searchInputId: searchInputId,
+    initialSearchText: 'ukulele'
 });
 
 var productSearch = React.createElement(ProductSearch, {
@@ -33,7 +36,7 @@ var productSearch = React.createElement(ProductSearch, {
     productSearchService: productSearchService,
     productPictureService: productPictureService,
 
-    searchInputTarget: 'catalogSearchTextInput',
+    searchInputTarget: searchInputId,
     searchDebounceTime: isMobile ? 450 : 350,
     searchLimit: isMobile ? 15 : 50,
     hideSearchInput: true,
