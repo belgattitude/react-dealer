@@ -220,16 +220,6 @@ export class ProductSearchCard extends React.Component<ProductSearchCardProps, P
             let rawPrice = product.price;
 
             let priceParts = this.prettyPriceFormatter.getParts(product.price);
-            console.log('priceParts', priceParts);
-
-            let intPart = this.moneyFormatter.format(rawPrice);
-            let fractionPart = this.moneyFormatter.format((rawPrice % 1))
-                //.replace(/\D$/g, '')
-                .replace(/^0/, '');
-
-            let price = {
-                __html: intPart.replace(new RegExp('(' + fractionPart + ')'), '<span class="decimals">$1</span>')
-            }
 
             let content = (
                 <div>
