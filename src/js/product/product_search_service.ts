@@ -2,9 +2,21 @@ import "babel-polyfill";
 import 'whatwg-fetch';
 import { Promise } from 'core-js';
 import * as Models from './product_search_model';
-import { ProductSearchParams } from './product_search_params';
 import { IJsonResult } from './../core/soluble_flexstore';
 
+
+export interface ProductSearchParams {
+    /* search params */
+    pricelist: string;
+    language: string;
+    query: string;
+    brand?: string;
+    category?: string;
+
+    /* Browsing options */
+    limit: number;
+    offset?: number;
+}
 
 export interface ProductSearchServiceOptions {
     source: string;

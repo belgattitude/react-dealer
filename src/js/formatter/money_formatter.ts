@@ -1,4 +1,5 @@
 import { NumberFormatterProps } from './number_formatter';
+import { IntlFormatterProvider } from '../intl/intl_formatter_provider';
 
 export interface MoneyFormatterProps extends NumberFormatterProps {
     currency: string;
@@ -31,7 +32,7 @@ export class MoneyFormatter  {
     }
 
     protected initFormatter() {
-        this.formatter = new Intl.NumberFormat(this.locale, {
+        this.formatter = IntlFormatterProvider.getNumberFormatter(this.locale, {
             style: 'currency',
             currency: this.currency,
             minimumFractionDigits: this.minimumFractionDigits,

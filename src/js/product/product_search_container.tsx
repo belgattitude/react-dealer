@@ -2,10 +2,10 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import '../../css/product/_fonts';
 import '../../css/product/product_search.scss';
-import { ProductSearchService } from  './product_search_service';
-import { ProductSearchParams } from "./product_search_params";
+import { ProductSearchService, ProductSearchParams } from  './product_search_service';
+import { ProductPictureService, ProductPictureServiceProps } from '../openstore/product_picture_service';
 import * as Models from './product_search_model';
-import ProductSearchCard from './product_search_card';
+import { ProductSearchCard } from './product_search_card';
 import { debounce, includes } from 'lodash';
 import {IJsonResult} from "../core/soluble_flexstore";
 
@@ -13,6 +13,7 @@ import {IJsonResult} from "../core/soluble_flexstore";
 
 export interface ProductSearchProps {
     productSearchService: ProductSearchService;
+    productPictureService: ProductPictureService;
     source: string;
     pricelist: string;
     language: string;
@@ -34,6 +35,7 @@ export interface ProductSearchState {
 export class ProductSearch extends React.Component<ProductSearchProps, ProductSearchState> {
 
     protected productSearchService: ProductSearchService;
+
 
     protected debouncedSearch: any;
     protected searchDebounceTime: number = 400;
@@ -234,14 +236,15 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
                 </div>
                 { this.state.isLoading && loaderBar() }
 
-
                 { (productsCount > 0) ?
                     <div className="product-list-container">
                         {products.map((product) => {
                                 console.log('rendering product ', product.product_id);
                                 return (<ProductSearchCard key={product.product_id}
                                                            product={product}
-                                                           locale={this.locale}/>);
+                                                           locale={this.locale}
+                                                           productPictureService={this.props.productPictureService}
+                                        />);
                             }
                         )
                         }

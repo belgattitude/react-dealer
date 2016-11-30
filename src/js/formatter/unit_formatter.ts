@@ -1,4 +1,5 @@
 import { NumberFormatterProps } from './number_formatter';
+import {IntlFormatterProvider} from "../intl/intl_formatter_provider";
 
 export interface UnitFormatterProps extends NumberFormatterProps{
     unit?: string;
@@ -38,7 +39,7 @@ export class UnitFormatter {
     }
 
     protected initFormatter() {
-        this.formatter = new Intl.NumberFormat(this.locale, {
+        this.formatter = IntlFormatterProvider.getNumberFormatter(this.locale, {
             minimumFractionDigits: this.minimumFractionDigits,
             maximumFractionDigits: this.maximumFractionDigits
         });

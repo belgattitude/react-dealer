@@ -1,4 +1,4 @@
-
+import {IntlFormatterProvider} from "../intl/intl_formatter_provider";
 
 export interface NumberFormatterProps {
     locale?: string;
@@ -30,7 +30,7 @@ export class NumberFormatter {
 
 
     protected initFormatter() {
-        this.formatter = new Intl.NumberFormat(this.locale, {
+        this.formatter = IntlFormatterProvider.getNumberFormatter(this.locale, {
             minimumFractionDigits: this.minimumFractionDigits,
             maximumFractionDigits: this.maximumFractionDigits
         });

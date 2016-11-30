@@ -145,7 +145,16 @@ var config = {
     module: {
         preLoaders: [
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-            { test: /\.js$/, loader: 'source-map-loader' }
+            {
+                test: /\.js$/,
+                loader: 'source-map-loader'
+                /*
+                exclude: [
+                    // these packages have problems with their sourcemaps
+                    'node_modules/react-intl',
+                    'node_modules/intl-message-format-parser'
+                ]*/
+            }
         ],
         loaders: [
             {
@@ -175,7 +184,7 @@ var config = {
                 test: /\.html$/,
                 //loader: 'html'
                 // to allow html reloading
-                loader: "raw-loader"
+                loader: 'raw-loader'
             },
             {
                 test: /\.scss|\.sass|\.css$/,

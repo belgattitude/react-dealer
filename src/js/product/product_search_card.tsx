@@ -6,7 +6,7 @@ import { ProductPictureService, ProductPictureServiceProps } from '../openstore/
 import { MoneyFormatter } from '../formatter/money_formatter';
 import { UnitFormatter } from '../formatter/unit_formatter';
 import * as Models from './product_search_model';
-
+import { PrettyPriceFormatter, PrettyPriceFormatterProps } from '../formatter/pretty_price_formatter';
 
 import '../../css/product/product_card.scss';
 
@@ -27,6 +27,9 @@ export class ProductSearchCard extends React.Component<ProductSearchCardProps, P
     protected unitFormatter: UnitFormatter;
     protected moneyFormatter: MoneyFormatter;
     protected discountFormatter: UnitFormatter;
+    protected prettyPriceFormatter: PrettyPriceFormatter;
+
+    protected currency: string = 'EUR';
 
     constructor(props) {
         super(props);
@@ -37,7 +40,7 @@ export class ProductSearchCard extends React.Component<ProductSearchCardProps, P
         this.locale = props.locale;
 
         this.moneyFormatter = new MoneyFormatter({
-            currency: 'EUR',
+            currency: this.currency,
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
             locale: this.locale
@@ -56,6 +59,12 @@ export class ProductSearchCard extends React.Component<ProductSearchCardProps, P
             unitSeparator: ''
         });
 
+        this.prettyPriceFormatter = new PrettyPriceFormatter({
+            currency: this.currency,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+            locale: this.locale
+        });
 
     }
 
@@ -210,6 +219,9 @@ export class ProductSearchCard extends React.Component<ProductSearchCardProps, P
 
             let rawPrice = product.price;
 
+            let priceParts = this.prettyPriceFormatter.getParts(product.price);
+            console.log('priceParts', priceParts);
+
             let intPart = this.moneyFormatter.format(rawPrice);
             let fractionPart = this.moneyFormatter.format((rawPrice % 1))
                 //.replace(/\D$/g, '')
@@ -222,7 +234,7 @@ export class ProductSearchCard extends React.Component<ProductSearchCardProps, P
             let content = (
                 <div>
                     <div className="product-badge-price" data-text-header="List price">
-                        <div className="price" dangerouslySetInnerHTML={price}></div>
+                        <div className="price" dangerouslySetInnerHTML={priceParts}></div>
                         { isDiscounted ?
                             <div className="discount-footer">
                                 <span className="stroked-price"> { this.moneyFormatter.format(product.list_price) }</span>
