@@ -5,6 +5,7 @@
 // Mixins
 @import "_mixins.scss";
 
+//@import "~normalize.css/normalize.css";
 
 * {
   box-sizing: border-box;
@@ -14,5 +15,7 @@
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-smooth: always;
+
 }
 

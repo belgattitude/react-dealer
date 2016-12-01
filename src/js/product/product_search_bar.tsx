@@ -43,7 +43,28 @@ export class ProductSearchBar extends React.Component<ProductSearchBarProps, Pro
     }
 
     clearSearch() {
+
+        // clear input value
         this.searchInput.value = '';
+
+        /*
+        //evt.target.onchange(evt);
+        //new Event('change', { 'bubbles': true })
+        let evt = document.createEvent("HTMLEvents");
+        evt.initEvent("input", false, true);
+        */
+        let evt = new CustomEvent(
+            "input",
+            {
+                detail: {
+                    message: "Cleared search input",
+                    time: new Date(),
+                },
+                bubbles: true,
+                cancelable: true
+            }
+        );
+        this.searchInput.dispatchEvent(evt);
     }
 
 
@@ -65,15 +86,19 @@ export class ProductSearchBar extends React.Component<ProductSearchBarProps, Pro
                     <a href="#" className="toggle">
                         <i className="fa fa-reorder"></i>
                     </a>
-                    <a href="#" className="brand">Triana</a>
+                    <a className="brand">Triana</a>
 
                     <div className="left">
+                        <div className="link">Home</div>
+                        <div className="link">Products</div>
                     </div>
 
                     <div className="right">
                         <div className="product-searchbar-input">
                                 <span className={'text-input-wrapper ' + hasQueryClass }>
-                                    <input className="search-input"
+                                    <input id={ id }
+                                           className="search-input"
+                                           maxLength={ 40 }
                                            ref={(searchInput) => { this.searchInput = searchInput; }}
                                            onInput={ (evt: any) => {
                                                 this.onSearchTextChange();
@@ -81,18 +106,16 @@ export class ProductSearchBar extends React.Component<ProductSearchBarProps, Pro
                                            onChange={ (evt: any) => {
                                                 this.onSearchTextChange();
                                            } }
-                                           id={ id }
                                            type="input"
                                            autoComplete="off"
                                            placeholder="Search"
                                            value={ this.state.searchText }
                                     />
-                                    <span className="clear-icon" onClick={ (evt: any) => {
+                                    <div className="clear-icon" onClick={ (evt: any) => {
                                         this.clearSearch();
                                     } }>
                                         ✖
-
-                                    </span>
+                                    </div>
                                 </span>
                         </div>
                     </div>

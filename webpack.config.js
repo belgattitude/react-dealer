@@ -96,9 +96,16 @@ var config = {
         //"whatwg-fetch": "whatwg-fetch"
     },
     resolve: {
+        /*
+        modulesDirectories: [
+            'node_modules',
+            path.resolve(__dirname, './node_modules')
+        ],
+        packageMains: ['browser', 'web', 'browserify', 'main', 'style', 'normalize.css'],*/
         extensions: ['', '.js', '.jsx', '.ts', '.tsx', '.scss', '.css', '.html']
     },
-    /* Only if context gives the global path (join instead of resolve)
+    // Only if context gives the global path (join instead of resolve)
+    /*
     resolveLoader: {
         root: path.join(__dirname, 'node_modules')
     },*/
@@ -139,7 +146,10 @@ var config = {
     },
 
     sassLoader: {
-        data: '@import "' + path.resolve(__dirname, 'src/theme/dealer_locator/default/_config.scss') + '";'
+        data: '@import "' + path.resolve(__dirname, 'src/theme/dealer_locator/default/_config.scss') + '";',
+        includePaths: [
+            path.resolve(__dirname, "./node_modules")
+        ]
     },
 
     module: {

@@ -23,15 +23,17 @@ var productPictureService = new ProductPictureService({
 });
 
 var searchInputId = 'catalogSearchTextInput';
+var initialSearchText = '';
 
 var productSearchBar = React.createElement(ProductSearchBar, {
     searchInputId: searchInputId,
-    initialSearchText: 'ukulele'
+    initialSearchText: initialSearchText
 });
 
 var productSearch = React.createElement(ProductSearch, {
     locale: 'fr-FR',
     language: 'en',
+    initialSearchText: initialSearchText,
 
     productSearchService: productSearchService,
     productPictureService: productPictureService,

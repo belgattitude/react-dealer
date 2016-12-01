@@ -1,7 +1,7 @@
 @import "_base.scss";
 
 $searchbar-bg-color: #0275d8;
-$searchbar-bg-color: $md-grey-100;
+//$searchbar-bg-color: $md-grey-100;
 
 /*
 .close-icon {
@@ -90,6 +90,8 @@ $searchbar-bg-color: $md-grey-100;
 .product-searchbar-container {
 
   background: $searchbar-bg-color;
+  font-family: $primary-font;
+  font-size: 1.2em;
 
   .product-searchbar-navbar {
     display: flex;
@@ -112,46 +114,53 @@ $searchbar-bg-color: $md-grey-100;
       justify-content: flex-end;
       display: flex;
       align-items: center;
-      margin-right: 5px;
+      margin-right: 15px;
+      max-width: 30%;
       .product-searchbar-input {
         flex: 1;
         display: inline-block;
-        text-align: right;
+        //text-align: right;
         align-items: center;
 
         //background-color: $md-white;
         .text-input-wrapper {
           display: flex;
           flex-direction: row;
-
-
           border:1px solid $md-grey-100;
-          border-radius: 3px;
-          padding: 3px 3px 3px 3px;
-
+          border-radius: 2px;
+          padding: 0px 0px 0px 0px;
+          margin: 0px 0px 0px 0px;
           background-color: white;
-          vertical-align: top;
+          line-height: 1.5em;
+
           input.search-input {
             flex: 1;
             border:none;
             background:none;
             outline:none;
-            margin:0 0;
-            font:inherit;
-            font-size: 1.0em;
+            margin:0px 0px 0px 5px;
+            font: $primary-font;
+            font-size: 0.8em;
             width: auto;
             min-width: 10px;
             resize: horizontal;
+            line-height: inherit;
           }
 
           .clear-icon {
+            display: flex;
+            justify-content:center;
+            align-content:center;
+            flex-direction:column;
+            line-height: inherit;
             cursor:pointer;
-            color:$md-grey-800;
-            margin: 0 0;
+            color:$md-grey-700;
+            margin: 0px 0px 0px 0px;
             opacity: 0;
+            //border-radius: inherit;
             background-color: $md-grey-200;
             transition:opacity 0.7s linear;
-            vertical-align: middle;
+            vertical-align: bottom;
             text-align: center;
             padding: 0px 5px 0px 5px;
           }
@@ -184,7 +193,8 @@ $searchbar-bg-color: $md-grey-100;
     }
 
     .link {
-      display: block;
+      display: none;
+
       width: 100%;
       text-align: center;
       padding: 1em;
@@ -238,5 +248,5 @@ $searchbar-bg-color: $md-grey-100;
       }
     }
   }
-  */
+*/
 }

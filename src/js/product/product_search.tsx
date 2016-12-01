@@ -17,12 +17,16 @@ export interface ProductSearchProps {
     productSearchService: ProductSearchService;
     productPictureService: ProductPictureService;
 
+
+
+    locale?: string;
     pricelist: string;
     language: string;
     searchDebounceTime?: number;
     searchInputTarget?: string;
     hideSearchInput: boolean;
-    locale?: string;
+    initialSearchText?: string;
+
     searchLimit?: number;
     // window || scrollintoview
     scrollTopMethod?: string;
@@ -30,6 +34,7 @@ export interface ProductSearchProps {
 
 export interface ProductSearchState {
     products: Array<Models.ProductSearchModel>;
+    searchParams: ProductSearchParams;
     total: number;
     hasMore: number;
 }
@@ -71,9 +76,9 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
         };
 
 
-
         this.state = {
             products: [],
+            searchParams: this.getSearchParams(this.props.initialSearchText || ''),
             total: 0,
             hasMore: 0,
 
@@ -107,7 +112,6 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
     searchProducts(searchParams: ProductSearchParams, append: boolean=false) {
 
         this.searchCount++;
-
 
         this.previousSearchParams = searchParams;
 
@@ -167,7 +171,8 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
 
     componentDidMount() {
 
-        this.searchProducts(this.getSearchParams());
+
+        this.searchProducts(this.state.searchParams);
 
         if (this.props.searchInputTarget) {
             let target = document.getElementById(this.props.searchInputTarget);
@@ -183,7 +188,6 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
                 this.debouncedSearch(target.value)
             });
         }
-
     }
 
 
