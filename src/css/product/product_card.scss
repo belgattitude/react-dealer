@@ -65,12 +65,13 @@
   border: 1px solid $md-grey-300;
 
   &.product-card-raised {
-    box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.5);
+    box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.3);
+    //background-color: red;
 
   }
   &.product-card-highlighted {
-    /*border: 1px solid $md-yellow-400;*/
-    box-shadow: 0px 0px 3px 3px rgba(255, 252, 0, 0.2) inset;
+    //border: 1px solid $md-yellow-400;
+    //box-shadow: 0px 0px 3px 3px rgba(255, 252, 0, 0.2) inset;
   }
 
   &.product-card-rounded {
@@ -186,7 +187,6 @@
         transform: rotate(-2deg);
         opacity: 0.8;
       }
-
 
       .product-bestseller-badge {
         @include product-badge($md-yellow-800);
