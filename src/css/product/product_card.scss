@@ -65,7 +65,7 @@
   border: 1px solid $md-grey-300;
 
   &.product-card-raised {
-    box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.3);
+    box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.1);
     //background-color: red;
 
   }
@@ -345,9 +345,9 @@
         vertical-align: middle;
         transition: all .4s ease-in-out;
         transform: scale(1);
-        &:hover, &:focus {
-          transform: scale(1.8) rotate(-7deg);
-
+        &:hover {
+          transform: scale(1.4) rotate(-7deg);
+          //pointer-events: none !important;
           cursor: pointer;
         }
       }

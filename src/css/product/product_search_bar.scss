@@ -1,7 +1,7 @@
 @import "_base.scss";
 
 $searchbar-bg-color: #0275d8;
-//$searchbar-bg-color: $md-grey-100;
+$searchbar-bg-color: $md-blue-700;
 
 /*
 .close-icon {
@@ -90,6 +90,7 @@ $searchbar-bg-color: #0275d8;
 .product-searchbar-container {
 
   background: $searchbar-bg-color;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.4));
   font-family: $primary-font;
   font-size: 1.2em;
 
@@ -127,7 +128,7 @@ $searchbar-bg-color: #0275d8;
           display: flex;
           flex-direction: row;
           border:1px solid $md-grey-100;
-          border-radius: 2px;
+          border-radius: 1px;
           padding: 0px 0px 0px 0px;
           margin: 0px 0px 0px 0px;
           background-color: white;

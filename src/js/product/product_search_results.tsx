@@ -53,7 +53,7 @@ export class ProductSearchResults extends React.Component<ProductSearchResultsPr
         const products = this.props.products;
 
         return (
-                <div className="product-list-container">
+                <div className="product-search-results-container">
                     {products.map((product) => {
                             return (<ProductSearchCard key={product.product_id}
                                                        product={product}

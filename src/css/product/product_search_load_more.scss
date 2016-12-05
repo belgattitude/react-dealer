@@ -4,14 +4,31 @@
 
   align-content: stretch;
   width: 100%;
-  padding-top: 15px;
-  margin-bottom: 15px;
+  margin: 0;
+  padding: 5px 5px 5px 5px;
+
+  //margin: 15px 5px 25px 5px;
   color: $md-grey-800;
   position: relative;
   text-align: center;
-  font-size: 2em;
+  font-size: 1.2em;
   justify-content: center;
 
+  .load-more-button {
+    display: inline-block;
+    border: 1px solid $md-grey-600;
+    padding: 5px 5px 5px 5px;
+    background-color: $md-blue-500;
+    color: $md-grey-100;
+
+    &:hover {
+      background-color: $md-blue-600;
+      cursor: pointer;
+    }
+    .load-more-detail {
+      font-size: 0.7em;
+    }
+  }
 
 }
 

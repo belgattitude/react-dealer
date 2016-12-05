@@ -212,9 +212,10 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
         let moreProductDiv = () => {
             return (
                 <div className="product-search-load-more">
-                    <button className="btn btn-secondary" onClick={(evt) => this.loadMore() }>
-                        Load more... (total {this.state.total} products, has still {this.state.hasMore}...).
-                    </button>
+                    <div className="load-more-button" onClick={(evt) => this.loadMore() }>
+                        Load more...
+                        <div className="load-more-detail">(total {this.state.total} products, has still {this.state.hasMore}...).</div>
+                    </div>
                 </div>
             );
         }

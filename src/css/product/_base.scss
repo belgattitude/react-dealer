@@ -5,7 +5,7 @@
 // Mixins
 @import "_mixins.scss";
 
-//@import "~normalize.css/normalize.css";
+@import "../normalize/normalize.css";
 
 * {
   box-sizing: border-box;
