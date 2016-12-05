@@ -27,7 +27,8 @@ var initialSearchText = '';
 
 var productSearchBar = React.createElement(ProductSearchBar, {
     searchInputId: searchInputId,
-    initialSearchText: initialSearchText
+    initialSearchText: initialSearchText,
+    brandTitle: 'Triana'
 });
 
 var productSearch = React.createElement(ProductSearch, {

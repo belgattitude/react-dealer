@@ -13,6 +13,8 @@ export interface ProductSearchBarProps {
      */
     initialSearchText?: string;
 
+    brandTitle?: string;
+
 }
 
 export interface ProductSearchBarState {
@@ -86,7 +88,7 @@ export class ProductSearchBar extends React.Component<ProductSearchBarProps, Pro
                     <a href="#" className="toggle">
                         <i className="fa fa-reorder"></i>
                     </a>
-                    <a className="brand">Triana</a>
+                    <a className="brand">{ this.props.brandTitle }</a>
 
                     <div className="left">
                         <div className="link">Home</div>

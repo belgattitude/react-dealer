@@ -16,13 +16,16 @@
 
   .load-more-button {
     display: inline-block;
-    border: 1px solid $md-grey-600;
-    padding: 5px 5px 5px 5px;
+    border: 1px solid $md-grey-400;
+    border-radius: 3px;
+    padding: 10px 10px 10px 10px;
     background-color: $md-blue-500;
     color: $md-grey-100;
+    opacity: 0.9;
 
     &:hover {
-      background-color: $md-blue-600;
+      //background-color: $md-blue-600;
+      opacity: 1;
       cursor: pointer;
     }
     .load-more-detail {

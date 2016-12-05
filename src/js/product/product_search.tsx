@@ -218,13 +218,11 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
                     </div>
                 </div>
             );
-        }
-
+        };
 
         let hasMore = this.state.hasMore;
         let displayMoreProducts = ((this.searchCount > 0) && productsCount > 0 && (hasMore > 0));
         let displayNoResults = (productsCount == 0 && this.searchCount > 0);
-
 
         return (
             <div className="product-search-container">

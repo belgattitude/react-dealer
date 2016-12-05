@@ -90,7 +90,8 @@ $searchbar-bg-color: $md-blue-700;
 .product-searchbar-container {
 
   background: $searchbar-bg-color;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.4));
+  background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3));
+  border-bottom: $searchbar-bg-color;
   font-family: $primary-font;
   font-size: 1.2em;
 
@@ -155,12 +156,12 @@ $searchbar-bg-color: $md-blue-700;
             flex-direction:column;
             line-height: inherit;
             cursor:pointer;
-            color:$md-grey-700;
+            color:$md-grey-600;
             margin: 0px 0px 0px 0px;
             opacity: 0;
             //border-radius: inherit;
-            background-color: $md-grey-200;
-            transition:opacity 0.7s linear;
+//            background-color: $md-grey-200;
+            transition:opacity 0.5s linear;
             vertical-align: bottom;
             text-align: center;
             padding: 0px 5px 0px 5px;
@@ -188,7 +189,8 @@ $searchbar-bg-color: $md-blue-700;
     .brand {
       display: inline-block;
       text-align: center;
-      padding: 1em;
+      padding: 0.9em;
+      font-size: 1.1em;
       color: white;
 
     }
