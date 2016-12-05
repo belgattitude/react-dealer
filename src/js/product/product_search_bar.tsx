@@ -1,18 +1,25 @@
 import * as React from 'react';
-
+import * as ReactDOM from 'react-dom';
 
 import '../../css/product/product_search_bar.scss';
-
 
 export interface ProductSearchBarProps {
 
     searchInputId: string;
 
     /**
+     * Append navbar to an existing DOM node
+     */
+    renderInElementId?: string;
+
+    /**
      * Initial searchText
      */
     initialSearchText?: string;
 
+    /**
+     * Name displayed in navbar
+     */
     brandTitle?: string;
 
 }
@@ -34,6 +41,19 @@ export class ProductSearchBar extends React.Component<ProductSearchBarProps, Pro
             hasQuery: initialText != '',
             searchText: initialText
         } as ProductSearchBarState;
+    }
+
+    componentDidMount() {
+        // Hack to render in a different element id
+        if (this.props.renderInElementId) {
+            const el = document.getElementById(this.props.renderInElementId);
+            if (!el) {
+                console.log("Error cannot render ProductSearchBar into '" + this.props.renderInElementId +
+                            "', it does not exists in DOM");
+            } else {
+                ReactDOM.findDOMNode(el).appendChild(ReactDOM.findDOMNode(this));
+            }
+        }
     }
 
     onSearchTextChange() {
@@ -80,10 +100,8 @@ export class ProductSearchBar extends React.Component<ProductSearchBarProps, Pro
             hasQueryClass = 'has-query';
         }
 
-
-
         return (
-            <div className="product-searchbar-container">
+            <div className="product-searchbar-container" ref="product_searchbar_container">
                 <nav className="product-searchbar-navbar">
                     <a href="#" className="toggle">
                         <i className="fa fa-reorder"></i>
@@ -124,17 +142,6 @@ export class ProductSearchBar extends React.Component<ProductSearchBarProps, Pro
                 </nav>
             </div>
         );
-
-
-        /*
-
-         <div className="left">
-         <a href="#" className="link">Home</a>
-         <a href="#" className="link">Catalog</a>
-         </div>
-
-         */
-
 
     }
 

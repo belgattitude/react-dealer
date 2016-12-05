@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom';
 import '../../css/product/_fonts';
 import '../../css/product/product_search.scss';
 import { ProductSearchService, ProductSearchParams } from  './product_search_service';
+import { ProductSearchBar, ProductSearchBarProps } from  './product_search_bar';
 import { ProductPictureService } from  '../openstore/product_picture_service';
 
 
@@ -10,14 +11,14 @@ import * as Models from './product_search_model';
 import { ProductSearchResults } from './product_search_results';
 import { debounce, includes } from 'lodash';
 import { IJsonResult } from "../core/soluble_flexstore";
+import ReactElement = React.ReactElement;
 
-export { ProductSearchService, ProductPictureService };
+export { ProductSearchService, ProductPictureService, ProductSearchBar };
 
 export interface ProductSearchProps {
     productSearchService: ProductSearchService;
     productPictureService: ProductPictureService;
-
-
+    productSearchBar: ProductSearchBar;
 
     locale?: string;
     pricelist: string;
@@ -169,8 +170,11 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
         }
     }
 
+
     componentDidMount() {
 
+        //ReactDom.render(this.props.productSearchBar
+        //alert('cool');
 
         this.searchProducts(this.state.searchParams);
 
@@ -226,6 +230,7 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
 
         return (
             <div className="product-search-container">
+                { this.props.productSearchBar }
                 <div style={ searchInputStyle }>
                     { input }
                 </div>

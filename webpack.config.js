@@ -54,8 +54,7 @@ var config = {
 
         /** product search component and internal application */
         'product_search': [
-                './js/product/product_search',
-
+            './js/product/product_search'
         ],
         'product_search_app': ['./js/product_search_app'],
 

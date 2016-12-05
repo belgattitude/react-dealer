@@ -4,91 +4,126 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Emd product catalog component example</title>
+    <title>Triana product catalog component example</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
+    <!--
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/css/bootstrap.min.css"/>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/css/mdb.min.css"/>
-    <link rel="stylesheet" href="./product_search.css">
+    -->
 
+    <link rel="stylesheet" href="./product_search.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react-dom.js"></script>
     <script src="product_search.js"></script>
 
     <style>
         body {
-            margin-top: 70px;
+            margin: 65px 0px 0px 0px !important;
+            padding: 0px 0px 0px 0px;
+            background-color: #f5f5f5 !important;
         }
     </style>
 </head>
 <body>
 
 
-<!--Navbar-->
-<nav class="navbar navbar-fixed-top navbar-dark bg-primary" style="height: 60px">
 
-    <!-- Collapse button-->
-    <!--
-    <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#collapseEx2">
-        <i class="fa fa-bars"></i>
-    </button>
--->
-    <form class="form-inline float-xs-right" onSubmit="return false;">
-        <input class="form-control" id="catalogSearchTextInput" type="text" placeholder="Search" autocomplete="off">
-    </form>
-
-
-    <div class="container">
-        <!--Collapse content-->
-        <div class="collapse navbar-toggleable-xs" id="collapseEx2">
-            <!--Navbar Brand-->
-            <a class="navbar-brand" href="#">Triana</a>
-            <!--Links-->
-            <!--
-            <ul class="nav navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Products <span class="sr-only">(current)</span></a>
-                </li>
-            </ul>
-            -->
-            <!--Search form-->
-        </div>
-        <!--/.Collapse content-->
-
+<div>
+    <div id="product_search_bar" style="position: fixed; top: 0px; width: 100%; z-index: 1000">
+        <!--
+        <p style="opacity: 0.3">Loading product search bar...</p>
+        -->
     </div>
-</nav>
-<!--/.Navbar-->
-
-
-<!--First row-->
-<!--
-    <div class="row">
-       <div class="col-md-12"> -->
-<div id="product_search_container">
-    Loading...
+    <div id="product_search">
+        <p style="opacity: 0.3">Loading product search...</p>
+    </div>
 </div>
-<!-- </div>
-</div>-->
-
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.7/js/tether.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.2.0/js/mdb.min.js"></script>
 
 <script type="text/javascript">
     (function (product_search) {
 
-        var windowInnerWidth = window.innerWidth|| document.documentElement.clientWidth || document.body.clientWidth;
-        var isMobile = (windowInnerWidth < 600);
-
         if (typeof product_search === 'undefined') {
             throw new Error('Missing product_search javascript application (include product_search.js).')
         }
+
+        console.log('productSearch', product_search);
+
+        var sourceUrl = 'http://localhost/emdmusic_server/public/api/v1/catalog/search';
+        var locale = 'fr-FR';
+        var language = 'en';
+        var pricelist = 'FR';
+        var brandTitle = 'Triana';
+
+        var searchInputId = 'catalogSearchTextInput';
+        var initialSearchText = '';
+
+
+        var productSearchService = new product_search.ProductSearchService({
+            source: sourceUrl
+        });
+
+
+        var windowInnerWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        var isMobile = (windowInnerWidth < 600);
+
+        var productPictureService = new product_search.ProductPictureService({
+            spec_url: 'http://api.emdmusic.com/media/preview/picture',
+            format: {
+                resolution: isMobile ?  '300x400' : '400x500',
+                type: 'jpg',
+                quality: 85
+            }
+        });
+
+
+        var productSearchBar = React.createElement(product_search.ProductSearchBar, {
+            searchInputId: searchInputId,
+            initialSearchText: initialSearchText,
+            brandTitle: brandTitle,
+            renderInElementId: 'product_search_bar'
+        });
+
+        var productSearch = React.createElement(product_search.ProductSearch, {
+            locale: locale,
+            language: language,
+            initialSearchText: initialSearchText,
+
+            productSearchService: productSearchService,
+            productPictureService: productPictureService,
+            productSearchBar: productSearchBar,
+
+            searchInputTarget: searchInputId,
+            searchDebounceTime: isMobile ? 450 : 350,
+            searchLimit: isMobile ? 15 : 50,
+            hideSearchInput: true,
+            pricelist: pricelist
+
+        });
+/*
+        ReactDOM.render(
+            productSearchBar,
+            document.getElementById('product_search_bar')
+        )
+*/
+        ReactDOM.render(
+            productSearch,
+            document.getElementById('product_search')
+        );
+
+
+
+        /////
+        /*
+        var windowInnerWidth = window.innerWidth|| document.documentElement.clientWidth || document.body.clientWidth;
+        var isMobile = (windowInnerWidth < 600);
+
 
         var productPictureService = new product_search.ProductPictureService({
             spec_url: 'http://api.emdmusic.com/media/preview/picture',
@@ -118,6 +153,7 @@
                 productSearch,
                 document.getElementById('product_search_container')
         );
+        */
     })(product_search);
 </script>
 
