@@ -88,6 +88,7 @@
     width: 100%;
     display: flex;
     flex-grow: 1;
+    flex-direction: column;
 
     /**
      * flipping card
@@ -117,6 +118,10 @@
       /*align-content: center;*/
       position: relative;
       z-index: 2;
+      display: flex;
+      flex-direction: column;
+
+
     }
 
     .product-card-back {
@@ -148,6 +153,34 @@
       z-index: 20;
 
       @include menu-group-vertical();
+
+    }
+
+    .product-card-remaining-stock-msg {
+      position: absolute;
+      bottom: -3px;
+      right: 0;
+      display: inline-block;
+      font-weight: normal;
+      line-height: 0.8;
+      text-align: left;
+      white-space: nowrap;
+      vertical-align: middle;
+      user-select: none;
+      border-bottom: 1px solid $md-yellow-100;
+      padding: 0.25rem 0.5rem;
+      float: right;
+      z-index: 30;
+
+      font-size: 0.8em;
+      color: $md-grey-900;
+      margin-bottom: 3px;
+      background-color: rgba($md-yellow-300, 0.9);
+
+
+
+      font-family: $primary-font;
+
 
     }
 
@@ -189,17 +222,19 @@
       }
 
       .product-bestseller-badge {
-        @include product-badge($md-yellow-800);
+        @include product-badge($md-yellow-300, $text-opacity: 1, $text-color: $md-black);
       }
       .product-fresh-badge {
-        @include product-badge($color-fresh, $text-opacity: 1);
-        color: white;
+        @include product-badge($md-yellow-300, $text-opacity: 1, $text-color: $md-black);
+
       }
       .product-deal-badge {
         @include product-badge($md-red-400);
       }
       .product-popular-badge {
-        @include product-badge($md-green-400);
+        @include product-badge($md-blue-200, $text-opacity: 1, $opacity: 0.9, $text-color: $md-black);
+
+        //background-color: transparent;
       }
       .product-new-badge {
         @include product-badge($md-blue-400);
@@ -210,6 +245,7 @@
       .product-liquidation-badge {
         //$badge-color: $md-blue-700, $text-color: $md-white, $border-color: transparent, $opacity: 1, $text-opacity:0.9) {
         @include product-badge($badge-color: $md-yellow-100, $text-color: $md-grey-900, $border-color: $md-yellow-400, $opacity: 1);
+
       }
 
       .bottom-right-zone {
@@ -359,7 +395,7 @@
       border-top: 1px solid rgba(0, 0, 0, 0.1);
       box-shadow: 0px 10px 10px -10px rgba(0, 0, 0, 0.1) inset;
       padding: 10px 15px 10px 15px;
-
+      flex-grow: 1;
       /*background-color: #373a3c !important;*/
       /*
               background: rgba(55,58,60,0.06);
@@ -384,6 +420,7 @@
     .product-card-footer {
       background-color: #3e4551;
       display: none;
+
       /*background-color: $md-grey-50;*/
       color: $md-black;
       position: relative;

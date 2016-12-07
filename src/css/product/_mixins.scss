@@ -39,10 +39,10 @@
   color: $text-color;
 }
 
-@mixin product-badge($badge-color: $md-blue-700, $text-color: $md-white, $border-color: transparent, $opacity: 1, $text-opacity:0.9) {
+@mixin product-badge($badge-color: $md-blue-700, $text-color: $md-black, $border-color: transparent, $opacity: 1, $text-opacity:0.9) {
   display: block;
   position: relative;
-  opacity: $opacity;
+  //opacity: $opacity;
 
 
   //.tooltip-toggle {
@@ -60,6 +60,7 @@
     line-height: 1.5em;
     padding: 0.5em 0.8em;
     background: rgba(0,0,0,0.8);
+
     color: #fff;
     text-align: center;
     pointer-events: none; /* This prevents the box from apearing when hovered. */
@@ -94,16 +95,19 @@
     white-space: nowrap;
     vertical-align: middle;
     user-select: none;
-    border: 1px solid $border-color;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
+
+
+      padding: 0.4em;
+      border-radius: 0;
+      border-bottom: 3px solid $badge-color;
+
     z-index: 30;
-    border-color: $border-color;
-    background-color: $badge-color;
+    //background-color: $badge-color;
     font-size: 0.8em;
     color: $text-color;
-    margin-bottom: 3px;
-    opacity: $text-opacity;
+    margin-bottom: 2px;
+    opacity: 1;
+    background-color: rgba($md-white, 0.8);
 
 
 
