@@ -112,21 +112,25 @@ export class ProductSearchCard extends React.Component<ProductSearchCardProps, P
             // remaining stock
 
             let discount_message: string = '';
-            let discounted_price: boolean =  (product.list_price != product.price);
+            let isDiscounted: boolean =  (product.list_price != product.price);
             let isPromotionnal: boolean = (product.is_promotional == "1"  && product.is_liquidation != "1");
             let isLiquidation: boolean = (product.is_liquidation == "1");
 
             let isBestseller: boolean = (product.bestseller_rank > 0);
             let isPopular: boolean = (product.popular_rank > 0);
             let isPopularDeal: boolean = (product.deal_rank > 0);
-
             let isTrending: boolean = (product.fresh_rank > 0) && !(isLiquidation || isPromotionnal);
-            if (discounted_price) {
-                discount_message = '-' + this.discountFormatter.format(product.total_discount) + ', save ' + this.moneyFormatter.format(product.price_saving) + '/pc !!!';
+
+
+            let formattedTotalDiscount: string = '';
+            if (isDiscounted) {
+                formattedTotalDiscount = '-' + this.discountFormatter.format(product.total_discount);
+                discount_message = formattedTotalDiscount + ', save ' + this.moneyFormatter.format(product.price_saving) + '/pc !!!';
             }
 
             let content = (
                             <div>
+
                                 { isTrending || all_displayed ?
                                     <div className="product-fresh-badge" aria-label={ "#" + (product.fresh_rank) + " in " + rankable_breadcrumb }>
                                         <span>
@@ -187,6 +191,12 @@ export class ProductSearchCard extends React.Component<ProductSearchCardProps, P
                                             New
                                         </span>
 
+                                    </div>
+                                    : ''
+                                }
+                                { isDiscounted ?
+                                    <div className="product-discount-badge">
+                                        {formattedTotalDiscount}
                                     </div>
                                     : ''
                                 }
