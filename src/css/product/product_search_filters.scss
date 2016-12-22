@@ -1,0 +1,255 @@
+@import "_base.scss";
+
+$searchbar-bg-color: #0275d8;
+$searchbar-bg-color: $md-blue-700;
+
+/*
+.close-icon {
+  &.hidden {
+    display: none;
+  }
+
+  position: relative;
+  background-color: transparent;
+  display: inline-block;
+  vertical-align: middle;
+  outline: 0;
+  cursor: pointer;
+  content: "X";
+
+  &:after {
+    content: "✖";
+    display: block;
+    position: absolute;
+    z-index:1;
+
+    right: 10px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    padding: 0px;
+    color: $md-grey-400;
+    font-weight: normal;
+    font-size: 1.2em;
+    cursor: pointer;
+  }
+}
+*/
+/*
+.product-searchbar-container {
+
+  background-color: $md-grey-50;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: $searchbar-bg-color;
+  padding: 5px 5px 5px 5px;
+  margin: 0 0 20px 0;
+  > * {
+    margin: 0 10px;
+  }
+
+  .icon {
+    width: 30px;
+    height: 30px;
+    background: #ccc;
+    border-radius: 50%;
+  }
+  .product-searchbar-input {
+    flex: 1;
+    display: inline-block;
+    input {
+      float: left;
+      width: 100%;
+      display: inline-block;
+    }
+    label {
+
+      display: inline-block;
+      color: red;
+      position: absolute;
+    }
+  }
+
+  @media (max-width: 650px) {
+    .bar {
+      flex-wrap: wrap;
+    }
+    .icon {
+      order: 0 !important;
+    }
+    .product-search-input {
+      order: 1 !important;
+      width: 100%;
+    }
+  }
+}
+
+*/
+
+.product-searchbar-container {
+
+  background: $searchbar-bg-color;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3));
+  border-bottom: $searchbar-bg-color;
+  font-family: $primary-font;
+  font-size: 1.2em;
+
+  .product-searchbar-navbar {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+
+    .left, .right {
+      display: flex;
+      flex: 1;
+
+
+    }
+
+    .left {
+
+      /*display: none;*/
+      width: auto;
+    }
+    .right {
+      justify-content: flex-end;
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+      max-width: 30%;
+      .product-searchbar-input {
+        flex: 1;
+        display: inline-block;
+        //text-align: right;
+        align-items: center;
+
+        //background-color: $md-white;
+        .text-input-wrapper {
+          display: flex;
+          flex-direction: row;
+          border:1px solid $md-grey-100;
+          border-radius: 1px;
+          padding: 0px 0px 0px 0px;
+          margin: 0px 0px 0px 0px;
+          background-color: white;
+          line-height: 1.5em;
+
+          input.search-input {
+            flex: 1;
+            border:none;
+            background:none;
+            outline:none;
+            margin:0px 0px 0px 5px;
+            font: $primary-font;
+            font-size: 0.8em;
+            width: auto;
+            min-width: 10px;
+            resize: horizontal;
+            line-height: inherit;
+          }
+
+          .clear-icon {
+            display: flex;
+            justify-content:center;
+            align-content:center;
+            flex-direction:column;
+            line-height: inherit;
+            cursor:pointer;
+            color:$md-grey-600;
+            margin: 0px 0px 0px 0px;
+            opacity: 0;
+            //border-radius: inherit;
+//            background-color: $md-grey-200;
+            transition:opacity 0.5s linear;
+            vertical-align: bottom;
+            text-align: center;
+            padding: 0px 5px 0px 5px;
+          }
+
+          &.has-query {
+            .clear-icon {
+              opacity: 1;
+            }
+          }
+
+        }
+      }
+
+    }
+
+    .toggle {
+      display: none;
+      padding: 1em;
+      color: black;
+      vertical-align: middle;
+
+    }
+
+    .brand {
+      display: inline-block;
+      text-align: center;
+      padding: 0.9em;
+      font-size: 1.1em;
+      color: white;
+
+    }
+
+    .link {
+      display: none;
+
+      width: 100%;
+      text-align: center;
+      padding: 1em;
+      text-decoration: none;
+      background: seagreen;
+      color: white;
+      &:hover, &:active {
+        background: black;
+      }
+    }
+  }
+/*
+  @media (min-width: 48em) {
+    .product-searchbar-navbar {
+      display: flex;
+      .left, .right {
+        display: flex;
+        flex: 1;
+      }
+      .left {
+        width: auto;
+      }
+      .right {
+        justify-content: flex-end;
+      }
+      .toggle {
+        display: none;
+      }
+    }
+  }
+
+  .product-searchbar-navbar {
+    div {
+
+      display: none;
+
+      @media (min-width: 48em) {
+        display: flex;
+      }
+    }
+  }
+
+  @media (max-width: 48em) {
+    .product-searchbar-navbar.active {
+      .toggle {
+        background: seagreen;
+        color: white;
+      }
+      div {
+        display: block;
+      }
+    }
+  }
+*/
+}

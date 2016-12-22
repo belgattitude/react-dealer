@@ -1,22 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ProductSearchBar } from './product/product_search_bar';
+
+import { ProductCatalog } from './product/product_catalog';
+import { ProductStore } from './product/product_store';
 import { ProductSearch } from './product/product_search';
-import { ProductSearchService, ProductSearchParams } from './product/product_search_service';
+import { ProductSearchBar } from './product/product_search_bar';
+
+import { ProductSearchService } from './product/product_search_service';
 import { ProductPictureService } from './openstore/product_picture_service';
 
 
-
+import { observable } from 'mobx';
+import { Provider } from 'mobx-react';
 
 
 var sourceUrl = 'http://localhost/emdmusic_server/public/api/v1/catalog/search';
 var locale = 'fr-FR';
 var language = 'en';
 var pricelist = 'FR';
-var brandTitle = 'Triana';
+var brandTitle = 'Emdmusic';
 
 var searchInputId = 'catalogSearchTextInput';
 var initialSearchText = '';
+
+var windowInnerWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+var isMobile = (windowInnerWidth < 600);
 
 
 
@@ -25,18 +33,14 @@ var productSearchService = new ProductSearchService({
 });
 
 
-var windowInnerWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-var isMobile = (windowInnerWidth < 600);
-
 var productPictureService = new ProductPictureService({
     spec_url: 'http://api.emdmusic.com/media/preview/picture',
     format: {
-        resolution: isMobile ?  '300x400' : '400x500',
+        resolution: '400x500',
         type: 'jpg',
         quality: 85
     }
 });
-
 
 var productSearchBar = React.createElement(ProductSearchBar, {
     searchInputId: searchInputId,
@@ -44,6 +48,8 @@ var productSearchBar = React.createElement(ProductSearchBar, {
     brandTitle: brandTitle,
     renderInElementId: 'product_search_bar'
 });
+
+
 
 var productSearch = React.createElement(ProductSearch, {
     locale: locale,
@@ -62,7 +68,32 @@ var productSearch = React.createElement(ProductSearch, {
 
 });
 
+
+/*
+var productCatalog = React.createElement(ProductCatalog, {
+//    productSearch: productSearch,
+//    catalogState: catalogState
+
+});*/
+
+export const stores = (state = {}, token) => {
+    //const request = requestCreator(state.common.hostname, token)
+    return {
+        products: new ProductStore(),
+    }
+}
+
+console.log(stores().products);
+
+//const products = observable([]);
+const productStore = stores().products;
+
 ReactDOM.render(
-    productSearch,
-    document.getElementById('product_search')
+    <Provider productStore={productStore} >
+        <ProductCatalog
+            productSearch={ productSearch }
+        />
+    </Provider>,
+    document.getElementById('product_catalog')
+
 );

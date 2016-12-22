@@ -1,0 +1,60 @@
+@import "_base.scss";
+@import "../shared/flexbox_layout";
+
+/**
+ * 1. Avoid the IE 10-11 `min-height` bug.
+ * 2. Set `flex-shrink` to `0` to prevent some browsers from
+ *    letting these items shrink to smaller than their content's default
+ *    minimum size. See http://bit.ly/1Mn35US for details.
+ * 3. Use `%` instead of `vh` since `vh` is buggy in older mobile Safari.
+ */
+
+.product-catalog-container {
+
+    display: flex;
+//    min-height: 100vh;
+    height: 100%; /* 1, 3 */
+
+    flex-direction: column;
+
+    header, footer {
+      flex: 0 0 auto;
+      align-self: flex-end;
+    }
+
+    .product-catalog-body {
+      display: flex;
+      flex: 1;
+      position: relative;/* need this to position inner content */
+
+      height: 100%; /* 1, 3 */
+
+      .product-catalog-main {
+        flex: 1;
+        border: 1px solid black;
+        overflow-y: auto;
+      }
+
+      .product-catalog-header {
+        border: 1px solid blue;
+      }
+
+
+      .product-catalog-nav {
+        /* put the nav on the left */
+        order: -1;
+        /* 12em is the width of the columns */
+        flex: 0 0 12em;
+        border: 1px solid red;
+      }
+      .product-catalog-aside {
+        /* 12em is the width of the columns */
+        flex: 0 0 12em;
+        border: 1px solid yellow;
+      }
+
+
+    }
+
+}
+

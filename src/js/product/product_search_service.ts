@@ -6,6 +6,7 @@ import { IJsonResult } from './../core/soluble_flexstore';
 
 
 export interface ProductSearchParams {
+
     /* search params */
     pricelist: string;
     language: string;
@@ -16,6 +17,7 @@ export interface ProductSearchParams {
     /* Browsing options */
     limit: number;
     offset?: number;
+
 }
 
 export interface ProductSearchServiceOptions {

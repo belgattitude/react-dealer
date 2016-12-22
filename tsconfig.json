@@ -10,7 +10,8 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "outDir": "./build/"
+    "outDir": "./build/",
+    "allowSyntheticDefaultImports": true
   },
   "awesomeTypescriptLoaderOptions": {
     /* ... */

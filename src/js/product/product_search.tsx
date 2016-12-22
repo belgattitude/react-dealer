@@ -1,11 +1,15 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import {observer, inject} from 'mobx-react';
+
 import '../../css/product/_fonts';
 import '../../css/product/product_search.scss';
 import { ProductSearchService, ProductSearchParams } from  './product_search_service';
+import { ProductStore } from  './product_store';
 import { ProductSearchBar, ProductSearchBarProps } from  './product_search_bar';
-import { ProductPictureService } from  '../openstore/product_picture_service';
+import { ProductSearchFilters } from './product_search_filters';
 
+import { ProductPictureService } from  '../openstore/product_picture_service';
 
 import * as Models from './product_search_model';
 import { ProductSearchResults } from './product_search_results';
@@ -17,6 +21,7 @@ export { ProductSearchService, ProductPictureService, ProductSearchBar };
 
 export interface ProductSearchProps {
     productSearchService: ProductSearchService;
+    productStore: ProductStore;
     productPictureService: ProductPictureService;
     productSearchBar: ProductSearchBar;
 
@@ -40,6 +45,8 @@ export interface ProductSearchState {
     hasMore: number;
 }
 
+@inject('productStore')
+@observer
 export class ProductSearch extends React.Component<ProductSearchProps, ProductSearchState> {
     protected debouncedSearch: any;
     protected searchDebounceTime: number = 400;
@@ -80,13 +87,16 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
         this.state = {
             products: [],
             searchParams: this.getSearchParams(this.props.initialSearchText || ''),
+
             total: 0,
             hasMore: 0,
-
         } as ProductSearchState;
 
         this.debouncedSearch = debounce((query: string) => {
+
             this.searchProducts(this.getSearchParams(query));
+
+
         }, this.searchDebounceTime);
 
     }
@@ -116,8 +126,17 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
 
         this.previousSearchParams = searchParams;
 
-        this.showLoader();
+//        this.showLoader();
+        console.log('searchProducts', searchParams.query);
+        this.props.productStore.search(searchParams);
 
+
+        /*
+        .then((response: any) => {
+            this.hideLoader();
+        });*/
+
+        /*
         this.props.productSearchService.searchProducts(searchParams).then(
             (response?: IJsonResult) => {
                 if (response) {
@@ -157,6 +176,7 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
             console.log('Promise has been cancelled not need to re-render product results', ex);
             this.hideLoader();
         });
+        */
     }
 
     protected scrollTop() {
@@ -198,7 +218,8 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
     render() {
 
         let input = <input type="text" ref="searchInput" onInput={(evt: any) => this.debouncedSearch(evt.target.value) }/>;
-        let products = this.state.products;
+        //let products = this.state.products;
+        let products = this.props.productStore.products;
         let productsCount = products.length;
 
         let searchInputStyle = {
@@ -228,6 +249,9 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
         let displayMoreProducts = ((this.searchCount > 0) && productsCount > 0 && (hasMore > 0));
         let displayNoResults = (productsCount == 0 && this.searchCount > 0);
 
+        //let products = this.state.products;
+
+
         return (
             <div className="product-search-container">
                 { this.props.productSearchBar }
@@ -241,7 +265,8 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
                     </span>
                 </div>
 
-                <ProductSearchResults products={this.state.products}
+
+                <ProductSearchResults products={products}
                                       productPictureService={this.props.productPictureService}
                                       locale={this.locale}
 

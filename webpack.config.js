@@ -56,7 +56,12 @@ var config = {
         'product_search': [
             './js/product/product_search'
         ],
+
+        /** product search application */
         'product_search_app': ['./js/product_search_app'],
+
+        /** full product catalog */
+        'product_catalog_app': ['./js/product_catalog_app'],
 
         /** Fetch component and polyfills **/
         'fetch': ['whatwg-fetch'],
