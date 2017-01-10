@@ -122,7 +122,7 @@ var config = {
         }),
         failPlugin,
 
-        new ForkCheckerPlugin(),
+        //new ForkCheckerPlugin(),
 
         // Import polyfills for Promises and whatwg fetch
         new webpack.ProvidePlugin({

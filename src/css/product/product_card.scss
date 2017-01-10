@@ -57,7 +57,8 @@
 }
 
 .product-card-wrap {
-  /*border: 1px solid rgba(0,0,0, 0.4);*/
+  // This prevent too narrow card
+  min-width: 220px;
   display: flex;
   margin: 3px 3px 3px 3px;
   background-color: $md-white;

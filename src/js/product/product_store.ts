@@ -1,6 +1,5 @@
 import {
     observable, computed, runInAction, action, useStrict, extendObservable, IObservableArray
-
 } from 'mobx';
 import { ProductSearchParams } from './product_search_service';
 import axios  from 'axios';
@@ -12,7 +11,7 @@ export class ProductStore {
 
     // Model
     @observable
-    products: Array<any> = [];
+    products: any = [];
 
     // State
     @observable
@@ -88,17 +87,16 @@ export class ProductStore {
                 .then(
                     action(
                         (json: any) => {
-                            //console.log('axios response', json);
+                            console.log('axios response', json);
                             if (json.hasOwnProperty('data')) {
                                 //console.log('json has data');
                                 try {
-                                    let data = json.data;
+                                    const data = json.data;
                                     //console.log('data', data);
-                                    this.products = data.data;
-
-                                    //this.products.replace(data.data);
+                                    //this.products = data.data;
+                                    this.products.replace(data.data);
                                 } catch (e) {
-
+                                    //throw e;
                                 }
                             }
                             this.loading = false;
@@ -110,7 +108,7 @@ export class ProductStore {
                     action(() => { this.loading = false; });
                     console.log('ex', ex.toString());
                     //throw ex;
-                })
+                });
 
 
         //});
@@ -120,6 +118,5 @@ export class ProductStore {
         this.searchQuery = searchParams.query;
         this.loadProducts();
     }
-
 
 }
