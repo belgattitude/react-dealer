@@ -91,7 +91,7 @@ class DealerList extends React.Component {
                                             </div>
 
 
-                                            <p className="dealer_address" typeof="schema:PostalAddress">
+                                            <div className="dealer_address" typeof="schema:PostalAddress">
                                                 <span className="dealer_name"
                                                       property="schema:name">{dealer.contact_name}</span>
 
@@ -103,20 +103,20 @@ class DealerList extends React.Component {
                                                     ''
                                                 }
                                                 <div>
-                                                <span className="dealer_street" property="schema:streetAddress">
-                                                    { dealer.street }
-                                                    { dealer.street_number ? ',' + dealer.street_number : '' }
-                                                </span><br />
-                                                <abbr className="dealer_state" title={ dealer.state_name }
-                                                      property="schema:addressRegion">{dealer.state_reference}</abbr>
-                                                <span className="dealer_zipcode"
-                                                      property="schema:postalCode">{dealer.zipcode}</span>&nbsp;
-                                                <span className="dealer_city"
-                                                      property="schema:addressLocality">{dealer.city}</span><br />
-                                                <abbr className="dealer_country"
-                                                      property="schema:addressCountry">{dealer.country_name}</abbr>
+                                                    <span className="dealer_street" property="schema:streetAddress">
+                                                        { dealer.street }
+                                                        { dealer.street_number ? ',' + dealer.street_number : '' }
+                                                    </span><br />
+                                                    <abbr className="dealer_state" title={ dealer.state_name }
+                                                          property="schema:addressRegion">{dealer.state_reference}</abbr>
+                                                    <span className="dealer_zipcode"
+                                                          property="schema:postalCode">{dealer.zipcode}</span>&nbsp;
+                                                    <span className="dealer_city"
+                                                          property="schema:addressLocality">{dealer.city}</span><br />
+                                                    <abbr className="dealer_country"
+                                                          property="schema:addressCountry">{dealer.country_name}</abbr>
                                                 </div>
-                                            </p>
+                                            </div>
 
 
                                             <div className="dealer_contact">

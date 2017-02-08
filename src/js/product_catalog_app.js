@@ -2,7 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { ProductCatalog } from './product/product_catalog';
+
+
 import { ProductStore } from './product/product_store';
+import { ProductStoreParams } from './product/product_store_params';
+
+
 import { ProductSearch } from './product/product_search';
 import { ProductSearchBar } from './product/product_search_bar';
 
@@ -68,6 +73,22 @@ var productSearch = React.createElement(ProductSearch, {
 
 });
 
+/*
+var productSearch = new ProductSearch({
+        locale: locale,
+        language: language,
+        initialSearchText: initialSearchText,
+
+        productSearchService: productSearchService,
+        productPictureService: productPictureService,
+        productSearchBar: productSearchBar,
+
+        searchInputTarget: searchInputId,
+        searchDebounceTime: isMobile ? 450 : 350,
+        searchLimit: isMobile ? 15 : 50,
+        hideSearchInput: true,
+        pricelist: pricelist
+});*/
 
 /*
 var productCatalog = React.createElement(ProductCatalog, {
@@ -76,10 +97,18 @@ var productCatalog = React.createElement(ProductCatalog, {
 
 });*/
 
+var productStoreParams = {
+    sourceUrl: 'http://localhost/emdmusic_server/public/api/v1/catalog/search',
+    locale: 'fr-FR',
+    language: 'en',
+    pricelist: 'FR'
+};
+
 export const stores = (state = {}, token) => {
     //const request = requestCreator(state.common.hostname, token)
+    console.log('stores creatd');
     return {
-        products: new ProductStore(),
+        products: new ProductStore(productStoreParams),
     }
 }
 
@@ -89,11 +118,10 @@ console.log(stores().products);
 const productStore = stores().products;
 
 ReactDOM.render(
-    <Provider productStore={productStore} >
+    <Provider productStore={ productStore } >
         <ProductCatalog
             productSearch={ productSearch }
         />
     </Provider>,
     document.getElementById('product_catalog')
-
 );

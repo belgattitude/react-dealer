@@ -8,7 +8,7 @@ import '../../css/dealer/dealer_locator.scss';
 //import 'font-awesome/css/font-awesome.css';
 
 
-class DealerLocator extends React.Component {
+export default class DealerLocator extends React.Component {
 
     static propTypes = {
         // Required
@@ -309,6 +309,29 @@ class DealerLocator extends React.Component {
             icon.labelOrigin = new google.maps.Point(0, -24);
             icon.anchor = new google.maps.Point(9,35);
 
+/*
+            let svgIconTemplate = `<?xml version="1.0" encoding="UTF-8"?>
+        <svg width="23px" height="32px" viewBox="0 0 23 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <!-- Generator: Sketch 41.1 (35376) - http://www.bohemiancoding.com/sketch -->
+        <title>Pin</title>
+        <desc>Created with Sketch.</desc>
+        <defs></defs>
+        <g id="Dealer-Locator" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="DealerLocator" transform="translate(-635.000000, -306.000000)">
+        <g id="Group">
+        <g id="DealerLocator">
+        <g id="GoogleMap">
+        <g id="Pin" transform="translate(635.000000, 306.000000)">
+        <path d="M11.2119,18.4238 C7.2349,18.4238 3.9999,15.1878 3.9999,11.2118 C3.9999,7.2358 7.2349,3.9998 11.2119,3.9998 C15.1889,3.9998 18.4239,7.2358 18.4239,11.2118 C18.4239,15.1878 15.1889,18.4238 11.2119,18.4238 M11.2119,-0.0002 C5.0209,-0.0002 -0.0001,5.0198 -0.0001,11.2118 C-0.0001,11.6858 0.0379,12.1478 0.0959,12.6058 C1.0539,21.3618 10.4829,31.4578 10.4829,31.4578 C10.6509,31.6448 10.8139,31.7638 10.9699,31.8478 C10.9719,31.8498 10.9759,31.8498 10.9779,31.8518 C11.0859,31.9078 11.1919,31.9498 11.2919,31.9498 C11.3919,31.9498 11.4979,31.9078 11.6069,31.8518 C11.6079,31.8498 11.6119,31.8498 11.6139,31.8478 C11.7709,31.7638 11.9329,31.6448 12.1009,31.4578 C12.1009,31.4578 21.3959,21.3478 22.3299,12.5878 C22.3859,12.1358 22.4239,11.6778 22.4239,11.2118 C22.4239,5.0198 17.4029,-0.0002 11.2119,-0.0002" id="Fill-1" fill-opacity="0.75" fill="#000000"></path>
+        <path d="M13.877,14.9854 C13.267,15.5064 12.405,15.7674 11.292,15.7674 C10.154,15.7674 9.261,15.5104 8.609,14.9974 C7.957,14.4834 7.632,13.7774 7.632,12.8794 L9.355,12.8794 C9.41,13.2734 9.521,13.5684 9.684,13.7634 C9.982,14.1194 10.495,14.2974 11.221,14.2974 C11.655,14.2974 12.009,14.2504 12.28,14.1564 C12.795,13.9764 13.052,13.6424 13.052,13.1544 C13.052,12.8694 12.926,12.6484 12.674,12.4924 C12.422,12.3394 12.022,12.2054 11.475,12.0884 L10.54,11.8824 C9.62,11.6794 8.989,11.4594 8.646,11.2204 C8.064,10.8224 7.773,10.1994 7.773,9.3514 C7.773,8.5784 8.057,7.9354 8.627,7.4234 C9.196,6.9124 10.032,6.6564 11.136,6.6564 C12.057,6.6564 12.843,6.8974 13.493,7.3804 C14.144,7.8624 14.485,8.5624 14.517,9.4804 L12.782,9.4804 C12.75,8.9614 12.518,8.5914 12.085,8.3734 C11.797,8.2284 11.439,8.1564 11.01,8.1564 C10.533,8.1564 10.153,8.2504 9.869,8.4374 C9.585,8.6254 9.442,8.8864 9.442,9.2224 C9.442,9.5314 9.583,9.7614 9.863,9.9144 C10.043,10.0154 10.426,10.1344 11.011,10.2714 L12.526,10.6294 C13.19,10.7854 13.689,10.9944 14.02,11.2564 C14.534,11.6624 14.792,12.2504 14.792,13.0194 C14.792,13.8084 14.487,14.4644 13.877,14.9854 M11.212,4.7224 C7.634,4.7224 4.722,7.6334 4.722,11.2124 C4.722,14.7904 7.634,17.7024 11.212,17.7024 C14.79,17.7024 17.702,14.7904 17.702,11.2124 C17.702,7.6334 14.79,4.7224 11.212,4.7224" id="Fill-4" fill-opacity="0.5" fill="#020302"></path>
+            </g>
+            </g>
+            </g>
+            </g>
+            </g>
+            </g>
+            </svg>`;
+*/
 
             var marker = new google.maps.Marker({
                 map: this.map,
@@ -321,11 +344,12 @@ class DealerLocator extends React.Component {
                     color: 'black',
                     fontSize: '15px',
                     fontFamily: 'Roboto'
-                    /*fontWeight: 'bold'*/
+
                 },
                 //labelContent: '<i class="fa fa-send fa-3x" style="color:rgba(153,102,102,0.8);"></i>',
                 //labelAnchor: new google.maps.Point(22, 50),
                 icon: icon
+//                icon: { url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svgIconTemplate) }
 
             });
             google.maps.event.addListener(marker, 'click', () => {
@@ -523,4 +547,4 @@ class DealerLocator extends React.Component {
 
 }
 
-export default DealerLocator;
+//export default DealerLocator;

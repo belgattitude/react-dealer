@@ -2,6 +2,7 @@ import {
     observable, computed, runInAction, action, useStrict, extendObservable, IObservableArray
 } from 'mobx';
 import { ProductSearchParams } from './product_search_service';
+import { ProductStoreParams} from './product_store_params';
 import axios  from 'axios';
 import AxiosRequestConfig from 'axios';
 
@@ -9,9 +10,11 @@ useStrict(true);
 
 export class ProductStore {
 
-    // Model
-    @observable
-    products: any = [];
+    // Model with ref observability
+    // to prevent deep observability (performance)
+    // see https://mobx.js.org/refguide/modifiers.html
+    @observable.shallow
+    products: Array<any> = [];
 
     // State
     @observable
@@ -23,13 +26,9 @@ export class ProductStore {
     @observable
     searchQuery?: string = '';
 
-    //@observable
-    pricelist: string;
-
-    //@observable
-    language: string;
-
     protected requestId: number = 1;
+
+    protected params: ProductStoreParams;
 
 /*
     @computed get searchParams(): ProductSearchParams {
@@ -40,8 +39,8 @@ export class ProductStore {
         } as ProductSearchParams;
     }
 */
-    constructor() {
-        //this.loadProducts();
+    constructor(params: ProductStoreParams) {
+        this.params = params;
     }
 
 
@@ -55,17 +54,16 @@ export class ProductStore {
         this.incrementRequestId();
         this.loading = true;
         this.pendingRequestCount++;
-        var sourceUrl = 'http://localhost/emdmusic_server/public/api/v1/catalog/search';
-        var locale = 'fr-FR';
-        var language = 'en';
-        var pricelist = 'FR';
+
+        let sourceUrl = this.params.sourceUrl;
+
 
         let requestConfig = {
             method: 'get',
             url: sourceUrl,
             params: {
-                pricelist: pricelist,
-                language: language,
+                pricelist: this.params.pricelist,
+                language: this.params.language,
                 query: this.searchQuery,
                 limit: 100,
                 requestId: this.requestId
@@ -73,43 +71,45 @@ export class ProductStore {
         };
 
 
-        //await runInAction("Loading products", () => {
-            axios(requestConfig)
-                .then((response: any) => {
-                    let remote_request_id = response.data.request_id;
-                    let local_request_id = requestConfig.params.requestId;
-                    if (local_request_id != remote_request_id ) {
-                        let error = new Error("Skipping: returned remote request_id " + remote_request_id + " is different from local " + local_request_id);
-                        throw error;
-                    }
-                    return response;
-                })
-                .then(
-                    action(
-                        (json: any) => {
-                            console.log('axios response', json);
-                            if (json.hasOwnProperty('data')) {
-                                //console.log('json has data');
-                                try {
-                                    const data = json.data;
-                                    //console.log('data', data);
-                                    //this.products = data.data;
-                                    this.products.replace(data.data);
-                                } catch (e) {
-                                    //throw e;
-                                }
-                            }
-                            this.loading = false;
-                            this.pendingRequestCount--;
-                        }
-                    )
-                )
-                .catch((ex: Error) => {
-                    action(() => { this.loading = false; });
-                    console.log('ex', ex.toString());
-                    //throw ex;
-                });
 
+        //await runInAction("Loading products", () => {
+        axios(requestConfig)
+            .then((response: any) => {
+                let remote_request_id = response.data.request_id;
+                let local_request_id = requestConfig.params.requestId;
+                if (local_request_id != remote_request_id ) {
+                    let error = new Error("Skipping: returned remote request_id " + remote_request_id + " is different from local " + local_request_id);
+                    throw error;
+                }
+                return response;
+            })
+            .then(
+                action(
+                    (json: any) => {
+                        //console.log('axios response', json);
+                        if (json.hasOwnProperty('data')) {
+                            //console.log('json has data');
+                            try {
+                                const data = json.data;
+                                //console.log('data', data);
+                                this.products = data.data;
+                                //console.log('this.products', this.products);
+                                //this.products.replace(data.data);
+                            } catch (e) {
+                                //throw e;
+                            }
+                        }
+                        this.loading = false;
+                        this.pendingRequestCount--;
+                    }
+                )
+            )
+            .catch((ex: Error) => {
+                action(() => { this.loading = false; });
+                //console.log('ex', ex.toString());
+                console.log('ex', ex);
+                //throw ex;
+            });
 
         //});
     }

@@ -4,6 +4,9 @@ import { ProductSearchBar } from './product/product_search_bar';
 import { ProductSearch } from './product/product_search';
 import { ProductSearchService, ProductSearchParams } from './product/product_search_service';
 import { ProductPictureService } from './openstore/product_picture_service';
+import { ProductStore } from './product/product_store';
+import { observable } from 'mobx';
+import { Provider } from 'mobx-react';
 
 
 
@@ -62,7 +65,28 @@ var productSearch = React.createElement(ProductSearch, {
 
 });
 
+
+var productStoreParams = {
+    sourceUrl: 'http://localhost/emdmusic_server/public/api/v1/catalog/search',
+    locale: 'fr-FR',
+    language: 'en',
+    pricelist: 'FR'
+};
+
+export const stores = (state = {}, token) => {
+    //const request = requestCreator(state.common.hostname, token)
+    console.log('stores creatd');
+    return {
+        products: new ProductStore(productStoreParams),
+    }
+}
+
+const productStore = stores().products;
+
 ReactDOM.render(
-    productSearch,
+    <Provider productStore={ productStore } >
+        ...productSearch
+    </Provider>,
     document.getElementById('product_search')
 );
+

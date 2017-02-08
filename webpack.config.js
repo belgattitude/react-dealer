@@ -63,6 +63,10 @@ var config = {
         /** full product catalog */
         'product_catalog_app': ['./js/product_catalog_app'],
 
+        'catalog': [
+            './catalog/main.tsx'
+        ],
+
         /** Fetch component and polyfills **/
         'fetch': ['whatwg-fetch'],
         'babel-polyfill': ['babel-polyfill'],
@@ -134,7 +138,8 @@ var config = {
         }),
 
         new copyWebpackPlugin([
-            {from: 'html', to: outputPath}
+            {from: 'html', to: outputPath},
+            {from: 'catalog/catalog.html', to: outputPath}
         ]),
 
         // not working with react hmr
