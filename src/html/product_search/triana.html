@@ -65,22 +65,6 @@
         var windowInnerWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         var isMobile = (windowInnerWidth < 600);
 
-        var productPictureService = new product_search.ProductPictureService({
-            spec_url: 'http://api.emdmusic.com/media/preview/picture',
-            format: {
-                resolution: isMobile ?  '300x400' : '400x500',
-                type: 'jpg',
-                quality: 85
-            }
-        });
-
-        var productSearchBar = React.createElement(product_search.ProductSearchBar, {
-            searchInputId: searchInputId,
-            initialSearchText: initialSearchText,
-            brandTitle: brandTitle,
-            renderInElementId: 'product_search_bar'
-        });
-
 
         var productStoreParams = {
             sourceUrl: sourceUrl,
@@ -98,6 +82,25 @@
         }
 
         const productStore = stores().products;
+
+
+        var productPictureService = new product_search.ProductPictureService({
+            spec_url: 'http://api.emdmusic.com/media/preview/picture',
+            format: {
+                resolution: isMobile ?  '300x400' : '400x500',
+                type: 'jpg',
+                quality: 85
+            }
+        });
+
+        var productSearchBar = React.createElement(product_search.ProductSearchBar, {
+            searchInputId: searchInputId,
+            initialSearchText: initialSearchText,
+            brandTitle: brandTitle,
+            renderInElementId: 'product_search_bar'
+        });
+
+
 
         var productSearch = React.createElement(product_search.ProductSearch, {
             locale: locale,
