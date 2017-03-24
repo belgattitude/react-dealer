@@ -98,7 +98,8 @@ var productCatalog = React.createElement(ProductCatalog, {
 });*/
 
 var productStoreParams = {
-    sourceUrl: 'http://localhost/emdmusic_server/public/api/v1/catalog/search',
+    //sourceUrl: 'http://localhost/emdmusic_server/public/api/v1/catalog/search',
+    sourceUrl: 'http://emd.localhost/api/v1/catalog/search',
     locale: 'fr-FR',
     language: 'en',
     pricelist: 'FR'
@@ -106,7 +107,7 @@ var productStoreParams = {
 
 export const stores = (state = {}, token) => {
     //const request = requestCreator(state.common.hostname, token)
-    console.log('stores creatd');
+    console.log('stores created');
     return {
         products: new ProductStore(productStoreParams),
     }

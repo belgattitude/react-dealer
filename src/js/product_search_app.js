@@ -67,7 +67,9 @@ var productSearch = React.createElement(ProductSearch, {
 
 
 var productStoreParams = {
-    sourceUrl: 'http://localhost/emdmusic_server/public/api/v1/catalog/search',
+    //sourceUrl: 'http://emd.localhost/api/v1/catalog/search',
+    sourceUrl: 'http://emd.localhost/triana/search.json',
+    //sourceUrl: 'http://localhost/emdmusic_server/public/api/v1/catalog/search',
     locale: 'fr-FR',
     language: 'en',
     pricelist: 'FR'
@@ -83,10 +85,37 @@ export const stores = (state = {}, token) => {
 
 const productStore = stores().products;
 
+const App = () => (
+    <Provider productStore={ productStore }>
+        { productSearch }
+    </Provider>
+)
+
 ReactDOM.render(
-    <Provider productStore={ productStore } >
-        ...productSearch
-    </Provider>,
+    <App />,
     document.getElementById('product_search')
 );
+
+
+/*
+ ReactDOM.render(
+ <Provider productStore={ productStore } >
+    <ProductSearch
+        locale={locale}
+        language={language}
+        initialSearchText={initialSearchText}
+
+     productSearchService={productSearchService}
+     productPictureService={productPictureService}
+     productSearchBar={productSearchBar}
+
+     searchInputTarget={searchInputId}
+     searchDebounceTime={isMobile ? 450 : 350}
+     searchLimit={isMobile ? 15 : 50}
+     hideSearchInput={true}
+     pricelist={pricelist}/>
+ </Provider>,
+ document.getElementById('product_search')
+ );
+*/
 

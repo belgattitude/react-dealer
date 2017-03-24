@@ -3,8 +3,7 @@ import {
 } from 'mobx';
 import { ProductSearchParams } from './product_search_service';
 import { ProductStoreParams} from './product_store_params';
-import axios  from 'axios';
-import AxiosRequestConfig from 'axios';
+import axios, { AxiosRequestConfig, AxiosPromise } from 'axios';
 
 useStrict(true);
 
@@ -61,6 +60,7 @@ export class ProductStore {
         let requestConfig = {
             method: 'get',
             url: sourceUrl,
+
             params: {
                 pricelist: this.params.pricelist,
                 language: this.params.language,
@@ -69,7 +69,6 @@ export class ProductStore {
                 requestId: this.requestId
             }
         };
-
 
 
         //await runInAction("Loading products", () => {

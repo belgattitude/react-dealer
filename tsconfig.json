@@ -11,7 +11,9 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "outDir": "./build/",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "types": ["core-js"]
+
   },
   "awesomeTypescriptLoaderOptions": {
     /* ... */
@@ -27,7 +29,7 @@
     "./src/**/*.ts",
     "!./node_modules/**/*.ts"
   ]/* Not needed anymore in typescript 1.9-dev / 2.0
-  // resolution is made autmatically
+  // resolution is made automatically
   "files": [
     //"./typings/index.d.ts"
   ]*/

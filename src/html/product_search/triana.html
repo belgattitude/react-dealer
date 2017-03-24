@@ -53,9 +53,7 @@
             throw new Error('Missing product_search javascript application (include product_search.js).')
         }
 
-        console.log('productSearch', product_search);
-
-        var sourceUrl = 'http://localhost/emdmusic_server/public/api/v1/catalog/search';
+        var sourceUrl = 'http://emd.localhost/api/v1/catalog/search';
         var locale = 'fr-FR';
         var language = 'en';
         var pricelist = 'FR';
@@ -63,12 +61,6 @@
 
         var searchInputId = 'catalogSearchTextInput';
         var initialSearchText = '';
-
-
-        var productSearchService = new product_search.ProductSearchService({
-            source: sourceUrl
-        });
-
 
         var windowInnerWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
         var isMobile = (windowInnerWidth < 600);
@@ -82,7 +74,6 @@
             }
         });
 
-
         var productSearchBar = React.createElement(product_search.ProductSearchBar, {
             searchInputId: searchInputId,
             initialSearchText: initialSearchText,
@@ -90,15 +81,32 @@
             renderInElementId: 'product_search_bar'
         });
 
+
+        var productStoreParams = {
+            sourceUrl: sourceUrl,
+            locale: locale,
+            language: language,
+            pricelist: pricelist
+        };
+
+        const stores = (state = {}, token) => {
+            //const request = requestCreator(state.common.hostname, token)
+            console.log('stores created');
+            return {
+                products: new product_search.ProductStore(productStoreParams),
+            }
+        }
+
+        const productStore = stores().products;
+
         var productSearch = React.createElement(product_search.ProductSearch, {
             locale: locale,
             language: language,
             initialSearchText: initialSearchText,
 
-            productSearchService: productSearchService,
             productPictureService: productPictureService,
             productSearchBar: productSearchBar,
-
+            productStore: productStore,
             searchInputTarget: searchInputId,
             searchDebounceTime: isMobile ? 450 : 350,
             searchLimit: isMobile ? 15 : 50,
@@ -106,54 +114,12 @@
             pricelist: pricelist
 
         });
-/*
-        ReactDOM.render(
-            productSearchBar,
-            document.getElementById('product_search_bar')
-        )
-*/
+
         ReactDOM.render(
             productSearch,
             document.getElementById('product_search')
         );
 
-
-
-        /////
-        /*
-        var windowInnerWidth = window.innerWidth|| document.documentElement.clientWidth || document.body.clientWidth;
-        var isMobile = (windowInnerWidth < 600);
-
-
-        var productPictureService = new product_search.ProductPictureService({
-            spec_url: 'http://api.emdmusic.com/media/preview/picture',
-            format: {
-                resolution: isMobile ? '170x200' : '400x500',
-                type: 'jpg',
-                quality: 85
-            }
-        });
-
-        var productSearchService = new product_search.ProductSearchService({
-            source: 'http://apps.emdmusic.com/api/v1/catalog/search'
-        });
-
-        var productSearch = React.createElement(product_search.ProductSearch, {
-            productSearchService: productSearchService,
-            productPictureService: productPictureService,
-            searchInputTarget: 'catalogSearchTextInput',
-            searchDebounceTime: isMobile ? 500 : 300,
-            searchLimit: isMobile ? 20 : 50,
-            hideSearchInput: true,
-            language: 'en',
-            pricelist: 'ES',
-            locale: 'fr-FR'
-        }, null);
-        ReactDOM.render(
-                productSearch,
-                document.getElementById('product_search_container')
-        );
-        */
     })(product_search);
 </script>
 

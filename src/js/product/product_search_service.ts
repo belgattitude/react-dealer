@@ -62,6 +62,7 @@ export class ProductSearchService {
     }
 
     searchAsyncProducts(searchParams: ProductSearchParams): Promise<IJsonResult> {
+
         let source = this.options.source;
 
         let params: any = {
@@ -124,12 +125,14 @@ export class ProductSearchService {
 
         let headers = new Headers();
         headers.append('Accept', 'application/json');
-        let fetchParams = {
-            // mode: 'no-cors',
-            // credentials: 'same-origin',
-            method: 'get',
-            headers: headers
-        };
+
+         let fetchParams = {
+             //mode: 'no-cors',
+             // credentials: 'same-origin',
+             method: 'get',
+             headers: headers,
+             credentials: 'include'
+         };
 
         return fetch(api_url, fetchParams)
             .then(checkStatus)
@@ -147,6 +150,7 @@ export class ProductSearchService {
                 //return [];
 
             });
+
     }
 
 }

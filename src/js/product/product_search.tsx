@@ -17,14 +17,12 @@ import { debounce, includes } from 'lodash';
 import { IJsonResult } from "../core/soluble_flexstore";
 import ReactElement = React.ReactElement;
 
-export { ProductSearchService, ProductPictureService, ProductSearchBar };
+export { ProductSearchService, ProductPictureService, ProductSearchBar, ProductStore };
 
 export interface ProductSearchProps {
-    productSearchService: ProductSearchService;
     productStore: ProductStore;
     productPictureService: ProductPictureService;
     productSearchBar: ProductSearchBar;
-
     locale?: string;
     pricelist: string;
     language: string;
