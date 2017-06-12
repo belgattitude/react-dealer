@@ -374,12 +374,18 @@ export default class DealerLocator extends React.Component {
             prefixed_homepage = 'http://' + homepage;
         }
 
+        let street = dealer.street;
+        if (dealer.street_number != '') {
+            street = dealer.street_number + ' ' + street;
+         }
+
+
         var html = `
             <div class="dealer_marker_popup">
                 <div class="dealer_marker_popup_name">
                     ${ dealer.contact_name }
                 </div>
-                <div class="dealer_marker_popup_address">${dealer.street}, ${dealer.city}</div>
+                <div class="dealer_marker_popup_address">${street}, ${dealer.city}</div>
                 <div class="dealer_marker_popup_phone">
                     <a>${dealer.phone}</a>
                 </div>

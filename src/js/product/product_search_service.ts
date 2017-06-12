@@ -126,13 +126,14 @@ export class ProductSearchService {
         let headers = new Headers();
         headers.append('Accept', 'application/json');
 
-         let fetchParams = {
+         let fetchParams: RequestInit = {
              //mode: 'no-cors',
              // credentials: 'same-origin',
              method: 'get',
              headers: headers,
              credentials: 'include'
          };
+
 
         return fetch(api_url, fetchParams)
             .then(checkStatus)

@@ -9,9 +9,6 @@ import { observable } from 'mobx';
 import { Provider } from 'mobx-react';
 
 
-
-
-
 var sourceUrl = 'http://localhost/emdmusic_server/public/api/v1/catalog/search';
 var locale = 'fr-FR';
 var language = 'en';

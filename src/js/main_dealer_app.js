@@ -13,7 +13,7 @@ var dealerLoc = React.createElement(DealerLocator, {
 
     locale: 'fr_FR',
     //source: 'http://localhost/emdmusic_server/public/api/emd/v1/dealer',
-    source: 'http://apps.emdmusic.com/api/emd/v1/dealer',
+    source: 'https://apps.emdmusic.com/api/emd/v1/dealer',
     brandFilter: 'STAG',
     mapStyle: {
         width: '100%',
