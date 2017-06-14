@@ -61,6 +61,11 @@ export class ProductSearchService {
         return promise;
     }
 
+    /**
+     *
+     * @param searchParams
+     * @returns {Promise<TResult|TResult2|IJsonResult>}
+     */
     searchAsyncProducts(searchParams: ProductSearchParams): Promise<IJsonResult> {
 
         let source = this.options.source;

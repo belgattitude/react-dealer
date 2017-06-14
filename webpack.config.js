@@ -157,7 +157,7 @@ var config = {
     sassLoader: {
         data: '@import "' + path.resolve(__dirname, 'src/theme/dealer_locator/default/_config.scss') + '";',
         includePaths: [
-            path.resolve(__dirname, "./node_modules")
+            path.resolve(__dirname, './node_modules')
         ]
     },
 

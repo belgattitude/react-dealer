@@ -1,6 +1,7 @@
 import "babel-polyfill";
 import 'whatwg-fetch';
 import { Promise } from 'core-js';
+
 import { observable } from 'mobx';
 import { IJsonResult } from './../core/soluble_flexstore';
 import * as _ from 'lodash';
@@ -49,13 +50,14 @@ export default class DealerService {
         return promise;
     }
 
+
     /**
      *
      * @param place
      * @param distance
      * @param limit
      * @param brand
-     * @returns {Promise<TResult>}
+     * @returns {Promise<TResult|TResult2|TResult1>}
      */
     searchAsyncDealers(place: PlaceSearchParams, distance: number, limit: number, brand: string): Promise<IJsonResult> {
         //document.getElementById('dealer_spinner').style.display = 'block';
@@ -96,7 +98,7 @@ export default class DealerService {
             }
         }
 
-        var parseJson = function(response) {
+        var parseJson = function(response): Promise<IJsonResult> {
             return new Promise((resolve) => {
                 response.json().then(jsonResponse => {
                     resolve(jsonResponse);
@@ -104,14 +106,18 @@ export default class DealerService {
             });
         }
 
+
         let headers = new Headers();
         headers.append('Accept', 'application/json');
-        let fetchParams = {
-            // mode: 'no-cors',
+
+        let fetchParams: RequestInit = {
+            //mode: 'no-cors',
             // credentials: 'same-origin',
             method: 'get',
-            headers: headers
+            headers: headers,
+            credentials: 'include'
         };
+
 
         return fetch(api_url, fetchParams)
             .then(checkStatus)

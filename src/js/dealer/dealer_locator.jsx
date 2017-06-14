@@ -375,7 +375,7 @@ export default class DealerLocator extends React.Component {
         }
 
         let street = dealer.street;
-        if (dealer.street_number != '') {
+        if (dealer.street_number !== null) {
             street = dealer.street_number + ' ' + street;
          }
 
