@@ -86,19 +86,19 @@ export default class DealerService {
 
         //url.search = searchParams.toString();
         url.search = parts.join('&');
-        var api_url = url.toString();
+        let api_url = url.toString();
 
-        var checkStatus = function(response) {
+        let checkStatus = function(response) {
             if (response.status >= 200 && response.status < 300) {
                 return response
             } else {
-                let error = new Error(response.statusText)
+                let error = new Error(response.statusText);
                 //error = response
                 throw error
             }
         }
 
-        var parseJson = function(response): Promise<IJsonResult> {
+        let parseJson = function(response): Promise<IJsonResult> {
             return new Promise((resolve) => {
                 response.json().then(jsonResponse => {
                     resolve(jsonResponse);
@@ -115,7 +115,7 @@ export default class DealerService {
             // credentials: 'same-origin',
             method: 'get',
             headers: headers,
-            credentials: 'include'
+            //credentials: 'include'
         };
 
 

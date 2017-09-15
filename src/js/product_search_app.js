@@ -29,7 +29,7 @@ var windowInnerWidth = window.innerWidth || document.documentElement.clientWidth
 var isMobile = (windowInnerWidth < 600);
 
 var productPictureService = new ProductPictureService({
-    spec_url: 'http://api.emdmusic.com/media/preview/picture',
+    spec_url: 'https://apps.emdmusic.com/media/preview/picture',
     format: {
         resolution: isMobile ?  '300x400' : '400x500',
         type: 'jpg',

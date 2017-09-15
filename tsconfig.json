@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "lib": [
+      "es6",
+      "dom"
+    ],
     "jsx": "react",
     "noImplicitAny": false,
     "removeComments": true,

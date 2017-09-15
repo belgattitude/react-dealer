@@ -39,7 +39,7 @@ var productSearchService = new ProductSearchService({
 
 
 var productPictureService = new ProductPictureService({
-    spec_url: 'http://api.emdmusic.com/media/preview/picture',
+    spec_url: 'https://apps.emdmusic.com/media/preview/picture',
     format: {
         resolution: '400x500',
         type: 'jpg',
