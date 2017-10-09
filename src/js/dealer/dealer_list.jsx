@@ -10,18 +10,6 @@ import '../../css/dealer/dealer_locator_list.scss';
 class DealerList extends React.Component {
 
 
-    static propTypes = {
-        dealerLocale: React.PropTypes.instanceOf(DealerLocale),
-        dealerService: React.PropTypes.shape({
-            /**
-             * MobX Observable Array
-             */
-            dealers: React.PropTypes.object.isRequired,
-            isLoading: React.PropTypes.bool
-        }),
-        display_dealer_stats: React.PropTypes.bool,
-        onDealerClick: React.PropTypes.func
-    }
 
     dealerMapMarker;
 

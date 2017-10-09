@@ -10,32 +10,7 @@ import '../../css/dealer/dealer_locator.scss';
 
 export default class DealerLocator extends React.Component {
 
-    static propTypes = {
-        // Required
-        initialCenter: React.PropTypes.shape({
-            lat: React.PropTypes.number.isRequired,
-            lng: React.PropTypes.number.isRequired
-        }),
-        source: React.PropTypes.string.isRequired,
-        locale: React.PropTypes.string,
-        display_dealer_stats: React.PropTypes.bool,
 
-        // Map style
-        mapStyle: React.PropTypes.shape({
-            width: React.PropTypes.string,
-            height: React.PropTypes.string
-        }),
-        mapTypeControl: React.PropTypes.bool,
-        // Optional
-        googleMap: React.PropTypes.objectOf(google.maps.Map),
-        mapRefName: React.PropTypes.string,
-        nbContactZoomBounds: React.PropTypes.number,
-        searchDistance: React.PropTypes.number,
-        searchLimit: React.PropTypes.number,
-        brandFilter: React.PropTypes.string,
-        mapControlPosition: React.PropTypes.number,
-        mapStylers: React.PropTypes.array
-    }
 
     static defaultProps = {
         googleMap: null,
