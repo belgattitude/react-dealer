@@ -81,13 +81,15 @@ var config = {
 
         library: '[name]',
         libraryTarget: 'umd',
-        umdNamedDefine: true
+        umdNamedDefine: true,
+
         //publicPath: '/assets/'
     },
 
     externals: {
         // Use external version of React
-        //"react": "React",
+        //'react': 'react',
+        //'react-dom': 'react-dom'
 
         react: {
             root: 'React',
@@ -126,6 +128,7 @@ var config = {
         }),
         failPlugin,
 
+
         //new ForkCheckerPlugin(),
 
         // Import polyfills for Promises and whatwg fetch
@@ -141,9 +144,6 @@ var config = {
             {from: 'html', to: outputPath},
             {from: 'catalog/catalog.html', to: outputPath}
         ]),
-
-        // not working with react hmr
-        //new DashboardPlugin({port: serverPort})
 
     ],
     serverPort : serverPort,
@@ -268,14 +268,12 @@ if (!isProduction) {
 } else {
 
     // Production mode
-    //new webpack.optimize.CommonsChunkPlugin('init.js'),
-    //config.plugins.push(new webpack.optimize.CommonsChunkPlugin('common.js'));
-    //new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"react", /* filename= */"react.bundle.js")
-    //config.plugins.push(new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"dealer_locator", /* filename= */"dealer_locator.js"));
 
-/*
+    /*
     config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
-        name: ['product_search_app']
+        names: [ 'react'],
+        filename: 'vendor/[name]-bundle.js',
+        minChunks: Infinity
     }));
 */
 
@@ -291,13 +289,9 @@ if (!isProduction) {
             }
         })
     );
-
     config.plugins.push(new webpack.BannerPlugin( banner ));
-
 }
 
 module.exports = [
-
     config
-
 ];
