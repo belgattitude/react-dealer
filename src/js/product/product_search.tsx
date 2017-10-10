@@ -75,11 +75,11 @@ export class ProductSearch extends React.Component<ProductSearchProps, ProductSe
 
         if (props.locale) {
             this.locale = props.locale;
-        };
+        }
 
         if (props.scrollTopMethod) {
             this.scrollTopMethod = props.scrollTopMethod;
-        };
+        }
 
 
         this.state = {
